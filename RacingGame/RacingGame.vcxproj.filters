@@ -9,5 +9,9 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Consts.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Consts.h" />
   </ItemGroup>
 </Project>
