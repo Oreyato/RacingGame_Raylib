@@ -211,6 +211,8 @@ void update()
         if (index >= 0 && index < MAX_TRACKS) {
             if (tracks[index].isVisible)
             {
+                // Find which track side the car is colliding with
+                // using car's previous position
                 float prevCarX = car.x - xSpeedCar;
                 float prevCarY = car.y - ySpeedCar;
 
@@ -219,6 +221,7 @@ void update()
 
                 bool bothTestsFailed = true;
 
+                // Car came from the left/right
                 if (prevColTrack != columnTrack) {
                     int adjacentTrackIndex = trackCoordinatesToIndex(rowTrack, prevColTrack);
 
@@ -228,6 +231,7 @@ void update()
                         bothTestsFailed = false;
                     }
                 }
+                // Car came from the top/bottom
                 if (prevRowTrack != rowTrack) {
                     int adjacentTrackIndex = trackCoordinatesToIndex(prevRowTrack, columnTrack);
 
@@ -237,7 +241,7 @@ void update()
                         bothTestsFailed = false;
                     }
                 }
-
+                // Perfectly hitting the corner 
                 if (bothTestsFailed) {
                     xSpeedCar *= -1;
                     ySpeedCar *= -1;
