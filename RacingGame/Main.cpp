@@ -39,7 +39,7 @@ int ySpeedCar = -Consts::SPEED_CAR;
 
 // Initial position
 const int X_POS_CAR = Consts::WIDTH_SCREEN / 2 - 80;
-const int Y_POS_CAR = Consts::HEIGHT_SCREEN - 80;
+const int Y_POS_CAR = Consts::HEIGHT_SCREEN - 60;
 
 Rectangle car{ X_POS_CAR, Y_POS_CAR, Consts::SIZE_CAR, Consts::SIZE_CAR };
 
@@ -225,7 +225,7 @@ void update()
                 if (prevColTrack != columnTrack) {
                     int adjacentTrackIndex = trackCoordinatesToIndex(rowTrack, prevColTrack);
 
-                    if (tracks[adjacentTrackIndex].isVisible) {
+                    if (!tracks[adjacentTrackIndex].isVisible) {
                         xSpeedCar *= -1;
 
                         bothTestsFailed = false;
@@ -235,7 +235,7 @@ void update()
                 if (prevRowTrack != rowTrack) {
                     int adjacentTrackIndex = trackCoordinatesToIndex(prevRowTrack, columnTrack);
 
-                    if (tracks[adjacentTrackIndex].isVisible) {
+                    if (!tracks[adjacentTrackIndex].isVisible) {
                         ySpeedCar *= -1;
 
                         bothTestsFailed = false;
@@ -322,15 +322,6 @@ void resetGame() {
     car.y = Y_POS_CAR;
     xSpeedCar = Consts::SPEED_CAR;
     ySpeedCar = Consts::SPEED_CAR;
-
-    // Tracks
-    for (Track& track : tracks) {
-        if (track.isVisible) {
-            continue;
-        }
-
-        track.isVisible = true;
-    }
 
     // Game
     life = Consts::MAX_LIFE;
