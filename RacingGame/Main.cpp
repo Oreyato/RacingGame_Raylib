@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Consts.h"
+#include "Levels.h"
 
 using namespace std;
 
@@ -54,8 +55,6 @@ Track track{ rect, true };
 // Creating multiple tracks
 const int MAX_TRACKS = Consts::ROW_TRACKS * Consts::COLUMN_TRACKS;
 
-int nbTracks = 0;
-
 vector<Track> tracks;
 
 //^ Game specific init ===========================================
@@ -91,8 +90,7 @@ void load()
     //^ Sounds init ==================================================
 
     //v Game specifics ===============================================
-    // Initiate the grid of tracks~
-    // Filling it with the tracks
+    // Initiate the grid of tracks
     for (int i = 0; i < Consts::ROW_TRACKS; i++)
     {
         for (int j = 0; j < Consts::COLUMN_TRACKS; j++)
@@ -110,7 +108,13 @@ void load()
             tracks.push_back(track);
         }
     }
-    nbTracks = Consts::WIDTH_TRACK * Consts::HEIGHT_TRACK;
+
+    for (int i = 0; i < Consts::COLUMN_TRACKS * Consts::ROW_TRACKS; i++)
+    {
+        if (Levels::LEVEL_001[i] == 0) {
+            tracks[i].isVisible = false;
+        }
+    }
 
     //^ Game specifics ===============================================
 }
@@ -183,7 +187,6 @@ void update()
             car.x = Consts::WIDTH_SCREEN - car.width;
         }
         
-
         // Moving the car according to player input
         // Moving left 
         if (IsKeyDown(KEY_A)) {
@@ -194,24 +197,27 @@ void update()
         //^ Car ==========================================================
         //v Collisions ===================================================
         // Testing if the car collides with the tracks
-        // Translate car coordinates into tracks coordinates
-        int columnTrack = (car.x + Consts::SIZE_CAR / 2) / Consts::WIDTH_TRACK;
-        int rowTrack = car.y / Consts::HEIGHT_TRACK;
-        // Search for the track index
-        int index = trackCoordinatesToIndex(rowTrack, columnTrack);
-        // Is the car where a track should be (non visible)? 
-        if (index >= 0 && index < MAX_TRACKS && tracks[index].isVisible) {
-            // Reverse car speed along the y axis
-            ySpeedCar *= -1;
-            // Set the track visibility to false
-            tracks[index].isVisible = false;
-            // Reduce tracks number
-            --nbTracks;
+        //// Translate car coordinates into tracks coordinates
+        //int columnTrack = (car.x + Consts::SIZE_CAR / 2) / Consts::WIDTH_TRACK;
+        //int rowTrack = car.y / Consts::HEIGHT_TRACK;
+        //// Search for the track index
+        //int index = trackCoordinatesToIndex(rowTrack, columnTrack);
+        //// Is the car where a track should be (non visible)? 
+        //if (index >= 0 && index < MAX_TRACKS && tracks[index].isVisible) {
+        //    // Reverse car speed along the y axis
+        //    ySpeedCar *= -1;
+        //}
+        
+        // HEAVY COLLISION SYSTEM
+        for (Track& track : tracks)
+        {
+            if (!track.isVisible) {
+                continue;
+            }
 
-            // Test if there aren't any tracks left
-            if (nbTracks <= 0) {
-                // Change state to go to the win screen
-                state = 1;
+            if (AABBAlgorithm(car, track.rect)) {
+                // Reverse car speed along the y axis
+                ySpeedCar *= -1;
             }
         }
         //^ Collisions ===================================================
@@ -295,7 +301,6 @@ void resetGame() {
 
         track.isVisible = true;
     }
-    nbTracks = Consts::WIDTH_TRACK * Consts::HEIGHT_TRACK;
 
     // Game
     life = Consts::MAX_LIFE;

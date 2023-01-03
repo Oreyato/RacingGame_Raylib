@@ -9,9 +9,15 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Consts.cpp" />
+    <ClCompile Include="Consts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Levels.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Consts.h" />
+    <ClInclude Include="Consts.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Levels.h" />
   </ItemGroup>
 </Project>
