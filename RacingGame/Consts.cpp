@@ -12,12 +12,12 @@ const int Consts::SIZE_CAR{ 32 };
 const int Consts::SPEED_CAR{ 6 };
 
 // Tracks
-const int Consts::WIDTH_TRACK{ 40 };
-const int Consts::HEIGHT_TRACK{ 40 };
+const float Consts::WIDTH_TRACK{ 40.0f };
+const float Consts::HEIGHT_TRACK{ 40.0f };
 
 const int Consts::COLUMN_TRACKS{ 20 };
 const int Consts::ROW_TRACKS{ 15 };
-const int Consts::SPACING_TRACKS{ 1 };
+const float Consts::SPACING_TRACKS{ 2.0f };
 
 
 

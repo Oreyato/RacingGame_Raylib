@@ -15,6 +15,7 @@ using namespace std;
 // Methods
 void load();
 void unload();
+void inputs();
 void update();
 void draw();
 void drawUi();
@@ -29,6 +30,7 @@ void resetGame();
 
 // Rules ==============================
 int life = Consts::MAX_LIFE;
+bool isPlaying = false;
 
 // ====================================
 // Car ===============================
@@ -36,7 +38,7 @@ int xSpeedCar = -Consts::SPEED_CAR;
 int ySpeedCar = -Consts::SPEED_CAR;
 
 // Initial position
-const int X_POS_CAR = Consts::WIDTH_SCREEN / 2 - Consts::SIZE_CAR / 2;
+const int X_POS_CAR = Consts::WIDTH_SCREEN / 2 - 80;
 const int Y_POS_CAR = Consts::HEIGHT_SCREEN - 85;
 
 Rectangle car{ X_POS_CAR, Y_POS_CAR, Consts::SIZE_CAR, Consts::SIZE_CAR };
@@ -65,6 +67,7 @@ int main(int argc, char* argv[])
 
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
+        inputs();
         update();
         draw();
     }
@@ -80,7 +83,7 @@ void load()
     // Create the window 
     string windowName = "RacingGame";
     InitWindow(Consts::WIDTH_SCREEN, Consts::HEIGHT_SCREEN, windowName.c_str());
-    SetWindowPosition(0, 10);
+    SetWindowPosition(25, 50);
     SetTargetFPS(60);
 
     //v Sounds init ==================================================
@@ -109,13 +112,14 @@ void load()
         }
     }
 
-    for (int i = 0; i < Consts::COLUMN_TRACKS * Consts::ROW_TRACKS; i++)
+    for (int i = 0; i < MAX_TRACKS; i++)
     {
         if (Levels::LEVEL_001[i] == 0) {
             tracks[i].isVisible = false;
         }
     }
 
+    isPlaying = true;
     //^ Game specifics ===============================================
 }
 
@@ -125,9 +129,8 @@ void unload()
     CloseWindow();
 }
 
-// Game update
-void update()
-{
+// Handle inputs
+void inputs() {
     if (state == 1) {
         // If the player win
         if (IsKeyDown(KEY_R)) {
@@ -141,6 +144,29 @@ void update()
         }
     }
     else {
+        // Moving the car according to player input
+        // Moving left 
+        if (IsKeyDown(KEY_A)) {
+        }
+        // Moving right
+        else if (IsKeyDown(KEY_D)) {
+        }
+        if (IsKeyPressed(KEY_SPACE)) {
+            isPlaying = !isPlaying;
+        }
+    }
+}
+
+// Game update
+void update()
+{
+    if (state == 1) {
+
+    }
+    else if (state == 2) {
+
+    }
+    else if (isPlaying) {
         // Default game
         //v Car ==========================================================
         car.x += xSpeedCar;
@@ -158,19 +184,6 @@ void update()
         else if (car.y >= Consts::HEIGHT_SCREEN) {
             // Reverse speed along the y axis
             ySpeedCar *= -1;
-            // Reset car x position a bit above the paddle
-            car.y = Consts::HEIGHT_SCREEN - 150;
-            // Reset car y position at the center of the screen
-            car.x = Consts::WIDTH_SCREEN / 2 - car.width / 2;
-
-            // Remove one life
-            life -= 1;
-
-            // Test if there are no remaining life
-            if (life <= 0) {
-                // Change the game state to 2 (game over)
-                state = 2;
-            }
         }
         // ... from the left or the right
         else if (car.x <= 0) {
@@ -186,39 +199,20 @@ void update()
             // Reset car position 
             car.x = Consts::WIDTH_SCREEN - car.width;
         }
-        
-        // Moving the car according to player input
-        // Moving left 
-        if (IsKeyDown(KEY_A)) {
-        }
-        // Moving right
-        else if (IsKeyDown(KEY_D)) {
-        }
         //^ Car ==========================================================
         //v Collisions ===================================================
         // Testing if the car collides with the tracks
-        //// Translate car coordinates into tracks coordinates
-        //int columnTrack = (car.x + Consts::SIZE_CAR / 2) / Consts::WIDTH_TRACK;
-        //int rowTrack = car.y / Consts::HEIGHT_TRACK;
-        //// Search for the track index
-        //int index = trackCoordinatesToIndex(rowTrack, columnTrack);
-        //// Is the car where a track should be (non visible)? 
-        //if (index >= 0 && index < MAX_TRACKS && tracks[index].isVisible) {
-        //    // Reverse car speed along the y axis
-        //    ySpeedCar *= -1;
-        //}
-        
-        // HEAVY COLLISION SYSTEM
-        for (Track& track : tracks)
-        {
-            if (!track.isVisible) {
-                continue;
-            }
+        // Translate car coordinates into tracks coordinates
+        int columnTrack =  floor((car.x + Consts::SIZE_CAR / 2) / Consts::WIDTH_TRACK);
+        int rowTrack = floor((car.y + Consts::SIZE_CAR / 2) / Consts::HEIGHT_TRACK);
+        // Search for the track index
+        int index = trackCoordinatesToIndex(rowTrack, columnTrack);
+        // Is the car where a track should be (non visible)? 
+        if (index >= 0 && index < MAX_TRACKS && tracks[index].isVisible) {
+            // Reverse car speed along the y axis
+            ySpeedCar *= -1;
 
-            if (AABBAlgorithm(car, track.rect)) {
-                // Reverse car speed along the y axis
-                ySpeedCar *= -1;
-            }
+            cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
         }
         //^ Collisions ===================================================
     }
@@ -263,8 +257,8 @@ void draw()
 // Draw UI
 void drawUi()
 {
-    DrawText("Life:", 10, 10, 20, WHITE);
-    DrawText(to_string(life).c_str(), 60, 10, 20, WHITE);
+    //DrawText("Life:", 10, 10, 20, WHITE);
+    //DrawText(to_string(life).c_str(), 60, 10, 20, WHITE);
 }
 
 bool AABBAlgorithm(Rectangle a, Rectangle b) {

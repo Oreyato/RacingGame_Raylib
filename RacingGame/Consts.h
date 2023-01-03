@@ -16,12 +16,12 @@ public:
 	static const int SPEED_CAR;
 
 	// Tracks
-	static const int WIDTH_TRACK;
-	static const int HEIGHT_TRACK;
+	static const float WIDTH_TRACK;
+	static const float HEIGHT_TRACK;
 
 	static const int COLUMN_TRACKS;
 	static const int ROW_TRACKS;
-	static const int SPACING_TRACKS;
+	static const float SPACING_TRACKS;
 };
 
 #endif // CONSTS_H
