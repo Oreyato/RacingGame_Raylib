@@ -39,7 +39,7 @@ int ySpeedCar = -Consts::SPEED_CAR;
 
 // Initial position
 const int X_POS_CAR = Consts::WIDTH_SCREEN / 2 - 80;
-const int Y_POS_CAR = Consts::HEIGHT_SCREEN - 85;
+const int Y_POS_CAR = Consts::HEIGHT_SCREEN - 80;
 
 Rectangle car{ X_POS_CAR, Y_POS_CAR, Consts::SIZE_CAR, Consts::SIZE_CAR };
 
@@ -180,21 +180,21 @@ void update()
             // Reset car position
             car.y = 0;
         }
-        // ... from the bottom (disappearing completely)
-        else if (car.y >= Consts::HEIGHT_SCREEN) {
+        // ... from the bottom
+        else if (car.y >= Consts::HEIGHT_SCREEN - car.width) {
             // Reverse speed along the y axis
             ySpeedCar *= -1;
         }
-        // ... from the left or the right
+        // ... from the left
         else if (car.x <= 0) {
-            // Reverse speed along the x axix
+            // Reverse speed along the x axis
             xSpeedCar *= -1;
             // Reset car position 
             car.x = 0;
         }
-        // ... from the left or the right
+        // ... from the right
         else if (car.x >= Consts::WIDTH_SCREEN - car.width) {
-            // Reverse speed along the x axix
+            // Reverse speed along the x axis
             xSpeedCar *= -1;
             // Reset car position 
             car.x = Consts::WIDTH_SCREEN - car.width;
@@ -208,11 +208,43 @@ void update()
         // Search for the track index
         int index = trackCoordinatesToIndex(rowTrack, columnTrack);
         // Is the car where a track should be (non visible)? 
-        if (index >= 0 && index < MAX_TRACKS && tracks[index].isVisible) {
-            // Reverse car speed along the y axis
-            ySpeedCar *= -1;
+        if (index >= 0 && index < MAX_TRACKS) {
+            if (tracks[index].isVisible)
+            {
+                float prevCarX = car.x - xSpeedCar;
+                float prevCarY = car.y - ySpeedCar;
 
-            cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
+                int prevColTrack = floor((prevCarX + Consts::SIZE_CAR / 2) / Consts::WIDTH_TRACK);
+                int prevRowTrack = floor((prevCarY + Consts::SIZE_CAR / 2) / Consts::HEIGHT_TRACK);
+
+                bool bothTestsFailed = true;
+
+                if (prevColTrack != columnTrack) {
+                    int adjacentTrackIndex = trackCoordinatesToIndex(rowTrack, prevColTrack);
+
+                    if (tracks[adjacentTrackIndex].isVisible) {
+                        xSpeedCar *= -1;
+
+                        bothTestsFailed = false;
+                    }
+                }
+                if (prevRowTrack != rowTrack) {
+                    int adjacentTrackIndex = trackCoordinatesToIndex(prevRowTrack, columnTrack);
+
+                    if (tracks[adjacentTrackIndex].isVisible) {
+                        ySpeedCar *= -1;
+
+                        bothTestsFailed = false;
+                    }
+                }
+
+                if (bothTestsFailed) {
+                    xSpeedCar *= -1;
+                    ySpeedCar *= -1;
+                }
+
+                cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
+            }
         }
         //^ Collisions ===================================================
     }
