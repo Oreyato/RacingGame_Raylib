@@ -10,6 +10,7 @@
 
 using namespace std;
 
+#pragma region globals
 //v ==============================================================
 //v Global init ==================================================
 // Methods
@@ -60,6 +61,7 @@ const int MAX_TRACKS = Consts::ROW_TRACKS * Consts::COLUMN_TRACKS;
 vector<Track> tracks;
 
 //^ Game specific init ===========================================
+#pragma endregion
 
 int main(int argc, char* argv[])
 {
@@ -169,6 +171,7 @@ void update()
     else if (isPlaying) {
         // Default game
         //v Car ==========================================================
+        #pragma region Car screen boundaries
         car.x += xSpeedCar;
         car.y += ySpeedCar;
 
@@ -199,11 +202,14 @@ void update()
             // Reset car position 
             car.x = Consts::WIDTH_SCREEN - car.width;
         }
+        #pragma endregion
+
         //^ Car ==========================================================
         //v Collisions ===================================================
+        #pragma region Car / tracks collisions
         // Testing if the car collides with the tracks
         // Translate car coordinates into tracks coordinates
-        int columnTrack =  floor((car.x + Consts::SIZE_CAR / 2) / Consts::WIDTH_TRACK);
+        int columnTrack = floor((car.x + Consts::SIZE_CAR / 2) / Consts::WIDTH_TRACK);
         int rowTrack = floor((car.y + Consts::SIZE_CAR / 2) / Consts::HEIGHT_TRACK);
         // Search for the track index
         int index = trackCoordinatesToIndex(rowTrack, columnTrack);
@@ -250,6 +256,8 @@ void update()
                 cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
             }
         }
+        #pragma endregion
+
         //^ Collisions ===================================================
     }
 }
