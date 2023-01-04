@@ -1,5 +1,7 @@
 #include "Tracks.h"
 
+#include "raylib.h"
+
 #include "Consts.h"
 #include "Levels.h"
 

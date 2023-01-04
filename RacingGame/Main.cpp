@@ -1,4 +1,3 @@
-#include "raylib.h"
 #include <iostream>
 #include <stdio.h>  
 #include <math.h> 
@@ -50,10 +49,6 @@ Rectangle car{ X_POS_CAR, Y_POS_CAR, Consts::SIZE_CAR, Consts::SIZE_CAR };
 // ====================================
 // Tracks =============================
 // Single track
-struct Track {
-    Rectangle rect;
-    bool isVisible;
-};
 
 Rectangle rect{ 0, 0, Consts::WIDTH_TRACK, Consts::HEIGHT_TRACK };
 Track track{ rect, true };
@@ -61,6 +56,7 @@ Track track{ rect, true };
 // Creating multiple tracks
 const int MAX_TRACKS = Consts::ROW_TRACKS * Consts::COLUMN_TRACKS;
 
+Tracks trackTEST;
 vector<Track> tracks;
 
 //^ Game specific init ===========================================
@@ -123,6 +119,8 @@ void load()
             tracks[i].isVisible = false;
         }
     }
+
+    trackTEST.initTracksGrid();
 
     isPlaying = true;
     //^ Game specifics ===============================================

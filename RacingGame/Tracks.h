@@ -1,9 +1,8 @@
 #ifndef TRACKS_H
 #define TRACKS_H
 
+#include "raylib.h"
 #include <vector>
-
-#include "Rectangle.h"
 
 struct Track
 {

@@ -1,7 +1,7 @@
 #ifndef CAR_H
 #define CAR_H
 
-#include "Rectangle.h"
+#include "raylib.h"
 
 class Car : public Rectangle
 {
