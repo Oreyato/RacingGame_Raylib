@@ -47,8 +47,6 @@ Rectangle car{ X_POS_CAR, Y_POS_CAR, Consts::SIZE_CAR, Consts::SIZE_CAR };
 
 // ====================================
 // Tracks =============================
-Rectangle rect{ 0, 0, Consts::WIDTH_TRACK, Consts::HEIGHT_TRACK };
-
 Tracks track;
 
 //^ Game specific init ===========================================
@@ -86,32 +84,6 @@ void load()
     //^ Sounds init ==================================================
 
     //v Game specifics ===============================================
-    //// Initiate the grid of tracks
-    //for (int i = 0; i < Consts::ROW_TRACKS; i++)
-    //{
-    //    for (int j = 0; j < Consts::COLUMN_TRACKS; j++)
-    //    {
-    //        // Track position
-    //        int xPos = Consts::WIDTH_TRACK * j;
-    //        int yPos = Consts::HEIGHT_TRACK * i;
-
-    //        // Rectangle to fit in the Track struct
-    //        Rectangle rect{ xPos, yPos, Consts::WIDTH_TRACK - Consts::SPACING_TRACKS, Consts::HEIGHT_TRACK - Consts::SPACING_TRACKS };
-
-    //        // Create the track
-    //        Track track{ rect, true };
-    //        // ... and add it to the tracks vector
-    //        tracks.push_back(track);
-    //    }
-    //}
-
-    //for (int i = 0; i < MAX_TRACKS; i++)
-    //{
-    //    if (Levels::LEVEL_001[i] == 0) {
-    //        tracks[i].isVisible = false;
-    //    }
-    //}
-
     track.initTracksGrid();
 
     isPlaying = true;
@@ -203,8 +175,8 @@ void update()
         // Testing if the car collides with the tracks
         vector<Track> tracks = track.getTracks();
         // Translate car coordinates into tracks coordinates
-        int columnTrack = floor((car.x + Consts::SIZE_CAR / 2) / Consts::WIDTH_TRACK);
-        int rowTrack = floor((car.y + Consts::SIZE_CAR / 2) / Consts::HEIGHT_TRACK);
+        int columnTrack = floor((car.x + Consts::SIZE_CAR / 2) / track.getTrackWidth());
+        int rowTrack = floor((car.y + Consts::SIZE_CAR / 2) / track.getTrackHeight());
         // Search for the track index
         int index = track.trackCoordinatesToIndex(rowTrack, columnTrack);
         // Is the car where a track should be (non visible)? 
@@ -216,8 +188,8 @@ void update()
                 float prevCarX = car.x - xSpeedCar;
                 float prevCarY = car.y - ySpeedCar;
 
-                int prevColTrack = floor((prevCarX + Consts::SIZE_CAR / 2) / Consts::WIDTH_TRACK);
-                int prevRowTrack = floor((prevCarY + Consts::SIZE_CAR / 2) / Consts::HEIGHT_TRACK);
+                int prevColTrack = floor((prevCarX + Consts::SIZE_CAR / 2) / track.getTrackWidth());
+                int prevRowTrack = floor((prevCarY + Consts::SIZE_CAR / 2) / track.getTrackHeight());
 
                 bool bothTestsFailed = true;
 

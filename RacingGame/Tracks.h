@@ -19,6 +19,8 @@ public:
 	void initTracksGrid();
 	int trackCoordinatesToIndex(int rowTrackP, int columnTrackP);
 
+	float getTrackWidth() { return trackWidth; }
+	float getTrackHeight() { return trackHeight; }
 	int getMaxTracks() { return maxTracks; }
 
 	std::vector<Track> getTracks() { return tracks; }
