@@ -36,12 +36,16 @@ bool isPlaying = false;
 
 // ====================================
 // Car ===============================
-int xSpeedCar = -Consts::SPEED_CAR;
-int ySpeedCar = -Consts::SPEED_CAR;
+
+
+int xSpeedCar = Consts::SPEED_CAR;
+int ySpeedCar = Consts::SPEED_CAR;
 
 // Initial position
-const int X_POS_CAR = Consts::WIDTH_SCREEN / 2 - 80;
-const int Y_POS_CAR = Consts::HEIGHT_SCREEN - 60;
+int X_POS_CAR = Consts::WIDTH_SCREEN / 2 - 80;
+int Y_POS_CAR = Consts::HEIGHT_SCREEN - 60;
+
+Car carTest{ Consts::WIDTH_SCREEN / 2.0f - 80.0f, Consts::HEIGHT_SCREEN - 60.0f, (float) Consts::SIZE_CAR, (float) Consts::SIZE_CAR };
 
 Rectangle car{ X_POS_CAR, Y_POS_CAR, Consts::SIZE_CAR, Consts::SIZE_CAR };
 

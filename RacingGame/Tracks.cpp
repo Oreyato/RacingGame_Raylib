@@ -49,6 +49,10 @@ void Tracks::initTracksGrid()
     }
 }
 
+void Tracks::loadLevel(int levelIndexP)
+{
+}
+
 int Tracks::trackCoordinatesToIndex(int rowTrackP, int columnTrackP)
 {
     return rowTrackP * columnTracks + columnTrackP;

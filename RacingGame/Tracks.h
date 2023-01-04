@@ -17,6 +17,8 @@ public:
 	~Tracks();
 
 	void initTracksGrid();
+	void loadLevel(int levelIndexP);
+
 	int trackCoordinatesToIndex(int rowTrackP, int columnTrackP);
 
 	float getTrackWidth() { return trackWidth; }
