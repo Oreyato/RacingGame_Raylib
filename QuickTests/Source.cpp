@@ -8,21 +8,7 @@
 #include "Consts.h"
 #include "Levels.h"
 
-#include "Tracks.h"
-#include "Car.h"
-
 using namespace std;
-
-#pragma region globals
-//v ==============================================================
-//v Global init ==================================================
-// Methods
-void load();
-void unload();
-void inputs();
-void update();
-void draw();
-void drawUi();
 
 // State
 int state = 0;
@@ -30,7 +16,6 @@ int state = 0;
 //v Game specific init ===========================================
 bool AABBAlgorithm(Rectangle a, Rectangle b);
 int trackCoordinatesToIndex(int rowTrack, int columnTrack);
-void resetGame();
 
 // Rules ==============================
 int life = Consts::MAX_LIFE;
@@ -38,12 +23,6 @@ bool isPlaying = false;
 
 // ====================================
 // Car ===============================
-int xSpeedCar = -Consts::SPEED_CAR;
-int ySpeedCar = -Consts::SPEED_CAR;
-
-// Initial position
-const int X_POS_CAR = Consts::WIDTH_SCREEN / 2 - 80;
-const int Y_POS_CAR = Consts::HEIGHT_SCREEN - 60;
 
 Rectangle car{ X_POS_CAR, Y_POS_CAR, Consts::SIZE_CAR, Consts::SIZE_CAR };
 
@@ -174,7 +153,7 @@ void update()
     else if (isPlaying) {
         // Default game
         //v Car ==========================================================
-        #pragma region Car screen boundaries
+#pragma region Car screen boundaries
         car.x += xSpeedCar;
         car.y += ySpeedCar;
 
@@ -205,13 +184,13 @@ void update()
             // Reset car position 
             car.x = Consts::WIDTH_SCREEN - car.width;
         }
-        #pragma endregion
+#pragma endregion
 
         //^ Car ==========================================================
         //v Collisions ===================================================
-        #pragma region Car / tracks collisions
-        // Testing if the car collides with the tracks
-        // Translate car coordinates into tracks coordinates
+#pragma region Car / tracks collisions
+// Testing if the car collides with the tracks
+// Translate car coordinates into tracks coordinates
         int columnTrack = floor((car.x + Consts::SIZE_CAR / 2) / Consts::WIDTH_TRACK);
         int rowTrack = floor((car.y + Consts::SIZE_CAR / 2) / Consts::HEIGHT_TRACK);
         // Search for the track index
@@ -259,7 +238,7 @@ void update()
                 cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
             }
         }
-        #pragma endregion
+#pragma endregion
 
         //^ Collisions ===================================================
     }
