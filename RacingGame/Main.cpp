@@ -140,38 +140,7 @@ void update()
     else if (isPlaying) {
         // Default game
         //v Car ==========================================================
-        #pragma region Car screen boundaries
-        car.x += xSpeedCar;
-        car.y += ySpeedCar;
-
-        // Testing if the car goes out of screen
-        // ... from the top
-        if (car.y <= 0) {
-            // Reverse speed along the y axis
-            ySpeedCar *= -1;
-            // Reset car position
-            car.y = 0;
-        }
-        // ... from the bottom
-        else if (car.y >= Consts::HEIGHT_SCREEN - car.width) {
-            // Reverse speed along the y axis
-            ySpeedCar *= -1;
-        }
-        // ... from the left
-        else if (car.x <= 0) {
-            // Reverse speed along the x axis
-            xSpeedCar *= -1;
-            // Reset car position 
-            car.x = 0;
-        }
-        // ... from the right
-        else if (car.x >= Consts::WIDTH_SCREEN - car.width) {
-            // Reverse speed along the x axis
-            xSpeedCar *= -1;
-            // Reset car position 
-            car.x = Consts::WIDTH_SCREEN - car.width;
-        }
-        #pragma endregion
+        carTest.update();
 
         //^ Car ==========================================================
         //v Collisions ===================================================
@@ -242,6 +211,8 @@ void draw()
     {
         // Draw car
         DrawRectangleRec(car, WHITE);
+
+        DrawRectangleRec(carTest.getRect(), RED);
         // Draw all tracks
         for (Track& track : track.getTracks())
         {

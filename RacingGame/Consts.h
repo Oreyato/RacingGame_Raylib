@@ -12,8 +12,8 @@ public:
 	static const int MAX_LIFE;
 
 	// Car
-	static const int SIZE_CAR;
-	static const int SPEED_CAR;
+	static const float SIZE_CAR;
+	static const float SPEED_CAR;
 
 	// Tracks
 	static const float WIDTH_TRACK;

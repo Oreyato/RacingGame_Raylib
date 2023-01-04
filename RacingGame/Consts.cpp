@@ -8,8 +8,8 @@ const int Consts::HEIGHT_SCREEN{ 600 };
 const int Consts::MAX_LIFE{ 3 };
 
 // Car
-const int Consts::SIZE_CAR{ 32 };
-const int Consts::SPEED_CAR{ 4 };
+const float Consts::SIZE_CAR{ 32.0f };
+const float Consts::SPEED_CAR{ 4.0f };
 
 // Tracks
 const float Consts::WIDTH_TRACK{ 40.0f };
