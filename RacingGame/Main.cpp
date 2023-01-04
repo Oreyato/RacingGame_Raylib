@@ -28,7 +28,6 @@ int state = 0;
 //^ Global init ==================================================
 //v Game specific init ===========================================
 bool AABBAlgorithm(Rectangle a, Rectangle b);
-int trackCoordinatesToIndex(int rowTrack, int columnTrack);
 void resetGame();
 
 // Rules ==============================
@@ -48,16 +47,9 @@ Rectangle car{ X_POS_CAR, Y_POS_CAR, Consts::SIZE_CAR, Consts::SIZE_CAR };
 
 // ====================================
 // Tracks =============================
-// Single track
-
 Rectangle rect{ 0, 0, Consts::WIDTH_TRACK, Consts::HEIGHT_TRACK };
-Track track{ rect, true };
 
-// Creating multiple tracks
-const int MAX_TRACKS = Consts::ROW_TRACKS * Consts::COLUMN_TRACKS;
-
-Tracks trackTEST;
-vector<Track> tracks;
+Tracks track;
 
 //^ Game specific init ===========================================
 #pragma endregion
@@ -94,33 +86,33 @@ void load()
     //^ Sounds init ==================================================
 
     //v Game specifics ===============================================
-    // Initiate the grid of tracks
-    for (int i = 0; i < Consts::ROW_TRACKS; i++)
-    {
-        for (int j = 0; j < Consts::COLUMN_TRACKS; j++)
-        {
-            // Track position
-            int xPos = Consts::WIDTH_TRACK * j;
-            int yPos = Consts::HEIGHT_TRACK * i;
+    //// Initiate the grid of tracks
+    //for (int i = 0; i < Consts::ROW_TRACKS; i++)
+    //{
+    //    for (int j = 0; j < Consts::COLUMN_TRACKS; j++)
+    //    {
+    //        // Track position
+    //        int xPos = Consts::WIDTH_TRACK * j;
+    //        int yPos = Consts::HEIGHT_TRACK * i;
 
-            // Rectangle to fit in the Track struct
-            Rectangle rect{ xPos, yPos, Consts::WIDTH_TRACK - Consts::SPACING_TRACKS, Consts::HEIGHT_TRACK - Consts::SPACING_TRACKS };
+    //        // Rectangle to fit in the Track struct
+    //        Rectangle rect{ xPos, yPos, Consts::WIDTH_TRACK - Consts::SPACING_TRACKS, Consts::HEIGHT_TRACK - Consts::SPACING_TRACKS };
 
-            // Create the track
-            Track track{ rect, true };
-            // ... and add it to the tracks vector
-            tracks.push_back(track);
-        }
-    }
+    //        // Create the track
+    //        Track track{ rect, true };
+    //        // ... and add it to the tracks vector
+    //        tracks.push_back(track);
+    //    }
+    //}
 
-    for (int i = 0; i < MAX_TRACKS; i++)
-    {
-        if (Levels::LEVEL_001[i] == 0) {
-            tracks[i].isVisible = false;
-        }
-    }
+    //for (int i = 0; i < MAX_TRACKS; i++)
+    //{
+    //    if (Levels::LEVEL_001[i] == 0) {
+    //        tracks[i].isVisible = false;
+    //    }
+    //}
 
-    trackTEST.initTracksGrid();
+    track.initTracksGrid();
 
     isPlaying = true;
     //^ Game specifics ===============================================
@@ -209,13 +201,14 @@ void update()
         //v Collisions ===================================================
         #pragma region Car / tracks collisions
         // Testing if the car collides with the tracks
+        vector<Track> tracks = track.getTracks();
         // Translate car coordinates into tracks coordinates
         int columnTrack = floor((car.x + Consts::SIZE_CAR / 2) / Consts::WIDTH_TRACK);
         int rowTrack = floor((car.y + Consts::SIZE_CAR / 2) / Consts::HEIGHT_TRACK);
         // Search for the track index
-        int index = trackCoordinatesToIndex(rowTrack, columnTrack);
+        int index = track.trackCoordinatesToIndex(rowTrack, columnTrack);
         // Is the car where a track should be (non visible)? 
-        if (index >= 0 && index < MAX_TRACKS) {
+        if (index >= 0 && index < track.getMaxTracks()) {
             if (tracks[index].isVisible)
             {
                 // Find which track side the car is colliding with
@@ -230,7 +223,7 @@ void update()
 
                 // Car came from the left/right
                 if (prevColTrack != columnTrack) {
-                    int adjacentTrackIndex = trackCoordinatesToIndex(rowTrack, prevColTrack);
+                    int adjacentTrackIndex = track.trackCoordinatesToIndex(rowTrack, prevColTrack);
 
                     if (!tracks[adjacentTrackIndex].isVisible) {
                         xSpeedCar *= -1;
@@ -240,7 +233,7 @@ void update()
                 }
                 // Car came from the top/bottom
                 if (prevRowTrack != rowTrack) {
-                    int adjacentTrackIndex = trackCoordinatesToIndex(prevRowTrack, columnTrack);
+                    int adjacentTrackIndex = track.trackCoordinatesToIndex(prevRowTrack, columnTrack);
 
                     if (!tracks[adjacentTrackIndex].isVisible) {
                         ySpeedCar *= -1;
@@ -274,7 +267,7 @@ void draw()
         // Draw car
         DrawRectangleRec(car, WHITE);
         // Draw all tracks
-        for (Track& track : tracks)
+        for (Track& track : track.getTracks())
         {
             if (track.isVisible) {
                 DrawRectangleRec(track.rect, GREEN);
@@ -319,10 +312,6 @@ bool AABBAlgorithm(Rectangle a, Rectangle b) {
     int yMaxB = b.y + b.height;
 
     return (!(xMinB > xMaxA || yMinB > yMaxA || xMaxB < xMinA || yMaxB < yMinA));
-}
-
-int trackCoordinatesToIndex(int rowTrack, int columnTrack) {
-    return rowTrack * Consts::COLUMN_TRACKS + columnTrack;
 }
 
 void resetGame() {
