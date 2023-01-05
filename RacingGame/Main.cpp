@@ -151,10 +151,6 @@ void draw()
 
     if (state == 0)
     {
-        // Draw car
-        // DrawRectangleRec(car.getRect(), WHITE);
-        car.draw();
-
         // Draw all tracks
         for (Track& track : track.getTracks())
         {
@@ -162,6 +158,9 @@ void draw()
                 DrawRectangleRec(track.rect, GREEN);
             }
         }
+
+        // Draw car
+        car.draw();
 
         drawUi();
     }

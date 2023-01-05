@@ -17,6 +17,8 @@ public:
 
 	static const float MAX_SPEED_CAR;
 	static const float MAX_ANGLE_SPEED_CAR;
+	static const float MIN_ANGLE_SPEED_CAR;
+
 	static const float ACCELERATION_FACTOR_CAR;
 	static const float BREAK_FACTOR_CAR;
 	static const float DECELERATION_FACTOR_CAR;

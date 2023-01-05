@@ -46,7 +46,7 @@ void Car::update()
     rect.x += cos(Maths::degToRad(angle)) * speed;
     rect.y += sin(Maths::degToRad(angle)) * speed;
 
-    // screenCollisions();
+    screenCollisions();
     
 }
 void Car::screenCollisions()
@@ -54,40 +54,39 @@ void Car::screenCollisions()
     // Testing if the car goes out of screen
     // ... from the top
     if (rect.y <= 0) {
-        // Reverse speed along the y axis
-        ySpeed *= -1;
         // Reset car position
         rect.y = 0;
     }
     // ... from the bottom
-    else if (rect.y >= Consts::HEIGHT_SCREEN - rect.width) {
-        // Reverse speed along the y axis
-        ySpeed *= -1;
+    else if (rect.y >= Consts::HEIGHT_SCREEN - size) {
+        // Reset car position 
+        rect.y = Consts::HEIGHT_SCREEN - size;
     }
     // ... from the left
     else if (rect.x <= 0) {
-        // Reverse speed along the x axis
-        xSpeed *= -1;
         // Reset car position 
         rect.x = 0;
     }
     // ... from the right
-    else if (rect.x >= Consts::WIDTH_SCREEN - rect.width) {
-        // Reverse speed along the x axis
-        xSpeed *= -1;
+    else if (rect.x >= Consts::WIDTH_SCREEN - size) {
         // Reset car position 
-        rect.x = Consts::WIDTH_SCREEN - rect.width;
+        rect.x = Consts::WIDTH_SCREEN - size;
     }
 }
 
 void Car::inputs() {
+    float speedRatio = speed / Consts::MAX_SPEED_CAR;
+    if (speedRatio < Consts::MIN_ANGLE_SPEED_CAR) {
+        speedRatio = Consts::MIN_ANGLE_SPEED_CAR;
+    }
+
     // Rotating left 
     if (IsKeyDown(KEY_A)) {
-        angle -= Consts::MAX_ANGLE_SPEED_CAR;
+        angle -= Consts::MAX_ANGLE_SPEED_CAR * speedRatio;
     }
     // Rotating right
     if (IsKeyDown(KEY_D)) {
-        angle += Consts::MAX_ANGLE_SPEED_CAR;
+        angle += Consts::MAX_ANGLE_SPEED_CAR * speedRatio;
     }
 
     // Moving forward
