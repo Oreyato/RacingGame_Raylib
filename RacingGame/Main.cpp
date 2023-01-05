@@ -32,20 +32,20 @@ void carTrackCollision();
 bool AABBAlgorithm(Rectangle a, Rectangle b);
 void resetGame();
 
-// ====================================
 // Rules ==============================
 int life = Consts::MAX_LIFE;
 bool isPlaying = false;
 
-// ====================================
+// Levels =============================
+Levels levels;
+
 // Car ===============================
 // Initial position
 float X_POS_CAR = Consts::WIDTH_SCREEN / 2.0f - 80.0f;
 float Y_POS_CAR = Consts::HEIGHT_SCREEN - 95.0f;
 
-Car car{ X_POS_CAR, Y_POS_CAR, (float) Consts::SIZE_CAR, (float) Consts::SIZE_CAR };
+Car car{ Consts::SIZE_CAR, Consts::SIZE_CAR };
 
-// ====================================
 // Tracks =============================
 Tracks track;
 
@@ -84,7 +84,33 @@ void load()
     //^ Sounds init ==================================================
 
     //v Game specifics ===============================================
-    track.initTracksGrid();
+    // Load levels
+    levels.loadLevels();
+
+    vector<int> firstLevel = levels.getLevel(1);
+
+    // Load first level track
+    track.loadTracksGrid();
+
+    // Set car init position ================
+    // Find starting pos
+    int i{ 0 };
+    
+    for (int iter = 0; iter < firstLevel.size(); iter++)
+    {
+        if (firstLevel[iter] == 2) {
+            i = iter;
+
+            break;
+        }
+    }
+    // Transform it to coordinates
+    Vector2 carStartingPos{ 0.0f, 0.0f };
+    // Opération inverse de trackCoordinatesToIndex
+
+    // Send it to car
+    car.setStartingPos(carStartingPos);
+
 
     // Load textures
     Texture2D carTex = LoadTexture("../Ressources/car_01.png");
@@ -111,12 +137,15 @@ void inputs() {
         }
     }
     else {
-        // Moving the car according to player input
-        car.inputs();
+        if (isPlaying)
+        {
+            // Moving the car according to player input
+            car.inputs();
 
-        // Pause button
-        if (IsKeyPressed(KEY_P)) {
-            isPlaying = !isPlaying;
+            // Pause button
+            if (IsKeyPressed(KEY_P)) {
+                isPlaying = !isPlaying;
+            }
         }
     }
 }

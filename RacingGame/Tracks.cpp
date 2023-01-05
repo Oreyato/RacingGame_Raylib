@@ -21,7 +21,7 @@ Tracks::~Tracks()
 {
 }
 
-void Tracks::initTracksGrid()
+void Tracks::loadTracksGrid(const std::vector<int>& levelP)
 {
     for (int i = 0; i < rowTracks; i++)
     {
@@ -42,15 +42,11 @@ void Tracks::initTracksGrid()
     }
 
     for (int i = 0; i < maxTracks; i++)
-    {
-        if (Levels::LEVEL_001[i] == 0) {
+    {        
+        if (levelP[i] == 0) {
             tracks[i].isVisible = false;
         }
     }
-}
-
-void Tracks::loadLevel(int levelIndexP)
-{
 }
 
 int Tracks::trackCoordinatesToIndex(int rowTrackP, int columnTrackP)

@@ -7,7 +7,7 @@ class Car : public Rectangle
 {
 public:
 	Car();
-	Car(float xP, float yP, float widthP, float heightP);
+	Car(float widthP, float heightP);
 	~Car();
 
 	// ======================================
@@ -25,23 +25,25 @@ public:
 	void unload();
 
 	// Getters ==============================
-	Texture2D getTexture() { return texture; }
+	inline Texture2D getTexture() { return texture; }
 
-	Rectangle getRect() { return rect; }
+	inline Rectangle getRect() { return rect; }
 	
-	float getSize() { return size; }
+	inline inline float getSize() { return size; }
 
-	float getXSpeed() { return xSpeed; }
-	float getYSpeed() { return ySpeed; }
+	inline float getXSpeed() { return xSpeed; }
+	inline float getYSpeed() { return ySpeed; }
 
 	float getPreviousXPos();
 	float getPreviousYPos();
 
 	// Setters ==============================
-	void setTexture(const Texture2D& texP) { texture = texP; }
+	inline void setTexture(const Texture2D& texP) { texture = texP; }
 
-	void setXSpeed(float xSpeedP) { xSpeed = xSpeedP; }
-	void setYSpeed(float ySpeedP) { ySpeed = ySpeedP; }
+	inline void setStartingPos(Vector2 startingPosP) { startingPos = startingPosP; }
+
+	inline void setXSpeed(float xSpeedP) { xSpeed = xSpeedP; }
+	inline void setYSpeed(float ySpeedP) { ySpeed = ySpeedP; }
 
 	void reverseXSpeed();
 	void reverseYSpeed();
@@ -50,6 +52,8 @@ private:
 	Texture2D texture{ NULL };
 
 	Rectangle rect{ 0.0f, 0.0f, 0.0f, 0.0f };
+
+	Vector2 startingPos{ 0.0f, 0.0f };
 
 	float size{ 0.0f };
 	float scale{ 1.0f };

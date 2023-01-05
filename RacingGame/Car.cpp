@@ -17,8 +17,8 @@ Car::Car()
     ySpeed = -Consts::MAX_SPEED_CAR;
 }
 
-Car::Car(float xP, float yP, float widthP, float heightP) :
-    rect{ xP, yP, widthP, heightP }
+Car::Car(float widthP, float heightP) :
+    rect{ startingPos.x, startingPos.y, widthP, heightP }
 {
     size = Consts::SIZE_CAR;
 
@@ -129,8 +129,8 @@ void Car::draw()
 
 void Car::resetCar(float xP, float yP)
 {
-    rect.x = xP;
-    rect.y = yP;
+    rect.x = startingPos.x;
+    rect.y = startingPos.y;
     xSpeed = Consts::MAX_SPEED_CAR;
     ySpeed = -Consts::MAX_SPEED_CAR;
     angle = Consts::ANGLE_CAR;

@@ -16,8 +16,7 @@ public:
 	Tracks();
 	~Tracks();
 
-	void initTracksGrid();
-	void loadLevel(int levelIndexP);
+	void loadTracksGrid(const std::vector<int>& levelP);
 
 	int trackCoordinatesToIndex(int rowTrackP, int columnTrackP);
 
