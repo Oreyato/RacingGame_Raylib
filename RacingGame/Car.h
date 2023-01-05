@@ -50,11 +50,14 @@ private:
 	Rectangle rect{ 0.0f, 0.0f, 0.0f, 0.0f };
 
 	float size{ 0.0f };
+	float scale{ 1.0f };
 	float width{ 0.0f };
 	float height{ 0.0f };
 
 	float xSpeed{ 0.0f };
 	float ySpeed{ 0.0f };
+
+	float angle{ 0.0f };
 };
 
 #endif // CAR_H

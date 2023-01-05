@@ -17,6 +17,8 @@ Car::Car(float xP, float yP, float widthP, float heightP) :
 
 	xSpeed = Consts::SPEED_CAR;
 	ySpeed = -Consts::SPEED_CAR;
+
+    angle = Consts::ANGLE_CAR;
 }
 
 Car::~Car()
@@ -31,13 +33,16 @@ void Car::load()
 
 void Car::update()
 {
-    screenCollisions();
-}
-void Car::screenCollisions()
-{
     rect.x += xSpeed;
     rect.y += ySpeed;
 
+    angle += 0.2f;
+
+    screenCollisions();
+    
+}
+void Car::screenCollisions()
+{
     // Testing if the car goes out of screen
     // ... from the top
     if (rect.y <= 0) {
@@ -69,8 +74,13 @@ void Car::screenCollisions()
 
 void Car::draw()
 {
-    DrawTexture(texture, rect.x - width / 2.0f, rect.y - height / 2.0f, WHITE);
+    float halfSize = size / 2.0f;
 
+    Rectangle originRect{ 0.0f, 0.0f, size, size };
+    Rectangle destRect{ rect.x + halfSize, rect.y + halfSize, size, size };
+    Vector2 origin{ halfSize, halfSize };
+
+    DrawTextureTiled(texture, originRect, destRect, origin, angle, scale, WHITE);
 }
 
 void Car::resetCar(float xP, float yP)
@@ -79,6 +89,7 @@ void Car::resetCar(float xP, float yP)
     rect.y = yP;
     xSpeed = Consts::SPEED_CAR;
     ySpeed = -Consts::SPEED_CAR;
+    angle = Consts::ANGLE_CAR;
 }
 
 void Car::unload()

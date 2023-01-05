@@ -14,6 +14,7 @@ public:
 	// Car
 	static const float SIZE_CAR;
 	static const float SPEED_CAR;
+	static const float ANGLE_CAR;
 
 	// Tracks
 	static const float WIDTH_TRACK;
