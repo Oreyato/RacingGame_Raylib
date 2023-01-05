@@ -25,29 +25,25 @@ void drawUi();
 
 // State
 int state = 0;
+
 //^ Global init ==================================================
 //v Game specific init ===========================================
+void carTrackCollision();
 bool AABBAlgorithm(Rectangle a, Rectangle b);
 void resetGame();
 
+// ====================================
 // Rules ==============================
 int life = Consts::MAX_LIFE;
 bool isPlaying = false;
 
 // ====================================
 // Car ===============================
-
-
-int xSpeedCar = Consts::SPEED_CAR;
-int ySpeedCar = Consts::SPEED_CAR;
-
 // Initial position
-int X_POS_CAR = Consts::WIDTH_SCREEN / 2 - 80;
-int Y_POS_CAR = Consts::HEIGHT_SCREEN - 60;
+float X_POS_CAR = Consts::WIDTH_SCREEN / 2.0f - 80.0f;
+float Y_POS_CAR = Consts::HEIGHT_SCREEN - 60.0f;
 
-Car carTest{ Consts::WIDTH_SCREEN / 2.0f - 80.0f, Consts::HEIGHT_SCREEN - 60.0f, (float) Consts::SIZE_CAR, (float) Consts::SIZE_CAR };
-
-Rectangle car{ X_POS_CAR, Y_POS_CAR, Consts::SIZE_CAR, Consts::SIZE_CAR };
+Car carTest{ X_POS_CAR, Y_POS_CAR, (float) Consts::SIZE_CAR, (float) Consts::SIZE_CAR };
 
 // ====================================
 // Tracks =============================
@@ -144,58 +140,7 @@ void update()
 
         //^ Car ==========================================================
         //v Collisions ===================================================
-        #pragma region Car / tracks collisions
-        // Testing if the car collides with the tracks
-        vector<Track> tracks = track.getTracks();
-        // Translate car coordinates into tracks coordinates
-        int columnTrack = floor((car.x + Consts::SIZE_CAR / 2) / track.getTrackWidth());
-        int rowTrack = floor((car.y + Consts::SIZE_CAR / 2) / track.getTrackHeight());
-        // Search for the track index
-        int index = track.trackCoordinatesToIndex(rowTrack, columnTrack);
-        // Is the car where a track should be (non visible)? 
-        if (index >= 0 && index < track.getMaxTracks()) {
-            if (tracks[index].isVisible)
-            {
-                // Find which track side the car is colliding with
-                // using car's previous position
-                float prevCarX = car.x - xSpeedCar;
-                float prevCarY = car.y - ySpeedCar;
-
-                int prevColTrack = floor((prevCarX + Consts::SIZE_CAR / 2) / track.getTrackWidth());
-                int prevRowTrack = floor((prevCarY + Consts::SIZE_CAR / 2) / track.getTrackHeight());
-
-                bool bothTestsFailed = true;
-
-                // Car came from the left/right
-                if (prevColTrack != columnTrack) {
-                    int adjacentTrackIndex = track.trackCoordinatesToIndex(rowTrack, prevColTrack);
-
-                    if (!tracks[adjacentTrackIndex].isVisible) {
-                        xSpeedCar *= -1;
-
-                        bothTestsFailed = false;
-                    }
-                }
-                // Car came from the top/bottom
-                if (prevRowTrack != rowTrack) {
-                    int adjacentTrackIndex = track.trackCoordinatesToIndex(prevRowTrack, columnTrack);
-
-                    if (!tracks[adjacentTrackIndex].isVisible) {
-                        ySpeedCar *= -1;
-
-                        bothTestsFailed = false;
-                    }
-                }
-                // Perfectly hitting the corner 
-                if (bothTestsFailed) {
-                    xSpeedCar *= -1;
-                    ySpeedCar *= -1;
-                }
-
-                cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
-            }
-        }
-        #pragma endregion
+        carTrackCollision();
 
         //^ Collisions ===================================================
     }
@@ -210,9 +155,7 @@ void draw()
     if (state == 0)
     {
         // Draw car
-        DrawRectangleRec(car, WHITE);
-
-        DrawRectangleRec(carTest.getRect(), RED);
+        DrawRectangleRec(carTest.getRect(), WHITE);
         // Draw all tracks
         for (Track& track : track.getTracks())
         {
@@ -246,6 +189,61 @@ void drawUi()
     //DrawText(to_string(life).c_str(), 60, 10, 20, WHITE);
 }
 
+void carTrackCollision() {
+#pragma region Car / tracks collisions
+    // Testing if the car collides with the tracks
+    vector<Track> tracks = track.getTracks();
+    // Translate car coordinates into tracks coordinates
+    int columnTrack = floor((carTest.getRect().x + carTest.getSize() / 2) / track.getTrackWidth());
+    int rowTrack = floor((carTest.getRect().y + carTest.getSize() / 2) / track.getTrackHeight());
+    // Search for the track index
+    int index = track.trackCoordinatesToIndex(rowTrack, columnTrack);
+    // Is the car where a track should be (non visible)? 
+    if (index >= 0 && index < track.getMaxTracks()) {
+        if (tracks[index].isVisible)
+        {
+            // Find which track side the car is colliding with
+            // using car's previous position
+            float prevCarX = carTest.getPreviousXPos();
+            float prevCarY = carTest.getPreviousYPos();
+
+            int prevColTrack = floor((prevCarX + carTest.getSize() / 2) / track.getTrackWidth());
+            int prevRowTrack = floor((prevCarY + carTest.getSize() / 2) / track.getTrackHeight());
+
+            bool bothTestsFailed = true;
+
+            // Car came from the left/right
+            if (prevColTrack != columnTrack) {
+                int adjacentTrackIndex = track.trackCoordinatesToIndex(rowTrack, prevColTrack);
+
+                if (!tracks[adjacentTrackIndex].isVisible) {
+                    carTest.reverseXSpeed();
+
+                    bothTestsFailed = false;
+                }
+            }
+            // Car came from the top/bottom
+            if (prevRowTrack != rowTrack) {
+                int adjacentTrackIndex = track.trackCoordinatesToIndex(prevRowTrack, columnTrack);
+
+                if (!tracks[adjacentTrackIndex].isVisible) {
+                    carTest.reverseYSpeed();
+
+                    bothTestsFailed = false;
+                }
+            }
+            // Perfectly hitting the corner 
+            if (bothTestsFailed) {
+                carTest.reverseXSpeed();
+                carTest.reverseYSpeed();
+            }
+
+            // cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
+        }
+    }
+#pragma endregion
+}
+
 bool AABBAlgorithm(Rectangle a, Rectangle b) {
     // Initiate rectangle a variables
     int xMinA = a.x;
@@ -263,10 +261,7 @@ bool AABBAlgorithm(Rectangle a, Rectangle b) {
 
 void resetGame() {
     // Car
-    car.x = X_POS_CAR;
-    car.y = Y_POS_CAR;
-    xSpeedCar = Consts::SPEED_CAR;
-    ySpeedCar = Consts::SPEED_CAR;
+    carTest.resetCar(X_POS_CAR, Y_POS_CAR);
 
     // Game
     life = Consts::MAX_LIFE;

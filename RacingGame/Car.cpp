@@ -13,6 +13,8 @@ Car::Car()
 Car::Car(float xP, float yP, float widthP, float heightP) :
     rect{ xP, yP, widthP, heightP }
 {
+    size = Consts::SIZE_CAR;
+
 	xSpeed = Consts::SPEED_CAR;
 	ySpeed = -Consts::SPEED_CAR;
 }
@@ -59,4 +61,30 @@ void Car::screenCollisions()
         // Reset car position 
         rect.x = Consts::WIDTH_SCREEN - rect.width;
     }
+}
+
+void Car::resetCar(float xP, float yP)
+{
+    rect.x = xP;
+    rect.y = yP;
+    xSpeed = Consts::SPEED_CAR;
+    ySpeed = -Consts::SPEED_CAR;
+}
+
+float Car::getPreviousXPos()
+{
+    return rect.x - xSpeed;
+}
+float Car::getPreviousYPos()
+{
+    return rect.y - ySpeed;
+}
+
+void Car::reverseXSpeed()
+{
+    xSpeed *= -1;
+}
+void Car::reverseYSpeed()
+{
+    ySpeed *= -1;
 }
