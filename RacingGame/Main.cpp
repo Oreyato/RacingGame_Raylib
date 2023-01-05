@@ -115,7 +115,7 @@ void inputs() {
         car.inputs();
 
         // Pause button
-        if (IsKeyPressed(KEY_SPACE)) {
+        if (IsKeyPressed(KEY_P)) {
             isPlaying = !isPlaying;
         }
     }
@@ -131,9 +131,11 @@ void update()
 
     }
     else if (isPlaying) {
+        float dt = GetFrameTime();
+
         // Default game
         //v Car ==========================================================
-        car.update();
+        car.update(dt);
 
         //^ Car ==========================================================
         //v Collisions ===================================================

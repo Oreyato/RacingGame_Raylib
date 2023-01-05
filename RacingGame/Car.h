@@ -13,7 +13,7 @@ public:
 	// ======================================
 	void load();
 
-	void update();
+	void update(float dtP);
 	void screenCollisions();
 
 	void inputs();

@@ -38,7 +38,7 @@ void Car::load()
 
 }
 
-void Car::update()
+void Car::update(float dtP)
 {
     if (speed > 0.0f + Consts::EPSILON_CAR)
     {
@@ -48,8 +48,8 @@ void Car::update()
         speed += Consts::DECELERATION_FACTOR_CAR;
     }
     
-    rect.x += cos(Maths::degToRad(angle)) * speed;
-    rect.y += sin(Maths::degToRad(angle)) * speed;
+    rect.x += cos(Maths::degToRad(angle)) * speed * dtP;
+    rect.y += sin(Maths::degToRad(angle)) * speed * dtP;
 
     screenCollisions();
     
@@ -103,7 +103,16 @@ void Car::inputs() {
     // Moving backward
     if (IsKeyDown(KEY_S)) {
         if (speed > -Consts::MAX_SPEED_CAR / 2.0f) {
+            speed -= Consts::ACCELERATION_FACTOR_CAR / 2.0f;
+        }
+    }
+    // Using the break
+    if (IsKeyDown(KEY_SPACE)) {
+        if (speed > 0.0f + Consts::EPSILON_CAR) {
             speed -= Consts::BREAK_FACTOR_CAR;
+        }
+        else if (speed < 0.0f - Consts::EPSILON_CAR) {
+            speed += Consts::BREAK_FACTOR_CAR;
         }
     }
 }
