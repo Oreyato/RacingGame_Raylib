@@ -13,11 +13,11 @@ const float Consts::ANGLE_CAR{ -90.0f };
 
 const float Consts::MAX_SPEED_CAR{ 225.0f };
 const float Consts::MAX_ANGLE_SPEED_CAR{ 4.0f };
-const float Consts::MIN_ANGLE_SPEED_CAR{ 0.25f };
+const float Consts::MIN_ANGLE_SPEED_CAR{ 0.0f };
 
 const float Consts::ACCELERATION_FACTOR_CAR{ 5.0f };
 const float Consts::BREAK_FACTOR_CAR{ 7.5f };
-const float Consts::DECELERATION_FACTOR_CAR{ 2.0f };
+const float Consts::DECELERATION_FACTOR_CAR{ 0.98f };
 const float Consts::EPSILON_CAR{ 0.01f };
 
 // Tracks

@@ -40,14 +40,13 @@ void Car::load()
 
 void Car::update(float dtP)
 {
-    if (speed > 0.0f + Consts::EPSILON_CAR)
+    // Gradual deceleration - updating speed
+    if ((speed > 0.0f + Consts::EPSILON_CAR) || (speed < 0.0f - Consts::EPSILON_CAR))
     {
-        speed -= Consts::DECELERATION_FACTOR_CAR;
+        speed *= Consts::DECELERATION_FACTOR_CAR;
     }
-    else if (speed < 0.0f - Consts::EPSILON_CAR) {
-        speed += Consts::DECELERATION_FACTOR_CAR;
-    }
-    
+
+    // Updating position
     rect.x += cos(Maths::degToRad(angle)) * speed * dtP;
     rect.y += sin(Maths::degToRad(angle)) * speed * dtP;
 
@@ -81,7 +80,7 @@ void Car::screenCollisions()
 
 void Car::inputs() {
     float speedRatio = speed / Consts::MAX_SPEED_CAR;
-    if (speedRatio < Consts::MIN_ANGLE_SPEED_CAR) {
+    if (abs(speedRatio) < Consts::MIN_ANGLE_SPEED_CAR) {
         speedRatio = Consts::MIN_ANGLE_SPEED_CAR;
     }
 
