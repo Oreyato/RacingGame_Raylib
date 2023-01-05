@@ -246,15 +246,15 @@ void carTrackCollision() {
 
 bool AABBAlgorithm(Rectangle a, Rectangle b) {
     // Initiate rectangle a variables
-    int xMinA = a.x;
-    int yMinA = a.y;
-    int xMaxA = a.x + a.width;
-    int yMaxA = a.y + a.height;
+    float xMinA = a.x;
+    float yMinA = a.y;
+    float xMaxA = a.x + a.width;
+    float yMaxA = a.y + a.height;
     // Initiate rectangle b variables
-    int xMinB = b.x;
-    int yMinB = b.y;
-    int xMaxB = b.x + b.width;
-    int yMaxB = b.y + b.height;
+    float xMinB = b.x;
+    float yMinB = b.y;
+    float xMaxB = b.x + b.width;
+    float yMaxB = b.y + b.height;
 
     return (!(xMinB > xMaxA || yMinB > yMaxA || xMaxB < xMinA || yMaxB < yMinA));
 }
