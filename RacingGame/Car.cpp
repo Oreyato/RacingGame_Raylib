@@ -1,6 +1,11 @@
 #include "Car.h"
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 #include <math.h>
+
 #include "Maths.h"
 #include "Consts.h"
 
@@ -63,7 +68,7 @@ void Car::screenCollisions()
         rect.y = Consts::HEIGHT_SCREEN - size;
     }
     // ... from the left
-    else if (rect.x <= 0) {
+    if (rect.x <= 0) {
         // Reset car position 
         rect.x = 0;
     }
