@@ -41,7 +41,7 @@ bool isPlaying = false;
 // Car ===============================
 // Initial position
 float X_POS_CAR = Consts::WIDTH_SCREEN / 2.0f - 80.0f;
-float Y_POS_CAR = Consts::HEIGHT_SCREEN - 60.0f;
+float Y_POS_CAR = Consts::HEIGHT_SCREEN - 95.0f;
 
 Car car{ X_POS_CAR, Y_POS_CAR, (float) Consts::SIZE_CAR, (float) Consts::SIZE_CAR };
 
@@ -96,14 +96,6 @@ void load()
     //^ Game specifics ===============================================
 }
 
-// Unload game
-void unload()
-{
-    car.unload();
-
-    CloseWindow();
-}
-
 // Handle inputs
 void inputs() {
     if (state == 1) {
@@ -120,12 +112,9 @@ void inputs() {
     }
     else {
         // Moving the car according to player input
-        // Moving left 
-        if (IsKeyDown(KEY_A)) {
-        }
-        // Moving right
-        else if (IsKeyDown(KEY_D)) {
-        }
+        car.inputs();
+
+        // Pause button
         if (IsKeyPressed(KEY_SPACE)) {
             isPlaying = !isPlaying;
         }
@@ -274,4 +263,12 @@ void resetGame() {
     // Game
     life = Consts::MAX_LIFE;
     state = 0;
+}
+
+// Unload game
+void unload()
+{
+    car.unload();
+
+    CloseWindow();
 }

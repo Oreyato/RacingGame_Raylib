@@ -6,8 +6,8 @@ Car::Car()
 {
     rect = { 0.0f, 0.0f, Consts::SIZE_CAR, Consts::SIZE_CAR };
 
-	xSpeed = Consts::SPEED_CAR;
-	ySpeed = -Consts::SPEED_CAR;
+    xSpeed = Consts::MAX_SPEED_CAR;
+    ySpeed = -Consts::MAX_SPEED_CAR;
 }
 
 Car::Car(float xP, float yP, float widthP, float heightP) :
@@ -15,8 +15,8 @@ Car::Car(float xP, float yP, float widthP, float heightP) :
 {
     size = Consts::SIZE_CAR;
 
-	xSpeed = Consts::SPEED_CAR;
-	ySpeed = -Consts::SPEED_CAR;
+    xSpeed = Consts::MAX_SPEED_CAR;
+    ySpeed = -Consts::MAX_SPEED_CAR;
 
     angle = Consts::ANGLE_CAR;
 }
@@ -33,10 +33,8 @@ void Car::load()
 
 void Car::update()
 {
-    rect.x += xSpeed;
-    rect.y += ySpeed;
-
-    angle += 0.2f;
+    /*rect.x += xSpeed;
+    rect.y += ySpeed;*/
 
     screenCollisions();
     
@@ -72,6 +70,26 @@ void Car::screenCollisions()
     }
 }
 
+void Car::inputs() {
+    // Rotating left 
+    if (IsKeyDown(KEY_A)) {
+        angle -= Consts::MAX_ANGLE_SPEED_CAR;
+    }
+    // Rotating right
+    if (IsKeyDown(KEY_D)) {
+        angle += Consts::MAX_ANGLE_SPEED_CAR;
+    }
+
+    // Moving forward
+    if (IsKeyDown(KEY_W)) {
+
+    }
+    // Moving backward
+    else if (IsKeyDown(KEY_S)) {
+
+    }
+}
+
 void Car::draw()
 {
     float halfSize = size / 2.0f;
@@ -87,8 +105,8 @@ void Car::resetCar(float xP, float yP)
 {
     rect.x = xP;
     rect.y = yP;
-    xSpeed = Consts::SPEED_CAR;
-    ySpeed = -Consts::SPEED_CAR;
+    xSpeed = Consts::MAX_SPEED_CAR;
+    ySpeed = -Consts::MAX_SPEED_CAR;
     angle = Consts::ANGLE_CAR;
 }
 

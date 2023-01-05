@@ -16,6 +16,8 @@ public:
 	void update();
 	void screenCollisions();
 
+	void inputs();
+
 	void draw();
 
 	void resetCar(float xP, float yP);
@@ -54,6 +56,7 @@ private:
 	float width{ 0.0f };
 	float height{ 0.0f };
 
+	float speed{ 0.0f };
 	float xSpeed{ 0.0f };
 	float ySpeed{ 0.0f };
 
