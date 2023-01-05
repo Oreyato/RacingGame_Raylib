@@ -9,7 +9,7 @@ const int Consts::MAX_LIFE{ 3 };
 
 // Car
 const float Consts::SIZE_CAR{ 32.0f };
-const float Consts::SPEED_CAR{ 4.0f };
+const float Consts::SPEED_CAR{ 3.0f };
 
 // Tracks
 const float Consts::WIDTH_TRACK{ 40.0f };

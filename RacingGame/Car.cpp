@@ -24,11 +24,15 @@ Car::~Car()
    
 }
 
+void Car::load()
+{
+
+}
+
 void Car::update()
 {
     screenCollisions();
 }
-
 void Car::screenCollisions()
 {
     rect.x += xSpeed;
@@ -63,12 +67,23 @@ void Car::screenCollisions()
     }
 }
 
+void Car::draw()
+{
+    DrawTexture(texture, rect.x - width / 2.0f, rect.y - height / 2.0f, WHITE);
+
+}
+
 void Car::resetCar(float xP, float yP)
 {
     rect.x = xP;
     rect.y = yP;
     xSpeed = Consts::SPEED_CAR;
     ySpeed = -Consts::SPEED_CAR;
+}
+
+void Car::unload()
+{
+    UnloadTexture(texture);
 }
 
 float Car::getPreviousXPos()

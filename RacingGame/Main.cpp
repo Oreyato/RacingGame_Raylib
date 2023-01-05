@@ -86,6 +86,12 @@ void load()
     //v Game specifics ===============================================
     track.initTracksGrid();
 
+    // Load textures
+    Texture2D carTex = LoadTexture("../Ressources/car_01.png");
+
+    // Set textures
+    car.setTexture(carTex);
+
     isPlaying = true;
     //^ Game specifics ===============================================
 }
@@ -93,6 +99,8 @@ void load()
 // Unload game
 void unload()
 {
+    car.unload();
+
     CloseWindow();
 }
 
@@ -155,7 +163,9 @@ void draw()
     if (state == 0)
     {
         // Draw car
-        DrawRectangleRec(car.getRect(), WHITE);
+        // DrawRectangleRec(car.getRect(), WHITE);
+        car.draw();
+
         // Draw all tracks
         for (Track& track : track.getTracks())
         {
@@ -190,7 +200,6 @@ void drawUi()
 }
 
 void carTrackCollision() {
-#pragma region Car / tracks collisions
     // Testing if the car collides with the tracks
     vector<Track> tracks = track.getTracks();
     // Translate car coordinates into tracks coordinates
@@ -241,7 +250,6 @@ void carTrackCollision() {
             // cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
         }
     }
-#pragma endregion
 }
 
 bool AABBAlgorithm(Rectangle a, Rectangle b) {

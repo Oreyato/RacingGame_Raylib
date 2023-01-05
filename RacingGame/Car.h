@@ -11,11 +11,20 @@ public:
 	~Car();
 
 	// ======================================
+	void load();
+
 	void update();
 	void screenCollisions();
+
+	void draw();
+
 	void resetCar(float xP, float yP);
 
+	void unload();
+
 	// Getters ==============================
+	Texture2D getTexture() { return texture; }
+
 	Rectangle getRect() { return rect; }
 	
 	float getSize() { return size; }
@@ -27,6 +36,8 @@ public:
 	float getPreviousYPos();
 
 	// Setters ==============================
+	void setTexture(const Texture2D& texP) { texture = texP; }
+
 	void setXSpeed(float xSpeedP) { xSpeed = xSpeedP; }
 	void setYSpeed(float ySpeedP) { ySpeed = ySpeedP; }
 
@@ -34,6 +45,8 @@ public:
 	void reverseYSpeed();
 
 private:
+	Texture2D texture{ NULL };
+
 	Rectangle rect{ 0.0f, 0.0f, 0.0f, 0.0f };
 
 	float size{ 0.0f };
