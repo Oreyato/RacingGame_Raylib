@@ -1,5 +1,7 @@
 #include "Car.h"
 
+#include <math.h>
+#include "Maths.h"
 #include "Consts.h"
 
 Car::Car()
@@ -33,10 +35,18 @@ void Car::load()
 
 void Car::update()
 {
-    /*rect.x += xSpeed;
-    rect.y += ySpeed;*/
+    if (speed > 0.0f + Consts::EPSILON_CAR)
+    {
+        speed -= Consts::DECELERATION_FACTOR_CAR;
+    }
+    else if (speed < 0.0f - Consts::EPSILON_CAR) {
+        speed += Consts::DECELERATION_FACTOR_CAR;
+    }
+    
+    rect.x += cos(Maths::degToRad(angle)) * speed;
+    rect.y += sin(Maths::degToRad(angle)) * speed;
 
-    screenCollisions();
+    // screenCollisions();
     
 }
 void Car::screenCollisions()
@@ -82,11 +92,15 @@ void Car::inputs() {
 
     // Moving forward
     if (IsKeyDown(KEY_W)) {
-
+        if (speed < Consts::MAX_SPEED_CAR) {
+            speed += Consts::ACCELERATION_FACTOR_CAR;
+        }
     }
     // Moving backward
-    else if (IsKeyDown(KEY_S)) {
-
+    if (IsKeyDown(KEY_S)) {
+        if (speed > -Consts::MAX_SPEED_CAR / 2.0f) {
+            speed -= Consts::BREAK_FACTOR_CAR;
+        }
     }
 }
 

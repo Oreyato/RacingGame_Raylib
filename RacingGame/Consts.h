@@ -13,9 +13,15 @@ public:
 
 	// Car
 	static const float SIZE_CAR;
-	static const float MAX_SPEED_CAR;
 	static const float ANGLE_CAR;
+
+	static const float MAX_SPEED_CAR;
 	static const float MAX_ANGLE_SPEED_CAR;
+	static const float ACCELERATION_FACTOR_CAR;
+	static const float BREAK_FACTOR_CAR;
+	static const float DECELERATION_FACTOR_CAR;
+	static const float EPSILON_CAR;
+
 
 	// Tracks
 	static const float WIDTH_TRACK;

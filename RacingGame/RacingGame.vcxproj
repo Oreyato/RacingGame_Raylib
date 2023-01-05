@@ -186,6 +186,7 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="Consts.h" />
     <ClInclude Include="Levels.h" />
+    <ClInclude Include="Maths.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Tracks.h" />
   </ItemGroup>
