@@ -56,7 +56,7 @@ int Tracks::trackCoordinatesToIndex(int rowTrackP, int columnTrackP)
 
 Vector2Int Tracks::indexToTrackCoordinates(int indexP) {
     int row = floor(indexP / columnTracks);
-    int column = floor(indexP - (columnTracks * row));
+    int column = indexP % columnTracks;
 
     return Vector2Int{ column, row };
 }
