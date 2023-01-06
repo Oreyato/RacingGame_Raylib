@@ -90,7 +90,7 @@ void load()
     vector<int> firstLevel = levels.getLevel(1);
 
     // Load first level track
-    track.loadTracksGrid();
+    track.loadTracksGrid(firstLevel);
 
     // Set car init position ================
     // Find starting pos
@@ -105,8 +105,7 @@ void load()
         }
     }
     // Transform it to coordinates
-    Vector2 carStartingPos{ 0.0f, 0.0f };
-    // Opération inverse de trackCoordinatesToIndex
+    Vector2 carStartingPos = track.indexToWindowCoordinates(i);
 
     // Send it to car
     car.setStartingPos(carStartingPos);

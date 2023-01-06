@@ -150,6 +150,13 @@ float Car::getPreviousYPos()
     return rect.y - ySpeed;
 }
 
+void Car::setStartingPos(Vector2 startingPosP) {
+    startingPos = startingPosP;
+
+    rect.x = startingPos.x;
+    rect.y = startingPos.y;
+}
+
 void Car::reverseXSpeed()
 {
     xSpeed *= -1;

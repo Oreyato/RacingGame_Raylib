@@ -40,7 +40,7 @@ public:
 	// Setters ==============================
 	inline void setTexture(const Texture2D& texP) { texture = texP; }
 
-	inline void setStartingPos(Vector2 startingPosP) { startingPos = startingPosP; }
+	void setStartingPos(Vector2 startingPosP);
 
 	inline void setXSpeed(float xSpeedP) { xSpeed = xSpeedP; }
 	inline void setYSpeed(float ySpeedP) { ySpeed = ySpeedP; }

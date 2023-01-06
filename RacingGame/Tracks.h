@@ -10,6 +10,11 @@ struct Track
 	bool isVisible{ false };
 };
 
+typedef struct Vector2Int {
+	int x;
+	int y;
+} Vector2Int;
+
 class Tracks : public Rectangle
 {
 public:
@@ -19,6 +24,9 @@ public:
 	void loadTracksGrid(const std::vector<int>& levelP);
 
 	int trackCoordinatesToIndex(int rowTrackP, int columnTrackP);
+	Vector2Int indexToTrackCoordinates(int indexP);
+	Vector2 trackCoordinatesToWindowCoordinates(Vector2Int trackCoordP);
+	Vector2 indexToWindowCoordinates(int indexP);
 
 	float getTrackWidth() { return trackWidth; }
 	float getTrackHeight() { return trackHeight; }

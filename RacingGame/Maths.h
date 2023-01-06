@@ -9,6 +9,15 @@ namespace Maths {
 	float radToDeg(float radP) {
 		return radP * 180.0f / PI;
 	}
+
+	bool isOdd(int numP) {
+		return numP % 2 == 0;
+	}
+
+	typedef struct Vector2Int {
+		int x;
+		int y;
+	} Vector2Int;
 }
 
 #endif // MATHS_H

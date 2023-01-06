@@ -43,7 +43,7 @@ void Tracks::loadTracksGrid(const std::vector<int>& levelP)
 
     for (int i = 0; i < maxTracks; i++)
     {        
-        if (levelP[i] == 0) {
+        if (levelP[i] % 2 == 0) {
             tracks[i].isVisible = false;
         }
     }
@@ -52,4 +52,20 @@ void Tracks::loadTracksGrid(const std::vector<int>& levelP)
 int Tracks::trackCoordinatesToIndex(int rowTrackP, int columnTrackP)
 {
     return rowTrackP * columnTracks + columnTrackP;
+}
+
+Vector2Int Tracks::indexToTrackCoordinates(int indexP) {
+    int row = floor(indexP / columnTracks);
+    int column = floor(indexP - (columnTracks * row));
+
+    return Vector2Int{ column, row };
+}
+Vector2 Tracks::trackCoordinatesToWindowCoordinates(Vector2Int trackCoordP) {
+    float xPos = trackCoordP.x * trackWidth;
+    float yPos = trackCoordP.y * trackHeight;
+
+    return Vector2{ xPos, yPos };
+}
+Vector2 Tracks::indexToWindowCoordinates(int indexP) {
+    return trackCoordinatesToWindowCoordinates(indexToTrackCoordinates(indexP));
 }
