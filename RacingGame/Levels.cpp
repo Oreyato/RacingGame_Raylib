@@ -43,6 +43,6 @@ void Levels::loadLevels() {
     levels.push_back(LEVEL_001);
 }
 
-const std::vector<int> Levels::getLevel(float levelNbP) { 
+std::vector<int>& Levels::getLevel(float levelNbP) {
     return levels[levelNbP];
 }

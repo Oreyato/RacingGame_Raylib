@@ -94,18 +94,19 @@ void load()
 
     // Set car init position ================
     // Find starting pos
-    int i{ 0 };
+    int index{ 0 };
     
     for (int iter = 0; iter < firstLevel.size(); iter++)
     {
         if (firstLevel[iter] == 2) {
-            i = iter;
+            index = iter;
+            firstLevel[iter] = 0;
 
             break;
         }
     }
     // Transform it to coordinates
-    Vector2 carStartingPos = track.indexToWindowCoordinates(i);
+    Vector2 carStartingPos = track.indexToWindowCoordinates(index);
 
     // Send it to car
     car.setStartingPos(carStartingPos);

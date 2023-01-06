@@ -10,7 +10,7 @@ public:
 
 	void loadLevels();
 
-	const std::vector<int> getLevel(float levelNbP);
+	std::vector<int>& getLevel(float levelNbP);
 
 private:
 	std::vector<std::vector<int>> levels;
