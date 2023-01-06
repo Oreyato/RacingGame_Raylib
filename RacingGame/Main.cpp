@@ -100,6 +100,9 @@ void load()
     {
         if (firstLevel[iter] == 2) {
             index = iter;
+
+            // Remove the "2" so that it won't create problems
+            // for collisions or multiplayer
             firstLevel[iter] = 0;
 
             break;
@@ -110,7 +113,6 @@ void load()
 
     // Send it to car
     car.setStartingPos(carStartingPos);
-
 
     // Load textures
     Texture2D carTex = LoadTexture("../Ressources/car_01.png");

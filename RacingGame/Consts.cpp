@@ -20,6 +20,13 @@ const float Consts::BREAK_FACTOR_CAR{ 7.5f };
 const float Consts::DECELERATION_FACTOR_CAR{ 0.98f };
 const float Consts::EPSILON_CAR{ 0.01f };
 
+// Levels
+const int Consts::ROAD_LEVEL{ 0 };
+const int Consts::WALL_LEVEL{ 1 };
+const int Consts::PLAYERA_START_LEVEL{ 2 };
+const int Consts::PLAYERB_START_LEVEL{ 2 };
+const int Consts::END_LEVEL{ 4 };
+
 // Tracks
 const float Consts::WIDTH_TRACK{ 40.0f };
 const float Consts::HEIGHT_TRACK{ 40.0f };

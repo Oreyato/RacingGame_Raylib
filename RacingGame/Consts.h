@@ -24,6 +24,12 @@ public:
 	static const float DECELERATION_FACTOR_CAR;
 	static const float EPSILON_CAR;
 
+	// Levels
+	static const int ROAD_LEVEL;
+	static const int ROAD_WALL;
+	static const int ROAD_PLAYERA_START;
+	static const int ROAD_PLAYERB_START;
+	static const int ROAD_END;
 
 	// Tracks
 	static const float WIDTH_TRACK;
