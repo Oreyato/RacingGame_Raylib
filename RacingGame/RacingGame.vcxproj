@@ -175,6 +175,7 @@
     <ClCompile Include="Consts.cpp" />
     <ClCompile Include="Levels.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MathsUtils.cpp" />
     <ClCompile Include="Tracks.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +187,7 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="Consts.h" />
     <ClInclude Include="Levels.h" />
-    <ClInclude Include="Maths.h" />
+    <ClInclude Include="MathsUtils.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Tracks.h" />
   </ItemGroup>

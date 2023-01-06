@@ -29,6 +29,7 @@ int state = 0;
 //^ Global init ==================================================
 //v Game specific init ===========================================
 void carTrackCollision();
+bool checkForTrackAtPixelCoord();
 bool AABBAlgorithm(Rectangle a, Rectangle b);
 void resetGame();
 
@@ -89,16 +90,13 @@ void load()
 
     vector<int> firstLevel = levels.getLevel(1);
 
-    // Load first level track
-    track.loadTracksGrid(firstLevel);
-
-    // Set car init position ================
+    // v Set car init position ==============
     // Find starting pos
     int index{ 0 };
     
     for (int iter = 0; iter < firstLevel.size(); iter++)
     {
-        if (firstLevel[iter] == 2) {
+        if (firstLevel[iter] == Consts::PLAYERA_START_LEVEL) {
             index = iter;
 
             // Remove the "2" so that it won't create problems
@@ -113,6 +111,10 @@ void load()
 
     // Send it to car
     car.setStartingPos(carStartingPos);
+    // ^ Set car init position ==============
+
+    // Load first level track
+    track.loadTracksGrid(firstLevel);
 
     // Load textures
     Texture2D carTex = LoadTexture("../Ressources/car_01.png");
@@ -171,7 +173,7 @@ void update()
         //^ Car ==========================================================
         //v Collisions ===================================================
         // carTrackCollision();
-
+        bool coll = checkForTrackAtPixelCoord();
         //^ Collisions ===================================================
     }
 }
@@ -237,8 +239,11 @@ void carTrackCollision() {
             float prevCarX = car.getPreviousXPos();
             float prevCarY = car.getPreviousYPos();
 
-            int prevColTrack = floor((prevCarX + car.getSize() / 2) / track.getTrackWidth());
-            int prevRowTrack = floor((prevCarY + car.getSize() / 2) / track.getTrackHeight());
+            float carSize = car.getSize();
+            float trackWidth = track.getTrackWidth();
+
+            int prevColTrack = floor((prevCarX + carSize / 2) / trackWidth);
+            int prevRowTrack = floor((prevCarY + carSize / 2) / track.getTrackHeight());
 
             bool bothTestsFailed = true;
 
@@ -271,6 +276,20 @@ void carTrackCollision() {
             // cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
         }
     }
+}
+
+bool checkForTrackAtPixelCoord() {
+    int tileCol = floor(car.getRect().x / Consts::WIDTH_TRACK);
+    int tileRow = floor(car.getRect().y / Consts::HEIGHT_TRACK);
+
+    // Check first whether the car is within any part of the track wall
+    if (tileCol < 0 || tileCol >= Consts::COLUMN_TRACKS || tileRow < 0 || tileRow >= Consts::ROW_TRACKS) {
+        return false;
+    }
+
+    
+    
+    vector<Track> tracks = track.getTracks();
 }
 
 bool AABBAlgorithm(Rectangle a, Rectangle b) {

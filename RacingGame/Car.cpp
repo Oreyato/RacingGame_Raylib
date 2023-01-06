@@ -6,7 +6,7 @@ using std::endl;
 
 #include <math.h>
 
-#include "Maths.h"
+#include "MathsUtils.h"
 #include "Consts.h"
 
 Car::Car()
@@ -47,8 +47,8 @@ void Car::update(float dtP)
     }
 
     // Updating position
-    rect.x += cos(Maths::degToRad(angle)) * speed * dtP;
-    rect.y += sin(Maths::degToRad(angle)) * speed * dtP;
+    rect.x += cos(MathsUtils::degToRad(angle)) * speed * dtP;
+    rect.y += sin(MathsUtils::degToRad(angle)) * speed * dtP;
 
     screenCollisions();
     

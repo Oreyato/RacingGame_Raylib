@@ -33,6 +33,9 @@
     <ClCompile Include="Levels.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="MathsUtils.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Car.h">
@@ -50,7 +53,7 @@
     <ClInclude Include="Levels.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Maths.h">
+    <ClInclude Include="MathsUtils.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>

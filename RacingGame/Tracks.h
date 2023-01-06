@@ -4,16 +4,14 @@
 #include "raylib.h"
 #include <vector>
 
+#include "MathsUtils.h"
+using MathsUtils::Vector2Int;
+
 struct Track
 {
 	Rectangle rect{ 0.0f, 0.0f, 0.0f, 0.0f };
 	bool isVisible{ false };
 };
-
-typedef struct Vector2Int {
-	int x;
-	int y;
-} Vector2Int;
 
 class Tracks : public Rectangle
 {
@@ -28,11 +26,11 @@ public:
 	Vector2 trackCoordinatesToWindowCoordinates(Vector2Int trackCoordP);
 	Vector2 indexToWindowCoordinates(int indexP);
 
-	float getTrackWidth() { return trackWidth; }
-	float getTrackHeight() { return trackHeight; }
-	int getMaxTracks() { return maxTracks; }
+	inline float getTrackWidth() const { return trackWidth; }
+	inline float getTrackHeight() const { return trackHeight; }
+	inline int getMaxTracks() const { return maxTracks; }
 
-	std::vector<Track> getTracks() { return tracks; }
+	inline std::vector<Track> getTracks() const { return tracks; }
 
 private:
 	float trackWidth{ 0.0f };

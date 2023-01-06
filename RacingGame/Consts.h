@@ -26,10 +26,10 @@ public:
 
 	// Levels
 	static const int ROAD_LEVEL;
-	static const int ROAD_WALL;
-	static const int ROAD_PLAYERA_START;
-	static const int ROAD_PLAYERB_START;
-	static const int ROAD_END;
+	static const int WALL_LEVEL;
+	static const int PLAYERA_START_LEVEL;
+	static const int PLAYERB_START_LEVEL;
+	static const int END_LEVEL;
 
 	// Tracks
 	static const float WIDTH_TRACK;
