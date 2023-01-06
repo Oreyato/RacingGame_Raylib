@@ -47,12 +47,21 @@ void Car::update(float dtP)
         speed *= Consts::DECELERATION_FACTOR_CAR;
     }
 
-    // Updating position
-    rect.x += cos(MathsUtils::degToRad(angle)) * speed * dtP;
-    rect.y += sin(MathsUtils::degToRad(angle)) * speed * dtP;
+    // Calculate next position
+    nextPos.x += cos(MathsUtils::degToRad(angle)) * speed * dtP;
+    nextPos.y += sin(MathsUtils::degToRad(angle)) * speed * dtP;
 
     screenCollisions();
-    
+
+    // If it didn't collide with a wall
+    if (!collide) {
+        // Update next position
+        rect.x = nextPos.x;
+        rect.y = nextPos.y;
+    }
+    else {
+        speed = 0.0f;
+    }    
 }
 void Car::screenCollisions()
 {
@@ -151,21 +160,11 @@ float Car::getPreviousYPos()
     return rect.y - ySpeed;
 }
 
-float Car::getNextXPos()
-{
-    return rect.x;
-}
-
-float Car::getNextYPos()
-{
-    return rect.y;
-}
-
 void Car::setStartingPos(Vector2 startingPosP) {
     startingPos = startingPosP;
 
-    rect.x = startingPos.x;
-    rect.y = startingPos.y;
+    nextPos.x = startingPos.x;
+    nextPos.y = startingPos.y;
 }
 
 void Car::reverseXSpeed()

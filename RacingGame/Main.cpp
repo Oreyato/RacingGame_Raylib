@@ -89,7 +89,7 @@ void load()
     levels.loadLevels();
     levels.setCurrentLevel(1);
 
-    vector<int> firstLevel = levels.getCurrentLevel();
+    vector<int>& firstLevel = levels.getCurrentLevel();
 
     // v Set car init position ==============
     // Find starting pos
@@ -174,12 +174,12 @@ void update()
         //^ Car ==========================================================
         //v Collisions ===================================================
         // carTrackCollision();
-        bool coll = checkForTrackAtPixelCoord(car.getNextXPos(), car.getNextYPos());
+        bool coll = checkForTrackAtPixelCoord(car.getNextPos().x, car.getNextPos().y);
         if (!coll) {
-            cout << "hit" << endl;
+            car.setCollide(true);
         }
         else {
-            cout << ".";
+            car.setCollide(false);
         }
         //^ Collisions ===================================================
     }
@@ -291,7 +291,7 @@ void carTrackCollision() {
 }
 
 bool checkForTrackAtPixelCoord(float posX, float posY) {
-    vector<int> tracks = levels.getCurrentLevel();
+    vector<int>& tracks = levels.getCurrentLevel();
 
     int tileCol = floor(posX / Consts::WIDTH_TRACK);
     int tileRow = floor(posY / Consts::HEIGHT_TRACK);

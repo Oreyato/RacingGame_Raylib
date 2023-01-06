@@ -25,9 +25,9 @@ public:
 	void unload();
 
 	// Getters ==============================
-	inline Texture2D getTexture() { return texture; }
+	inline const Texture2D& getTexture() { return texture; }
 
-	inline Rectangle getRect() { return rect; }
+	inline const Rectangle& getRect() { return rect; }
 	
 	inline inline float getSize() { return size; }
 
@@ -37,8 +37,7 @@ public:
 	float getPreviousXPos();
 	float getPreviousYPos();
 
-	float getNextXPos();
-	float getNextYPos();
+	inline const Vector2& getNextPos() { return nextPos; }
 
 	// Setters ==============================
 	inline void setTexture(const Texture2D& texP) { texture = texP; }
@@ -47,6 +46,8 @@ public:
 
 	inline void setXSpeed(float xSpeedP) { xSpeed = xSpeedP; }
 	inline void setYSpeed(float ySpeedP) { ySpeed = ySpeedP; }
+
+	inline void setCollide(bool collideP) { collide = collideP; }
 
 	void reverseXSpeed();
 	void reverseYSpeed();
@@ -67,7 +68,11 @@ private:
 	float xSpeed{ 0.0f };
 	float ySpeed{ 0.0f };
 
+	Vector2 nextPos{ 0.0f, 0.0f };
+
 	float angle{ 0.0f };
+
+	bool collide{ false };
 };
 
 #endif // CAR_H
