@@ -119,9 +119,15 @@ void load()
 
     // Load textures
     Texture2D carTex = LoadTexture("../Ressources/car_01.png");
+    Texture2D roadTex = LoadTexture("../Ressources/road_01.png");
+    Texture2D wallTex = LoadTexture("../Ressources/wall_01.png");
 
     // Set textures
     car.setTexture(carTex);
+    track.setRoadTexture(roadTex);
+    track.setWallTexture(wallTex);
+
+    track.setTracksTextures();
 
     isPlaying = true;
     //^ Game specifics ===============================================
@@ -200,6 +206,9 @@ void draw()
                 DrawRectangleRec(track.rect, GREEN);
             }
         }
+
+        // Draw track
+        track.draw();
 
         // Draw car
         car.draw();

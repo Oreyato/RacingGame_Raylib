@@ -1,5 +1,6 @@
 #include "Tracks.h"
 
+#include <iostream>
 #include "raylib.h"
 
 #include "Consts.h"
@@ -19,6 +20,18 @@ Tracks::Tracks()
 
 Tracks::~Tracks()
 {
+}
+
+void Tracks::draw()
+{
+    for each (Track track in tracks) {
+        if (track.type == Consts::ROAD_LEVEL) {
+            DrawTexture(roadText, track.rect.x, track.rect.y, WHITE);
+        }
+        else if (track.type == Consts::WALL_LEVEL) {
+            DrawTexture(wallText, track.rect.x, track.rect.y, WHITE);
+        }
+    }
 }
 
 void Tracks::loadTracksGrid(const std::vector<int>& levelP)
@@ -43,6 +56,7 @@ void Tracks::loadTracksGrid(const std::vector<int>& levelP)
 
     for (int i = 0; i < maxTracks; i++)
     {   
+        tracks[i].type = levelP[i];
 
         if (levelP[i] == Consts::ROAD_LEVEL) {
             tracks[i].isVisible = false;
@@ -69,4 +83,19 @@ Vector2 Tracks::trackCoordinatesToWindowCoordinates(Vector2Int trackCoordP) {
 }
 Vector2 Tracks::indexToWindowCoordinates(int indexP) {
     return trackCoordinatesToWindowCoordinates(indexToTrackCoordinates(indexP));
+}
+
+void Tracks::setTracksTextures()
+{
+    for each (Track track in tracks)
+    {
+        if (track.type == Consts::ROAD_LEVEL) {
+            track.texture = roadText;
+        }
+        else if (track.type == Consts::WALL_LEVEL) {
+            track.texture = wallText;
+        }
+    }
+
+    std::cout << "Set textures" << std::endl;
 }

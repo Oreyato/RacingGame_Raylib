@@ -10,6 +10,10 @@ using MathsUtils::Vector2Int;
 struct Track
 {
 	Rectangle rect{ 0.0f, 0.0f, 0.0f, 0.0f };
+
+	int type{ 0 };
+	Texture2D texture;
+
 	bool isVisible{ false };
 };
 
@@ -19,12 +23,18 @@ public:
 	Tracks();
 	~Tracks();
 
+	void draw();
+
 	void loadTracksGrid(const std::vector<int>& levelP);
 
 	int trackCoordinatesToIndex(int rowTrackP, int columnTrackP);
 	Vector2Int indexToTrackCoordinates(int indexP);
 	Vector2 trackCoordinatesToWindowCoordinates(Vector2Int trackCoordP);
 	Vector2 indexToWindowCoordinates(int indexP);
+
+	inline void setRoadTexture(Texture2D textP) { roadText = textP; }
+	inline void setWallTexture(Texture2D textP) { wallText = textP; }
+	void setTracksTextures();
 
 	inline float getTrackWidth() const { return trackWidth; }
 	inline float getTrackHeight() const { return trackHeight; }
@@ -33,6 +43,9 @@ public:
 	inline std::vector<Track> getTracks() const { return tracks; }
 
 private:
+	Texture2D roadText{ NULL };
+	Texture2D wallText{ NULL };
+
 	float trackWidth{ 0.0f };
 	float trackHeight{ 0.0f };
 
