@@ -1,7 +1,7 @@
 #include "Levels.h"
 
 Levels::Levels() {
-    LEVEL_000 = {
+    level_000 = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -18,7 +18,7 @@ Levels::Levels() {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
     };
-    LEVEL_001 = {
+    level_001 = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -39,10 +39,10 @@ Levels::Levels() {
 }
 
 void Levels::loadLevels() {
-    levels.push_back(LEVEL_000);
-    levels.push_back(LEVEL_001);
+    levels.push_back(level_000);
+    levels.push_back(level_001);
 }
 
-std::vector<int>& Levels::getLevel(float levelNbP) {
+std::vector<int>& Levels::getLevel(int levelNbP) {
     return levels[levelNbP];
 }

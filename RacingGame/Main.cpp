@@ -228,6 +228,12 @@ void carTrackCollision() {
     // Translate car coordinates into tracks coordinates
     int columnTrack = floor((car.getRect().x + car.getSize() / 2) / track.getTrackWidth());
     int rowTrack = floor((car.getRect().y + car.getSize() / 2) / track.getTrackHeight());
+
+    // Check first whether the car is within any part of the track wall
+    if (columnTrack < 0 || columnTrack >= Consts::COLUMN_TRACKS || rowTrack < 0 || rowTrack >= Consts::ROW_TRACKS) {
+        return;
+    }
+
     // Search for the track index
     int index = track.trackCoordinatesToIndex(rowTrack, columnTrack);
     // Is the car where a track should be (non visible)? 
@@ -279,6 +285,8 @@ void carTrackCollision() {
 }
 
 bool checkForTrackAtPixelCoord() {
+    vector<Track> tracks = track.getTracks();
+
     int tileCol = floor(car.getRect().x / Consts::WIDTH_TRACK);
     int tileRow = floor(car.getRect().y / Consts::HEIGHT_TRACK);
 
@@ -287,9 +295,10 @@ bool checkForTrackAtPixelCoord() {
         return false;
     }
 
+    // Search for the track index
+    int index = track.trackCoordinatesToIndex(tileRow, tileCol);
     
-    
-    vector<Track> tracks = track.getTracks();
+    return false;
 }
 
 bool AABBAlgorithm(Rectangle a, Rectangle b) {
