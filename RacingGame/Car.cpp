@@ -33,6 +33,7 @@ Car::~Car()
    
 }
 
+
 void Car::load()
 {
 
@@ -148,6 +149,16 @@ float Car::getPreviousXPos()
 float Car::getPreviousYPos()
 {
     return rect.y - ySpeed;
+}
+
+float Car::getNextXPos()
+{
+    return rect.x;
+}
+
+float Car::getNextYPos()
+{
+    return rect.y;
 }
 
 void Car::setStartingPos(Vector2 startingPosP) {

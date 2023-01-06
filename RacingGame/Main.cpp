@@ -29,7 +29,7 @@ int state = 0;
 //^ Global init ==================================================
 //v Game specific init ===========================================
 void carTrackCollision();
-bool checkForTrackAtPixelCoord();
+bool checkForTrackAtPixelCoord(float posX, float posY);
 bool AABBAlgorithm(Rectangle a, Rectangle b);
 void resetGame();
 
@@ -87,8 +87,9 @@ void load()
     //v Game specifics ===============================================
     // Load levels
     levels.loadLevels();
+    levels.setCurrentLevel(1);
 
-    vector<int> firstLevel = levels.getLevel(1);
+    vector<int> firstLevel = levels.getCurrentLevel();
 
     // v Set car init position ==============
     // Find starting pos
@@ -173,7 +174,13 @@ void update()
         //^ Car ==========================================================
         //v Collisions ===================================================
         // carTrackCollision();
-        bool coll = checkForTrackAtPixelCoord();
+        bool coll = checkForTrackAtPixelCoord(car.getNextXPos(), car.getNextYPos());
+        if (!coll) {
+            cout << "hit" << endl;
+        }
+        else {
+            cout << ".";
+        }
         //^ Collisions ===================================================
     }
 }
@@ -214,7 +221,6 @@ void draw()
 
     EndDrawing();
 }
-
 // Draw UI
 void drawUi()
 {
@@ -284,11 +290,11 @@ void carTrackCollision() {
     }
 }
 
-bool checkForTrackAtPixelCoord() {
-    vector<Track> tracks = track.getTracks();
+bool checkForTrackAtPixelCoord(float posX, float posY) {
+    vector<int> tracks = levels.getCurrentLevel();
 
-    int tileCol = floor(car.getRect().x / Consts::WIDTH_TRACK);
-    int tileRow = floor(car.getRect().y / Consts::HEIGHT_TRACK);
+    int tileCol = floor(posX / Consts::WIDTH_TRACK);
+    int tileRow = floor(posY / Consts::HEIGHT_TRACK);
 
     // Check first whether the car is within any part of the track wall
     if (tileCol < 0 || tileCol >= Consts::COLUMN_TRACKS || tileRow < 0 || tileRow >= Consts::ROW_TRACKS) {
@@ -298,7 +304,7 @@ bool checkForTrackAtPixelCoord() {
     // Search for the track index
     int index = track.trackCoordinatesToIndex(tileRow, tileCol);
     
-    return false;
+    return tracks[index] == Consts::ROAD_LEVEL;
 }
 
 bool AABBAlgorithm(Rectangle a, Rectangle b) {

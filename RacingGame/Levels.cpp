@@ -43,6 +43,11 @@ void Levels::loadLevels() {
     levels.push_back(level_001);
 }
 
+void Levels::setCurrentLevel(int levelNbP)
+{
+    currentLevel = levels[levelNbP];
+}
+
 std::vector<int>& Levels::getLevel(int levelNbP) {
     return levels[levelNbP];
 }

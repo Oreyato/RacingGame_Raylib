@@ -37,6 +37,9 @@ public:
 	float getPreviousXPos();
 	float getPreviousYPos();
 
+	float getNextXPos();
+	float getNextYPos();
+
 	// Setters ==============================
 	inline void setTexture(const Texture2D& texP) { texture = texP; }
 
