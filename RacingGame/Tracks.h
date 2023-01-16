@@ -32,15 +32,10 @@ public:
 	Vector2 trackCoordinatesToWindowCoordinates(Vector2Int trackCoordP);
 	Vector2 indexToWindowCoordinates(int indexP);
 
-	inline void setRoadTexture(Texture2D textP) { roadText = textP; }
-	inline void setGoalTexture(Texture2D textP) { goalText = textP; }
-	inline void setWallTexture(Texture2D textP) { wallText = textP; }
-	inline void setGrassTexture(Texture2D textP) { grassText = textP; }
 	void setTextures(Texture2D roadTextP,
 		Texture2D goalTextP,
 		Texture2D wallTextP,
 		Texture2D grassTextP);
-	void setTracksTextures();
 
 	inline float getTrackWidth() const { return trackWidth; }
 	inline float getTrackHeight() const { return trackHeight; }
