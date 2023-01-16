@@ -12,7 +12,7 @@ struct Track
 	Rectangle rect{ 0.0f, 0.0f, 0.0f, 0.0f };
 
 	int type{ 0 };
-	Texture2D texture;
+	// Texture2D texture;
 
 	bool isVisible{ false };
 };

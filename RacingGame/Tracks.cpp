@@ -86,9 +86,4 @@ void Tracks::setTextures(Texture2D roadTextP, Texture2D goalTextP, Texture2D wal
     textures[Consts::GOAL_LEVEL] = goalTextP;
     textures[Consts::WALL_LEVEL] = wallTextP;
     textures[Consts::GRASS_LEVEL] = grassTextP;
-
-    for each (Track track in tracks)
-    {
-        track.texture = textures[track.type];
-    }
 }
