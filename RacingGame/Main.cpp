@@ -313,7 +313,7 @@ void draw()
 void drawUi()
 {
     if (state == 3) {
-        DrawText(to_string(isPlaying).c_str(), 10, 10, 20, WHITE);
+        //DrawText(to_string(isPlaying).c_str(), 10, 10, 20, WHITE);
         //DrawText(to_string(life).c_str(), 60, 10, 20, WHITE);
 
         //v Draw tiles number ============================================
