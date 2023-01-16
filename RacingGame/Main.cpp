@@ -46,6 +46,7 @@ float X_POS_CAR = Consts::WIDTH_SCREEN / 2.0f - 80.0f;
 float Y_POS_CAR = Consts::HEIGHT_SCREEN - 95.0f;
 
 Car car{ Consts::SIZE_CAR, Consts::SIZE_CAR };
+Car carB{ Consts::SIZE_CAR, Consts::SIZE_CAR };
 
 // Tracks =============================
 Tracks track;
@@ -93,32 +94,40 @@ void load()
 
     // v Set car init position ==============
     // Find starting pos
-    int index{ 0 };
+    int index[2]{0, 0};
+    int iter{ 0 };
     
-    for (int iter = 0; iter < firstLevel.size(); iter++)
+    for (int i = 0; i < firstLevel.size(); i++)
     {
-        if (firstLevel[iter] == Consts::PLAYERA_START_LEVEL) {
-            index = iter;
+        if (firstLevel[i] == Consts::PLAYERA_START_LEVEL) {
+            index[iter] = i;
+            ++iter;
 
             // Remove the "2" so that it won't create problems
             // for collisions or multiplayer
-            firstLevel[iter] = 0;
-
-            break;
+            firstLevel[i] = 0;
         }
     }
-    // Transform it to coordinates
-    Vector2 carStartingPos = track.indexToWindowCoordinates(index);
+    // Transform to coordinates
+    Vector2 carStartingPos = track.indexToWindowCoordinates(index[0]);
+    Vector2 carBStartingPos = track.indexToWindowCoordinates(index[1]);
 
     // Send it to car
     car.setStartingPos(carStartingPos);
+    carB.setStartingPos(carBStartingPos);
     // ^ Set car init position ==============
+
+    KeysBinding carBBindings{ KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_KP_0 };
+
+    carB.setBindings(carBBindings);
 
     // Load first level track
     track.loadTracksGrid(firstLevel);
 
     // Load textures
     Texture2D carTex = LoadTexture("../Ressources/car_01.png");
+    Texture2D carBTex = LoadTexture("../Ressources/car_02.png");
+
     Texture2D roadTex = LoadTexture("../Ressources/road_01.png");
     Texture2D goalTex = LoadTexture("../Ressources/goal_01.png");
     Texture2D wallTex = LoadTexture("../Ressources/wall_01.png");
@@ -126,6 +135,7 @@ void load()
 
     // Set textures
     car.setTexture(carTex);
+    carB.setTexture(carBTex);
     track.setTextures(roadTex, goalTex, wallTex, grassTex);
 
     isPlaying = true;
@@ -152,6 +162,8 @@ void inputs() {
             // Moving the car according to player input
             car.inputs();
 
+            carB.inputs();
+
             // Pause button
             if (IsKeyPressed(KEY_P)) {
                 isPlaying = !isPlaying;
@@ -175,6 +187,7 @@ void update()
         // Default game
         //v Car ==========================================================
         car.update(dt);
+        carB.update(dt);
 
         //^ Car ==========================================================
         //v Collisions ===================================================
@@ -211,6 +224,7 @@ void draw()
 
         // Draw car
         car.draw();
+        carB.draw();
 
         drawUi();
     }
