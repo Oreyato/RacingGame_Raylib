@@ -139,13 +139,22 @@ void Car::draw()
     DrawTextureTiled(texture, originRect, destRect, origin, angle, scale, WHITE);
 }
 
-void Car::resetCar(float xP, float yP)
+void Car::resetCar()
 {
     rect.x = startingPos.x;
     rect.y = startingPos.y;
+
+    scale = 1.0f;
+
+    speed = 0.0f;
     xSpeed = Consts::MAX_SPEED_CAR;
     ySpeed = -Consts::MAX_SPEED_CAR;
+    
+    nextPos = { rect.x, rect.y };
+
     angle = Consts::ANGLE_CAR;
+
+    collide = false;
 }
 
 void Car::unload()

@@ -34,7 +34,6 @@ bool AABBAlgorithm(Rectangle a, Rectangle b);
 void resetGame();
 
 // Rules ==============================
-int life = Consts::MAX_LIFE;
 bool isPlaying = false;
 
 // Levels =============================
@@ -45,8 +44,8 @@ Levels levels;
 float X_POS_CAR = Consts::WIDTH_SCREEN / 2.0f - 80.0f;
 float Y_POS_CAR = Consts::HEIGHT_SCREEN - 95.0f;
 
-Car car{ "Player A", Consts::SIZE_CAR, Consts::SIZE_CAR};
-Car carB{ "Player B", Consts::SIZE_CAR, Consts::SIZE_CAR};
+Car car{ "Red Car", Consts::SIZE_CAR, Consts::SIZE_CAR};
+Car carB{ "Blue Car", Consts::SIZE_CAR, Consts::SIZE_CAR};
 
 std::string winner{ "" };
 
@@ -140,6 +139,7 @@ void load()
     carB.setTexture(carBTex);
     track.setTextures(roadTex, goalTex, wallTex, grassTex);
 
+    state = 3;
     isPlaying = true;
     //^ Game specifics ===============================================
 }
@@ -158,18 +158,21 @@ void inputs() {
             resetGame();
         }
     }
-    else {
-        if (isPlaying)
-        {
-            // Moving the car according to player input
-            car.inputs();
+    else if (state == 9) {
+        // If the player lose
+        if (IsKeyPressed(KEY_R)) {
+            resetGame();
+        }
+    }
+    else if (state == 3 && isPlaying)
+    {
+        // Moving the car according to player input
+        car.inputs();
+        carB.inputs();
 
-            carB.inputs();
-
-            // Pause button
-            if (IsKeyPressed(KEY_P)) {
-                isPlaying = !isPlaying;
-            }
+        // Pause button
+        if (IsKeyPressed(KEY_P)) {
+            isPlaying = !isPlaying;
         }
     }
 }
@@ -177,41 +180,42 @@ void inputs() {
 // Game update
 void update()
 {
-    if (state == 1) {
+    if (state == 0) {
+        state = 3;
+        isPlaying = true;
+    }
+    else if (state == 1) {
 
     }
     else if (state == 2) {
 
     }
-    else if (isPlaying) {
+    else if (state == 3 && isPlaying) {
         float dt = GetFrameTime();
 
-        // Default game
-        //v Car ==========================================================
         car.update(dt);
         carB.update(dt);
 
-        //^ Car ==========================================================
         //v Collisions ===================================================
         int tileType = getTrackTypeAtPixelCoord(car.getNextPos().x, car.getNextPos().y);
-        if (tileType == Consts::WALL_LEVEL) {
-            car.setCollide(true);
-        }
-        else if (tileType == Consts::END_LEVEL) {
+        if (tileType == Consts::END_LEVEL) {
             // Finished lap
             isPlaying = false;
-            state = 3;
+            state = 9;
             winner = car.getName();
         }
-        else {
+        else if (tileType == Consts::ROAD_LEVEL) {
             car.setCollide(false);
+        }
+        else {
+            car.setCollide(true);
         }
 
         int tileBType = getTrackTypeAtPixelCoord(carB.getNextPos().x, carB.getNextPos().y);
         if (tileBType == Consts::END_LEVEL) {
             // Finished lap
             isPlaying = false;
-            state = 3;
+            state = 9;
             winner = carB.getName();
         }
         else if (tileBType == Consts::ROAD_LEVEL) {
@@ -223,7 +227,7 @@ void update()
 
         //^ Collisions ===================================================
     }
-    else if (state == 3) {
+    else if (state == 9) {
 
     }
 }
@@ -234,7 +238,19 @@ void draw()
     BeginDrawing();
     ClearBackground(BLACK);
 
-    if (state == 0)
+    if (state == 1) {
+        DrawText("You won", 300, 200, 50, LIGHTGRAY);
+
+        DrawText("Press R to try again", 350, 300, 20, LIGHTGRAY);
+        DrawText("Press ESC to quit", 350, 350, 20, LIGHTGRAY);
+    }
+    else if (state == 2) {
+        DrawText("You lose...", 300, 200, 50, LIGHTGRAY);
+
+        DrawText("Press R to try again", 350, 300, 20, LIGHTGRAY);
+        DrawText("Press ESC to quit", 350, 350, 20, LIGHTGRAY);
+    }
+    else if (state == 3)
     {
         // Draw all tracks
         for (Track& track : track.getTracks())
@@ -253,19 +269,7 @@ void draw()
 
         drawUi();
     }
-    else if (state == 1) {
-        DrawText("You won", 300, 200, 50, LIGHTGRAY);
-
-        DrawText("Press R to try again", 350, 300, 20, LIGHTGRAY);
-        DrawText("Press ESC to quit", 350, 350, 20, LIGHTGRAY);
-    }
-    else if (state == 2) {
-        DrawText("You lose...", 300, 200, 50, LIGHTGRAY);
-
-        DrawText("Press R to try again", 350, 300, 20, LIGHTGRAY);
-        DrawText("Press ESC to quit", 350, 350, 20, LIGHTGRAY);
-    }
-    else if (state == 3) {
+    else if (state == 9) {
         float baseXPos{ Consts::WIDTH_SCREEN / 8.0f };
         float baseYPos{ Consts::HEIGHT_SCREEN / 8.0f };
 
@@ -286,13 +290,20 @@ void draw()
             GOLD);
         ++offsetCounter;
 
-        std::string winnerText = "by " + winner;
+        std::string winnerText = "by \"" + winner + "\"";
 
         DrawText(winnerText.c_str(),
             baseXPos + offset * offsetCounter,
             baseYPos + offset * offsetCounter,
             50,
             GOLD);
+        ++offsetCounter;
+
+        DrawText("Press \"R\" to restart",
+            baseXPos + offset * offsetCounter,
+            baseYPos + offset * (offsetCounter + 2),
+            25,
+            LIGHTGRAY);
         ++offsetCounter;
     }
 
@@ -301,8 +312,8 @@ void draw()
 // Draw UI
 void drawUi()
 {
-    if (isPlaying) {
-        //DrawText("Life:", 10, 10, 20, WHITE);
+    if (state == 3) {
+        DrawText(to_string(isPlaying).c_str(), 10, 10, 20, WHITE);
         //DrawText(to_string(life).c_str(), 60, 10, 20, WHITE);
 
         //v Draw tiles number ============================================
@@ -414,10 +425,10 @@ bool AABBAlgorithm(Rectangle a, Rectangle b) {
 
 void resetGame() {
     // Car
-    car.resetCar(X_POS_CAR, Y_POS_CAR);
+    car.resetCar();
+    carB.resetCar();
 
     // Game
-    life = Consts::MAX_LIFE;
     state = 0;
 }
 
