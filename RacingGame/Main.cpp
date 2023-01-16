@@ -199,6 +199,14 @@ void update()
         else {
             car.setCollide(false);
         }
+        coll = checkForTrackAtPixelCoord(carB.getNextPos().x, carB.getNextPos().y);
+        if (!coll) {
+            carB.setCollide(true);
+        }
+        else {
+            carB.setCollide(false);
+        }
+
         //^ Collisions ===================================================
     }
 }
@@ -250,30 +258,30 @@ void drawUi()
     //DrawText(to_string(life).c_str(), 60, 10, 20, WHITE);
 }
 
-void carTrackCollision() {
+void carTrackCollision(Car& carP) {
     // Testing if the car collides with the tracks
     vector<Track> tracks = track.getTracks();
     // Translate car coordinates into tracks coordinates
-    int columnTrack = floor((car.getRect().x + car.getSize() / 2) / track.getTrackWidth());
-    int rowTrack = floor((car.getRect().y + car.getSize() / 2) / track.getTrackHeight());
+    int columnTrack = floor((carP.getRect().x + carP.getSize() / 2) / track.getTrackWidth());
+    int rowTrack = floor((carP.getRect().y + carP.getSize() / 2) / track.getTrackHeight());
 
-    // Check first whether the car is within any part of the track wall
+    // Check first whether the carP is within any part of the track wall
     if (columnTrack < 0 || columnTrack >= Consts::COLUMN_TRACKS || rowTrack < 0 || rowTrack >= Consts::ROW_TRACKS) {
         return;
     }
 
     // Search for the track index
     int index = track.trackCoordinatesToIndex(rowTrack, columnTrack);
-    // Is the car where a track should be (non visible)? 
+    // Is the carP where a track should be (non visible)? 
     if (index >= 0 && index < track.getMaxTracks()) {
         if (tracks[index].isVisible)
         {
-            // Find which track side the car is colliding with
-            // using car's previous position
-            float prevCarX = car.getPreviousXPos();
-            float prevCarY = car.getPreviousYPos();
+            // Find which track side the carP is colliding with
+            // using carP's previous position
+            float prevCarX = carP.getPreviousXPos();
+            float prevCarY = carP.getPreviousYPos();
 
-            float carSize = car.getSize();
+            float carSize = carP.getSize();
             float trackWidth = track.getTrackWidth();
 
             int prevColTrack = floor((prevCarX + carSize / 2) / trackWidth);
@@ -286,7 +294,7 @@ void carTrackCollision() {
                 int adjacentTrackIndex = track.trackCoordinatesToIndex(rowTrack, prevColTrack);
 
                 if (!tracks[adjacentTrackIndex].isVisible) {
-                    car.reverseXSpeed();
+                    carP.reverseXSpeed();
 
                     bothTestsFailed = false;
                 }
@@ -296,15 +304,15 @@ void carTrackCollision() {
                 int adjacentTrackIndex = track.trackCoordinatesToIndex(prevRowTrack, columnTrack);
 
                 if (!tracks[adjacentTrackIndex].isVisible) {
-                    car.reverseYSpeed();
+                    carP.reverseYSpeed();
 
                     bothTestsFailed = false;
                 }
             }
             // Perfectly hitting the corner 
             if (bothTestsFailed) {
-                car.reverseXSpeed();
-                car.reverseYSpeed();
+                carP.reverseXSpeed();
+                carP.reverseYSpeed();
             }
 
             // cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
