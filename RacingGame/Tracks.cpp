@@ -25,12 +25,7 @@ Tracks::~Tracks()
 void Tracks::draw()
 {
     for each (Track track in tracks) {
-        if (track.type == Consts::ROAD_LEVEL) {
-            DrawTexture(roadText, track.rect.x, track.rect.y, WHITE);
-        }
-        else if (track.type == Consts::WALL_LEVEL) {
-            DrawTexture(wallText, track.rect.x, track.rect.y, WHITE);
-        }
+        DrawTexture(textures[track.type], track.rect.x, track.rect.y, WHITE);
     }
 }
 
@@ -85,17 +80,15 @@ Vector2 Tracks::indexToWindowCoordinates(int indexP) {
     return trackCoordinatesToWindowCoordinates(indexToTrackCoordinates(indexP));
 }
 
-void Tracks::setTracksTextures()
+void Tracks::setTextures(Texture2D roadTextP, Texture2D goalTextP, Texture2D wallTextP, Texture2D grassTextP)
 {
+    textures[Consts::ROAD_LEVEL] = roadTextP;
+    textures[Consts::GOAL_LEVEL] = goalTextP;
+    textures[Consts::WALL_LEVEL] = wallTextP;
+    textures[Consts::GRASS_LEVEL] = grassTextP;
+
     for each (Track track in tracks)
     {
-        if (track.type == Consts::ROAD_LEVEL) {
-            track.texture = roadText;
-        }
-        else if (track.type == Consts::WALL_LEVEL) {
-            track.texture = wallText;
-        }
+        track.texture = textures[track.type];
     }
-
-    std::cout << "Set textures" << std::endl;
 }

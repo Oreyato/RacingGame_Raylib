@@ -22,7 +22,9 @@ const float Consts::EPSILON_CAR{ 0.01f };
 
 // Levels
 const int Consts::ROAD_LEVEL{ 0 };
+const int Consts::GOAL_LEVEL{ 4 };
 const int Consts::WALL_LEVEL{ 1 };
+const int Consts::GRASS_LEVEL{ 5 };
 const int Consts::PLAYERA_START_LEVEL{ 2 };
 const int Consts::PLAYERB_START_LEVEL{ 2 };
 const int Consts::END_LEVEL{ 4 };

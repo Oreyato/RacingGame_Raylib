@@ -120,14 +120,13 @@ void load()
     // Load textures
     Texture2D carTex = LoadTexture("../Ressources/car_01.png");
     Texture2D roadTex = LoadTexture("../Ressources/road_01.png");
+    Texture2D goalTex = LoadTexture("../Ressources/goal_01.png");
     Texture2D wallTex = LoadTexture("../Ressources/wall_01.png");
+    Texture2D grassTex = LoadTexture("../Ressources/grass_01.png");
 
     // Set textures
     car.setTexture(carTex);
-    track.setRoadTexture(roadTex);
-    track.setWallTexture(wallTex);
-
-    track.setTracksTextures();
+    track.setTextures(roadTex, goalTex, wallTex, grassTex);
 
     isPlaying = true;
     //^ Game specifics ===============================================
