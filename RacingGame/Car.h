@@ -2,6 +2,7 @@
 #define CAR_H
 
 #include "raylib.h"
+#include <string>
 
 struct KeysBinding
 {
@@ -16,8 +17,8 @@ struct KeysBinding
 class Car : public Rectangle
 {
 public:
-	Car();
-	Car(float widthP, float heightP);
+	Car(std::string nameP);
+	Car(std::string nameP, float widthP, float heightP);
 	~Car();
 
 	// ======================================
@@ -35,6 +36,8 @@ public:
 	void unload();
 
 	// Getters ==============================
+	inline const std::string getName() { return name; }
+
 	inline const Texture2D& getTexture() { return texture; }
 
 	inline const Rectangle& getRect() { return rect; }
@@ -50,6 +53,8 @@ public:
 	inline const Vector2& getNextPos() { return nextPos; }
 
 	// Setters ==============================
+	inline void setName(std::string nameP) { name = nameP; }
+
 	inline void setTexture(const Texture2D& texP) { texture = texP; }
 
 	void setStartingPos(Vector2 startingPosP);
@@ -65,6 +70,8 @@ public:
 	void reverseYSpeed();
 
 private:
+	std::string name{ "" };
+
 	Texture2D texture{ NULL };
 
 	Rectangle rect{ 0.0f, 0.0f, 0.0f, 0.0f };

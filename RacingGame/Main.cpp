@@ -45,8 +45,10 @@ Levels levels;
 float X_POS_CAR = Consts::WIDTH_SCREEN / 2.0f - 80.0f;
 float Y_POS_CAR = Consts::HEIGHT_SCREEN - 95.0f;
 
-Car car{ Consts::SIZE_CAR, Consts::SIZE_CAR };
-Car carB{ Consts::SIZE_CAR, Consts::SIZE_CAR };
+Car car{ "Player A", Consts::SIZE_CAR, Consts::SIZE_CAR};
+Car carB{ "Player B", Consts::SIZE_CAR, Consts::SIZE_CAR};
+
+std::string winner{ "" };
 
 // Tracks =============================
 Tracks track;
@@ -191,45 +193,38 @@ void update()
 
         //^ Car ==========================================================
         //v Collisions ===================================================
-        // carTrackCollision();
-        //bool coll = getTrackAtPixelCoord(car.getNextPos().x, car.getNextPos().y);
-        //if (!coll) {
-        //    car.setCollide(true);
-        //}
-        //else {
-        //    car.setCollide(false);
-        //}
-        //coll = getTrackAtPixelCoord(carB.getNextPos().x, carB.getNextPos().y);
-        //if (!coll) {
-        //    carB.setCollide(true);
-        //}
-        //else {
-        //    carB.setCollide(false);
-        //}
         int tileType = getTrackTypeAtPixelCoord(car.getNextPos().x, car.getNextPos().y);
         if (tileType == Consts::WALL_LEVEL) {
             car.setCollide(true);
         }
         else if (tileType == Consts::END_LEVEL) {
             // Finished lap
+            isPlaying = false;
+            state = 3;
+            winner = car.getName();
         }
         else {
             car.setCollide(false);
         }
 
-        //int tileBType = getTrackTypeAtPixelCoord(carB.getNextPos().x, carB.getNextPos().y);
-        //if (tileBType == Consts::WALL_LEVEL) {
-        //    carB.setCollide(true);
-        //}
-        //else if (tileBType == Consts::END_LEVEL) {
-        //    // Finished lap
-        //}
-        //else {
-        //    carB.setCollide(false);
-        //}
-
+        int tileBType = getTrackTypeAtPixelCoord(carB.getNextPos().x, carB.getNextPos().y);
+        if (tileBType == Consts::END_LEVEL) {
+            // Finished lap
+            isPlaying = false;
+            state = 3;
+            winner = carB.getName();
+        }
+        else if (tileBType == Consts::ROAD_LEVEL) {
+            carB.setCollide(false);
+        }
+        else {
+            carB.setCollide(true);
+        }
 
         //^ Collisions ===================================================
+    }
+    else if (state == 3) {
+
     }
 }
 
@@ -270,24 +265,56 @@ void draw()
         DrawText("Press R to try again", 350, 300, 20, LIGHTGRAY);
         DrawText("Press ESC to quit", 350, 350, 20, LIGHTGRAY);
     }
+    else if (state == 3) {
+        float baseXPos{ Consts::WIDTH_SCREEN / 8.0f };
+        float baseYPos{ Consts::HEIGHT_SCREEN / 8.0f };
+
+        float offset{ Consts::WIDTH_SCREEN / 15.0f };
+        int offsetCounter{ 0 };
+
+        DrawText("The finish line",
+            baseXPos + offset * offsetCounter, 
+            baseYPos + offset * offsetCounter,
+            50,
+            GOLD);
+        ++offsetCounter;
+
+        DrawText("has been crossed",
+            baseXPos + offset * offsetCounter,
+            baseYPos + offset * offsetCounter,
+            50,
+            GOLD);
+        ++offsetCounter;
+
+        std::string winnerText = "by " + winner;
+
+        DrawText(winnerText.c_str(),
+            baseXPos + offset * offsetCounter,
+            baseYPos + offset * offsetCounter,
+            50,
+            GOLD);
+        ++offsetCounter;
+    }
 
     EndDrawing();
 }
 // Draw UI
 void drawUi()
 {
-    //DrawText("Life:", 10, 10, 20, WHITE);
-    //DrawText(to_string(life).c_str(), 60, 10, 20, WHITE);
+    if (isPlaying) {
+        //DrawText("Life:", 10, 10, 20, WHITE);
+        //DrawText(to_string(life).c_str(), 60, 10, 20, WHITE);
 
-    //v Draw tiles number ============================================
-    int index = 0;
+        //v Draw tiles number ============================================
+        int index = 0;
 
-    for each (Track track in track.getTracks())
-    {
-        DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, BLACK);
-        ++index;
+        for each (Track track in track.getTracks())
+        {
+            DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, BLACK);
+            ++index;
+        }
+        //^ Draw tiles number ============================================
     }
-    //^ Draw tiles number ============================================
 }
 
 void carTrackCollision(Car& carP) {
@@ -365,7 +392,7 @@ int const getTrackTypeAtPixelCoord(float posX, float posY) {
     // Search for the track index
     int index = track.trackCoordinatesToIndex(tileRow, tileCol);
 
-    std::cout << "Tile index: " << index << std::endl;
+    // std::cout << "Tile index: " << index << std::endl;
     
     return track.getTrackType(index);
 }

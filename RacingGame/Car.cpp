@@ -9,7 +9,8 @@ using std::endl;
 #include "MathsUtils.h"
 #include "Consts.h"
 
-Car::Car()
+Car::Car(std::string nameP) :
+    name{ nameP }
 {
     rect = { 0.0f, 0.0f, Consts::SIZE_CAR, Consts::SIZE_CAR };
 
@@ -17,7 +18,8 @@ Car::Car()
     ySpeed = -Consts::MAX_SPEED_CAR;
 }
 
-Car::Car(float widthP, float heightP) :
+Car::Car(std::string nameP, float widthP, float heightP) :
+    name{ nameP },
     rect{ startingPos.x, startingPos.y, widthP, heightP }
 {
     size = Consts::SIZE_CAR;
