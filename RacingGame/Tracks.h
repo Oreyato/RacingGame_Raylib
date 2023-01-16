@@ -37,11 +37,12 @@ public:
 		Texture2D wallTextP,
 		Texture2D grassTextP);
 
-	inline float getTrackWidth() const { return trackWidth; }
-	inline float getTrackHeight() const { return trackHeight; }
-	inline int getMaxTracks() const { return maxTracks; }
+	inline const float getTrackWidth() const { return trackWidth; }
+	inline const float getTrackHeight() const { return trackHeight; }
+	inline const int getMaxTracks() const { return maxTracks; }
 
 	inline std::vector<Track> getTracks() const { return tracks; }
+	inline const int getTrackType(int indexP) const { return tracks[indexP].type; }
 
 private:
 	Texture2D roadText{ NULL };

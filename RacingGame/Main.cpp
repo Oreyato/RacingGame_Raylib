@@ -28,8 +28,8 @@ int state = 0;
 
 //^ Global init ==================================================
 //v Game specific init ===========================================
-void carTrackCollision();
-bool checkForTrackAtPixelCoord(float posX, float posY);
+void carTrackCollision(Car& carP);
+int const getTrackTypeAtPixelCoord(float posX, float posY);
 bool AABBAlgorithm(Rectangle a, Rectangle b);
 void resetGame();
 
@@ -192,20 +192,42 @@ void update()
         //^ Car ==========================================================
         //v Collisions ===================================================
         // carTrackCollision();
-        bool coll = checkForTrackAtPixelCoord(car.getNextPos().x, car.getNextPos().y);
-        if (!coll) {
+        //bool coll = getTrackAtPixelCoord(car.getNextPos().x, car.getNextPos().y);
+        //if (!coll) {
+        //    car.setCollide(true);
+        //}
+        //else {
+        //    car.setCollide(false);
+        //}
+        //coll = getTrackAtPixelCoord(carB.getNextPos().x, carB.getNextPos().y);
+        //if (!coll) {
+        //    carB.setCollide(true);
+        //}
+        //else {
+        //    carB.setCollide(false);
+        //}
+        int tileType = getTrackTypeAtPixelCoord(car.getNextPos().x, car.getNextPos().y);
+        if (tileType == Consts::WALL_LEVEL) {
             car.setCollide(true);
+        }
+        else if (tileType == Consts::END_LEVEL) {
+            // Finished lap
         }
         else {
             car.setCollide(false);
         }
-        coll = checkForTrackAtPixelCoord(carB.getNextPos().x, carB.getNextPos().y);
-        if (!coll) {
-            carB.setCollide(true);
-        }
-        else {
-            carB.setCollide(false);
-        }
+
+        //int tileBType = getTrackTypeAtPixelCoord(carB.getNextPos().x, carB.getNextPos().y);
+        //if (tileBType == Consts::WALL_LEVEL) {
+        //    carB.setCollide(true);
+        //}
+        //else if (tileBType == Consts::END_LEVEL) {
+        //    // Finished lap
+        //}
+        //else {
+        //    carB.setCollide(false);
+        //}
+
 
         //^ Collisions ===================================================
     }
@@ -256,6 +278,16 @@ void drawUi()
 {
     //DrawText("Life:", 10, 10, 20, WHITE);
     //DrawText(to_string(life).c_str(), 60, 10, 20, WHITE);
+
+    //v Draw tiles number ============================================
+    int index = 0;
+
+    for each (Track track in track.getTracks())
+    {
+        DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, BLACK);
+        ++index;
+    }
+    //^ Draw tiles number ============================================
 }
 
 void carTrackCollision(Car& carP) {
@@ -320,21 +352,22 @@ void carTrackCollision(Car& carP) {
     }
 }
 
-bool checkForTrackAtPixelCoord(float posX, float posY) {
-    vector<int>& tracks = levels.getCurrentLevel();
-
+int const getTrackTypeAtPixelCoord(float posX, float posY) {
     int tileCol = floor(posX / Consts::WIDTH_TRACK);
     int tileRow = floor(posY / Consts::HEIGHT_TRACK);
 
     // Check first whether the car is within any part of the track wall
     if (tileCol < 0 || tileCol >= Consts::COLUMN_TRACKS || tileRow < 0 || tileRow >= Consts::ROW_TRACKS) {
-        return false;
+        // To avoid invalid array access, treat out of bounds as wall
+        return Consts::WALL_LEVEL;
     }
 
     // Search for the track index
     int index = track.trackCoordinatesToIndex(tileRow, tileCol);
+
+    std::cout << "Tile index: " << index << std::endl;
     
-    return tracks[index] == Consts::ROAD_LEVEL;
+    return track.getTrackType(index);
 }
 
 bool AABBAlgorithm(Rectangle a, Rectangle b) {
