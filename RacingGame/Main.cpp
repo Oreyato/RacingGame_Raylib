@@ -39,13 +39,15 @@ bool isPlaying = false;
 // Levels =============================
 Levels levels;
 
-// Car ===============================
+// Cars ===============================
 // Initial position
 float X_POS_CAR = Consts::WIDTH_SCREEN / 2.0f - 80.0f;
 float Y_POS_CAR = Consts::HEIGHT_SCREEN - 95.0f;
 
-Car car{ "Red Car", Consts::SIZE_CAR, Consts::SIZE_CAR};
+Car carA{ "Red Car", Consts::SIZE_CAR, Consts::SIZE_CAR};
 Car carB{ "Blue Car", Consts::SIZE_CAR, Consts::SIZE_CAR};
+
+std::vector<Car*> cars;
 
 std::string winner{ "" };
 
@@ -93,40 +95,9 @@ void load()
 
     vector<int>& firstLevel = levels.getCurrentLevel();
 
-    // v Set car init position ==============
-    // Find starting pos
-    int index[2]{0, 0};
-    int iter{ 0 };
-    
-    for (int i = 0; i < firstLevel.size(); i++)
-    {
-        if (firstLevel[i] == Consts::PLAYERA_START_LEVEL) {
-            index[iter] = i;
-            ++iter;
-
-            // Remove the "2" so that it won't create problems
-            // for collisions or multiplayer
-            firstLevel[i] = 0;
-        }
-    }
-    // Transform to coordinates
-    Vector2 carStartingPos = track.indexToWindowCoordinates(index[0]);
-    Vector2 carBStartingPos = track.indexToWindowCoordinates(index[1]);
-
-    // Send it to car
-    car.setStartingPos(carStartingPos);
-    carB.setStartingPos(carBStartingPos);
-    // ^ Set car init position ==============
-
-    KeysBinding carBBindings{ KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_KP_0 };
-
-    carB.setBindings(carBBindings);
-
-    // Load first level track
-    track.loadTracksGrid(firstLevel);
-
+    // v Textures ===========================
     // Load textures
-    Texture2D carTex = LoadTexture("../Ressources/car_01.png");
+    Texture2D carATex = LoadTexture("../Ressources/car_01.png");
     Texture2D carBTex = LoadTexture("../Ressources/car_02.png");
 
     Texture2D roadTex = LoadTexture("../Ressources/road_01.png");
@@ -135,9 +106,48 @@ void load()
     Texture2D grassTex = LoadTexture("../Ressources/grass_01.png");
 
     // Set textures
-    car.setTexture(carTex);
+    carA.setTexture(carATex);
     carB.setTexture(carBTex);
     track.setTextures(roadTex, goalTex, wallTex, grassTex);
+
+    // v Cars ===============================
+    // Init B Player bindings
+    KeysBinding carBBindings{ KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_KP_0 };
+    carB.setBindings(carBBindings);
+
+    // Populate cars vector
+    cars.push_back(&carA);
+    cars.push_back(&carB);
+
+    // v Set car init position ==============
+    // Find starting pos    
+    for each (Car* car in cars)
+    {
+        int iter{ 0 };
+
+        for (int i = 0; i < firstLevel.size(); i++)
+        {
+            if (firstLevel[i] == Consts::PLAYERA_START_LEVEL) {
+                ++iter;
+
+                // Remove the "2" so that it won't create problems
+                // for collisions or multiplayer
+                firstLevel[i] = 0;
+
+                break;
+            }
+        }
+
+        // Transform to coordinates
+        Vector2 carStartingPos = track.indexToWindowCoordinates(iter);
+
+        // Send it to car
+        car->setStartingPos(carStartingPos);
+    }
+    // ^ Set car init position ==============
+
+    // Load first level track
+    track.loadTracksGrid(firstLevel);
 
     state = 3;
     isPlaying = true;
@@ -166,9 +176,11 @@ void inputs() {
     }
     else if (state == 3 && isPlaying)
     {
-        // Moving the car according to player input
-        car.inputs();
-        carB.inputs();
+        // Moving cars according to players inputs
+        for each (Car* car in cars)
+        {
+            car->inputs();
+        }
 
         // Pause button
         if (IsKeyPressed(KEY_P)) {
@@ -193,39 +205,27 @@ void update()
     else if (state == 3 && isPlaying) {
         float dt = GetFrameTime();
 
-        car.update(dt);
-        carB.update(dt);
+        for each (Car* car in cars)
+        {
+            car->update(dt);
 
-        //v Collisions ===================================================
-        int tileType = getTrackTypeAtPixelCoord(car.getNextPos().x, car.getNextPos().y);
-        if (tileType == Consts::END_LEVEL) {
-            // Finished lap
-            isPlaying = false;
-            state = 9;
-            winner = car.getName();
-        }
-        else if (tileType == Consts::ROAD_LEVEL) {
-            car.setCollide(false);
-        }
-        else {
-            car.setCollide(true);
-        }
+            //v Collisions ===================================================
+            int tileType = getTrackTypeAtPixelCoord(car->getNextPos().x, car->getNextPos().y);
+            if (tileType == Consts::END_LEVEL) {
+                // Finished lap
+                isPlaying = false;
+                state = 9;
+                winner = car->getName();
+            }
+            else if (tileType == Consts::ROAD_LEVEL) {
+                car->setCollide(false);
+            }
+            else {
+                car->setCollide(true);
+            }
 
-        int tileBType = getTrackTypeAtPixelCoord(carB.getNextPos().x, carB.getNextPos().y);
-        if (tileBType == Consts::END_LEVEL) {
-            // Finished lap
-            isPlaying = false;
-            state = 9;
-            winner = carB.getName();
+            //^ Collisions ===================================================
         }
-        else if (tileBType == Consts::ROAD_LEVEL) {
-            carB.setCollide(false);
-        }
-        else {
-            carB.setCollide(true);
-        }
-
-        //^ Collisions ===================================================
     }
     else if (state == 9) {
 
@@ -264,8 +264,9 @@ void draw()
         track.draw();
 
         // Draw car
-        car.draw();
-        carB.draw();
+        for each (Car* car in cars) {
+            car->draw();
+        }
 
         drawUi();
     }
@@ -425,8 +426,10 @@ bool AABBAlgorithm(Rectangle a, Rectangle b) {
 
 void resetGame() {
     // Car
-    car.resetCar();
-    carB.resetCar();
+    for each (Car* car in cars)
+    {
+        car->reset();
+    }
 
     // Game
     state = 0;
@@ -435,7 +438,10 @@ void resetGame() {
 // Unload game
 void unload()
 {
-    car.unload();
+    for each (Car* car in cars)
+    {
+        car->unload();
+    }
 
     CloseWindow();
 }

@@ -31,7 +31,7 @@ public:
 
 	void draw();
 
-	void resetCar();
+	void reset();
 
 	void unload();
 

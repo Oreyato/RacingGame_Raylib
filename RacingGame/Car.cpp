@@ -139,7 +139,7 @@ void Car::draw()
     DrawTextureTiled(texture, originRect, destRect, origin, angle, scale, WHITE);
 }
 
-void Car::resetCar()
+void Car::reset()
 {
     rect.x = startingPos.x;
     rect.y = startingPos.y;
