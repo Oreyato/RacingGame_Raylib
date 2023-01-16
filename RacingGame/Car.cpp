@@ -95,28 +95,28 @@ void Car::inputs() {
     }
 
     // Rotating left 
-    if (IsKeyDown(KEY_A)) {
+    if (IsKeyDown(keys.leftRot)) {
         angle -= Consts::MAX_ANGLE_SPEED_CAR * speedRatio;
     }
     // Rotating right
-    if (IsKeyDown(KEY_D)) {
+    if (IsKeyDown(keys.rightRot)) {
         angle += Consts::MAX_ANGLE_SPEED_CAR * speedRatio;
     }
 
     // Moving forward
-    if (IsKeyDown(KEY_W)) {
+    if (IsKeyDown(keys.forward)) {
         if (speed < Consts::MAX_SPEED_CAR) {
             speed += Consts::ACCELERATION_FACTOR_CAR;
         }
     }
     // Moving backward
-    if (IsKeyDown(KEY_S)) {
+    if (IsKeyDown(keys.backward)) {
         if (speed > -Consts::MAX_SPEED_CAR / 2.0f) {
             speed -= Consts::ACCELERATION_FACTOR_CAR / 2.0f;
         }
     }
     // Using the break
-    if (IsKeyDown(KEY_SPACE)) {
+    if (IsKeyDown(keys.breakKey)) {
         if (speed > 0.0f + Consts::EPSILON_CAR) {
             speed -= Consts::BREAK_FACTOR_CAR;
         }

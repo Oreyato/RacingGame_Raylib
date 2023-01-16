@@ -3,6 +3,16 @@
 
 #include "raylib.h"
 
+struct KeysBinding
+{
+	int forward{ 87 };
+	int backward{ 83 };
+	int leftRot{ 65 };
+	int rightRot{ 68 };
+	
+	int breakKey{ 32 };
+};
+
 class Car : public Rectangle
 {
 public:
@@ -47,6 +57,8 @@ public:
 	inline void setXSpeed(float xSpeedP) { xSpeed = xSpeedP; }
 	inline void setYSpeed(float ySpeedP) { ySpeed = ySpeedP; }
 
+	inline void setBindings(KeysBinding newBindingsP) { bindings = newBindingsP; }
+
 	inline void setCollide(bool collideP) { collide = collideP; }
 
 	void reverseXSpeed();
@@ -71,6 +83,8 @@ private:
 	Vector2 nextPos{ 0.0f, 0.0f };
 
 	float angle{ 0.0f };
+
+	KeysBinding bindings;
 
 	bool collide{ false };
 };

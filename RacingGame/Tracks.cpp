@@ -31,13 +31,13 @@ void Tracks::draw()
 
 void Tracks::loadTracksGrid(const std::vector<int>& levelP)
 {
-    for (int i = 0; i < rowTracks; i++)
+    for (int eachRow = 0; eachRow < rowTracks; eachRow++)
     {
-        for (int j = 0; j < columnTracks; j++)
+        for (int eachColumn = 0; eachColumn < columnTracks; eachColumn++)
         {
             // Track position
-            int xPos = trackWidth * j;
-            int yPos = trackHeight * i;
+            int xPos = trackWidth * eachColumn;
+            int yPos = trackHeight * eachRow;
 
             // Rectangle to fit in the Track struct
             Rectangle rect{ xPos, yPos, trackWidth - spacing, trackHeight - spacing };
