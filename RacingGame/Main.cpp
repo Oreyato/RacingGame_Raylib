@@ -128,14 +128,13 @@ void load()
         for (int i = 0; i < firstLevel.size(); i++)
         {
             if (firstLevel[i] == Consts::PLAYERA_START_LEVEL) {
-                ++iter;
-
                 // Remove the "2" so that it won't create problems
                 // for collisions or multiplayer
                 firstLevel[i] = 0;
 
                 break;
             }
+            ++iter;
         }
 
         // Transform to coordinates
@@ -428,7 +427,7 @@ void resetGame() {
     // Car
     for each (Car* car in cars)
     {
-        car->reset();
+        car->resetCar();
     }
 
     // Game
