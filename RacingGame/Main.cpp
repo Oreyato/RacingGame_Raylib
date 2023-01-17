@@ -391,8 +391,11 @@ void carTrackCollision(Car& carP) {
 }
 
 int const getTrackTypeAtPixelCoord(float posX, float posY) {
-    int tileCol = floor(posX / Consts::WIDTH_TRACK);
-    int tileRow = floor(posY / Consts::HEIGHT_TRACK);
+    int tileCol = posX / Consts::WIDTH_TRACK;
+    int tileRow = posY / Consts::HEIGHT_TRACK;
+
+    tileCol = floor(tileCol);
+    tileRow = floor(tileRow);
 
     // Check first whether the car is within any part of the track wall
     if (tileCol < 0 || tileCol >= Consts::COLUMN_TRACKS || tileRow < 0 || tileRow >= Consts::ROW_TRACKS) {
