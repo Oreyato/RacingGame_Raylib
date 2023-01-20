@@ -13,9 +13,6 @@ Car::Car(std::string nameP) :
     name{ nameP }
 {
     rect = { 0.0f, 0.0f, Consts::SIZE_CAR, Consts::SIZE_CAR };
-
-    xSpeed = Consts::MAX_SPEED_CAR;
-    ySpeed = -Consts::MAX_SPEED_CAR;
 }
 
 Car::Car(std::string nameP, float widthP, float heightP) :
@@ -23,9 +20,6 @@ Car::Car(std::string nameP, float widthP, float heightP) :
     rect{ startingPos.x, startingPos.y, widthP, heightP }
 {
     size = Consts::SIZE_CAR;
-
-    xSpeed = Consts::MAX_SPEED_CAR;
-    ySpeed = -Consts::MAX_SPEED_CAR;
 
     angle = Consts::ANGLE_CAR;
 }
@@ -147,8 +141,6 @@ void Car::resetCar()
     scale = 1.0f;
 
     speed = 0.0f;
-    xSpeed = Consts::MAX_SPEED_CAR;
-    ySpeed = -Consts::MAX_SPEED_CAR;
     
     nextPos = { rect.x, rect.y };
 
@@ -162,27 +154,9 @@ void Car::unload()
     UnloadTexture(texture);
 }
 
-float Car::getPreviousXPos()
-{
-    return rect.x - xSpeed;
-}
-float Car::getPreviousYPos()
-{
-    return rect.y - ySpeed;
-}
-
 void Car::setStartingPos(Vector2 startingPosP) {
     startingPos = startingPosP;
 
     nextPos.x = startingPos.x;
     nextPos.y = startingPos.y;
-}
-
-void Car::reverseXSpeed()
-{
-    xSpeed *= -1;
-}
-void Car::reverseYSpeed()
-{
-    ySpeed *= -1;
 }
