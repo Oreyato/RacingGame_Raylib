@@ -44,12 +44,6 @@ public:
 	
 	inline inline float getSize() { return size; }
 
-	inline float getXSpeed() { return xSpeed; }
-	inline float getYSpeed() { return ySpeed; }
-
-	float getPreviousXPos();
-	float getPreviousYPos();
-
 	inline const Vector2& getNextPos() { return nextPos; }
 
 	// Setters ==============================
@@ -59,15 +53,9 @@ public:
 
 	void setStartingPos(Vector2 startingPosP);
 
-	inline void setXSpeed(float xSpeedP) { xSpeed = xSpeedP; }
-	inline void setYSpeed(float ySpeedP) { ySpeed = ySpeedP; }
-
 	inline void setBindings(KeysBinding newBindingsP) { bindings = newBindingsP; }
 
 	inline void setCollide(bool collideP) { collide = collideP; }
-
-	void reverseXSpeed();
-	void reverseYSpeed();
 
 private:
 	std::string name{ "" };
@@ -84,8 +72,6 @@ private:
 	float height{ 0.0f };
 
 	float speed{ 0.0f };
-	float xSpeed{ 0.0f };
-	float ySpeed{ 0.0f };
 
 	Vector2 nextPos{ 0.0f, 0.0f };
 
