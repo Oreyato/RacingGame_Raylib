@@ -38,7 +38,7 @@ void Car::load()
 void Car::update(float dtP)
 {
     // Gradual deceleration - updating speed
-    if ((speed > 0.0f + Consts::EPSILON_CAR))
+    if ((speed > 0.0f + Consts::EPSILON_CAR) || (speed < 0.0f - Consts::EPSILON_CAR))
     {
         speed *= Consts::DECELERATION_FACTOR_CAR;
     }
@@ -68,9 +68,9 @@ void Car::screenCollisions()
         rect.y = 0;
     }
     // ... from the bottom
-    else if (rect.y >= Consts::HEIGHT_SCREEN - size/2.0f) {
+    else if (rect.y >= Consts::HEIGHT_SCREEN - size) {
         // Reset car position 
-        rect.y = Consts::HEIGHT_SCREEN - size/2.0f;
+        rect.y -= size;
     }
     // ... from the left
     if (rect.x <= 0) {
@@ -157,6 +157,9 @@ void Car::unload()
 
 void Car::setStartingPos(Vector2 startingPosP) {
     startingPos = startingPosP;
+
+    rect.x = startingPos.x;
+    rect.y = startingPos.y;
 
     nextPos.x = startingPos.x;
     nextPos.y = startingPos.y;
