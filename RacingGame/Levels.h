@@ -22,6 +22,7 @@ private:
 
 	std::vector<int> level_000;
 	std::vector<int> level_001;
+	std::vector<int> level_002;
 };
 
 #endif // LEVELS_H

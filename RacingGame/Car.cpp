@@ -35,54 +35,6 @@ void Car::load()
 
 }
 
-void Car::update(float dtP)
-{
-    // Gradual deceleration - updating speed
-    if ((speed > 0.0f + Consts::EPSILON_CAR) || (speed < 0.0f - Consts::EPSILON_CAR))
-    {
-        speed *= Consts::DECELERATION_FACTOR_CAR;
-    }
-
-    // Calculate next position
-    nextPos.x += cos(MathsUtils::degToRad(angle)) * speed * dtP;
-    nextPos.y += sin(MathsUtils::degToRad(angle)) * speed * dtP;
-
-    screenCollisions();
-
-    // If it didn't collide with a wall
-    if (!collide) {
-        // Update next position
-        rect.x = nextPos.x;
-        rect.y = nextPos.y;
-    }
-    else {
-        speed = 0.0f;
-    }    
-}
-void Car::screenCollisions()
-{
-    // Testing if the car goes out of screen
-    // ... from the top
-    if (rect.y <= 0) {
-        // Reset car position
-        rect.y = 0;
-    }
-    // ... from the bottom
-    else if (rect.y >= Consts::HEIGHT_SCREEN - size) {
-        // Reset car position 
-        rect.y -= size;
-    }
-    // ... from the left
-    if (rect.x <= 0) {
-        // Reset car position 
-        rect.x = 0;
-    }
-    // ... from the right
-    else if (rect.x >= Consts::WIDTH_SCREEN - size/2.0f) {
-        // Reset car position 
-        rect.x = Consts::WIDTH_SCREEN - size/2.0f;
-    }
-}
 
 void Car::inputs() {
     float speedRatio = speed / Consts::MAX_SPEED_CAR;
@@ -120,6 +72,51 @@ void Car::inputs() {
         else if (speed < 0.0f - Consts::EPSILON_CAR) {
             speed += Consts::BREAK_FACTOR_CAR;
         }
+    }
+}
+
+void Car::setNextPos(float dtP)
+{
+    // Calculate next position
+    nextPos.x += cos(MathsUtils::degToRad(angle)) * speed * dtP;
+    nextPos.y += sin(MathsUtils::degToRad(angle)) * speed * dtP;
+}
+
+void Car::update(float dtP)
+{
+    // Gradual deceleration - updating speed
+    if ((speed > 0.0f + Consts::EPSILON_CAR) || (speed < 0.0f - Consts::EPSILON_CAR))
+    {
+        speed *= Consts::DECELERATION_FACTOR_CAR;
+    }
+
+    screenCollisions();
+
+    rect.x = nextPos.x;
+    rect.y = nextPos.y; 
+}
+void Car::screenCollisions()
+{
+    // Testing if the car goes out of screen
+    // ... from the top
+    if (rect.y <= 0) {
+        // Reset car position
+        rect.y = 0;
+    }
+    // ... from the bottom
+    else if (rect.y >= Consts::HEIGHT_SCREEN - size) {
+        // Reset car position 
+        rect.y -= size;
+    }
+    // ... from the left
+    if (rect.x <= 0) {
+        // Reset car position 
+        rect.x = 0;
+    }
+    // ... from the right
+    else if (rect.x >= Consts::WIDTH_SCREEN - size/2.0f) {
+        // Reset car position 
+        rect.x = Consts::WIDTH_SCREEN - size/2.0f;
     }
 }
 

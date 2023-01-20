@@ -24,10 +24,11 @@ public:
 	// ======================================
 	void load();
 
-	void update(float dtP);
-	void screenCollisions();
 
 	void inputs();
+	void setNextPos(float dtP);
+	void update(float dtP);
+	void screenCollisions();
 
 	void draw();
 
@@ -56,6 +57,8 @@ public:
 	inline void setBindings(KeysBinding newBindingsP) { bindings = newBindingsP; }
 
 	inline void setCollide(bool collideP) { collide = collideP; }
+
+	inline void bounceCar() { speed *= -1.0f * 0.95f; }
 
 private:
 	std::string name{ "" };

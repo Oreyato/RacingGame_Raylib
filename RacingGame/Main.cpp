@@ -92,9 +92,9 @@ void load()
     //v Game specifics ===============================================
     // Load levels
     levels.loadLevels();
-    levels.setCurrentLevel(1);
+    levels.setCurrentLevel(2);
 
-    vector<int>& firstLevel = levels.getCurrentLevel();
+    vector<int>& currentLevel = levels.getCurrentLevel();
 
     // v Textures ===========================
     // Load textures
@@ -126,12 +126,12 @@ void load()
     {
         int iter{ 0 };
 
-        for (int i = 0; i < firstLevel.size(); i++)
+        for (int i = 0; i < currentLevel.size(); i++)
         {
-            if (firstLevel[i] == Consts::PLAYERA_START_LEVEL) {
+            if (currentLevel[i] == Consts::PLAYERA_START_LEVEL) {
                 // Remove the "2" so that it won't create problems
                 // for collisions or multiplayer
-                firstLevel[i] = 0;
+                currentLevel[i] = 0;
 
                 break;
             }
@@ -147,7 +147,7 @@ void load()
     // ^ Set car init position ==============
 
     // Load first level track
-    track.loadTracksGrid(firstLevel);
+    track.loadTracksGrid(currentLevel);
 
     state = 3;
     isPlaying = true;
@@ -207,7 +207,7 @@ void update()
 
         for each (Car* car in cars)
         {
-            car->update(dt);
+            car->setNextPos(dt);
 
             //v Collisions ===================================================
             int tileType = getTrackTypeAtPixelCoord(car->getNextPos().x, car->getNextPos().y);
@@ -218,10 +218,10 @@ void update()
                 winner = car->getName();
             }
             else if (tileType == Consts::ROAD_LEVEL) {
-                car->setCollide(false);
+                car->update(dt);
             }
             else {
-                car->setCollide(true);
+                car->bounceCar();
             }
 
             //^ Collisions ===================================================
