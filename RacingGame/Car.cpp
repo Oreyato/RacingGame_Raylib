@@ -38,7 +38,7 @@ void Car::load()
 void Car::update(float dtP)
 {
     // Gradual deceleration - updating speed
-    if ((speed > 0.0f + Consts::EPSILON_CAR) || (speed < 0.0f - Consts::EPSILON_CAR))
+    if ((speed > 0.0f + Consts::EPSILON_CAR))
     {
         speed *= Consts::DECELERATION_FACTOR_CAR;
     }
@@ -68,9 +68,9 @@ void Car::screenCollisions()
         rect.y = 0;
     }
     // ... from the bottom
-    else if (rect.y >= Consts::HEIGHT_SCREEN - size) {
+    else if (rect.y >= Consts::HEIGHT_SCREEN - size/2.0f) {
         // Reset car position 
-        rect.y = Consts::HEIGHT_SCREEN - size;
+        rect.y = Consts::HEIGHT_SCREEN - size/2.0f;
     }
     // ... from the left
     if (rect.x <= 0) {
@@ -78,14 +78,15 @@ void Car::screenCollisions()
         rect.x = 0;
     }
     // ... from the right
-    else if (rect.x >= Consts::WIDTH_SCREEN - size) {
+    else if (rect.x >= Consts::WIDTH_SCREEN - size/2.0f) {
         // Reset car position 
-        rect.x = Consts::WIDTH_SCREEN - size;
+        rect.x = Consts::WIDTH_SCREEN - size/2.0f;
     }
 }
 
 void Car::inputs() {
     float speedRatio = speed / Consts::MAX_SPEED_CAR;
+
     if (abs(speedRatio) < Consts::MIN_ANGLE_SPEED_CAR) {
         speedRatio = Consts::MIN_ANGLE_SPEED_CAR;
     }
@@ -127,7 +128,7 @@ void Car::draw()
     float halfSize = size / 2.0f;
 
     Rectangle originRect{ 0.0f, 0.0f, size, size };
-    Rectangle destRect{ rect.x + halfSize, rect.y + halfSize, size, size };
+    Rectangle destRect{ rect.x, rect.y, size, size };
     Vector2 origin{ halfSize, halfSize };
 
     DrawTextureTiled(texture, originRect, destRect, origin, angle, scale, WHITE);

@@ -22,6 +22,7 @@ void inputs();
 void update();
 void draw();
 void drawUi();
+void drawDebug();
 
 // State
 int state = 0;
@@ -307,6 +308,8 @@ void draw()
         ++offsetCounter;
     }
 
+    drawDebug();
+
     EndDrawing();
 }
 // Draw UI
@@ -315,17 +318,24 @@ void drawUi()
     if (state == 3) {
         //DrawText(to_string(isPlaying).c_str(), 10, 10, 20, WHITE);
         //DrawText(to_string(life).c_str(), 60, 10, 20, WHITE);
-
-        //v Draw tiles number ============================================
-        int index = 0;
-
-        for each (Track track in track.getTracks())
-        {
-            DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, BLACK);
-            ++index;
-        }
-        //^ Draw tiles number ============================================
     }
+}
+
+void drawDebug() {
+    //v Draw tiles number ============================================
+    int index = 0;
+
+    for each (Track track in track.getTracks())
+    {
+        DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, BLACK);
+        ++index;
+    }
+    //^ Draw tiles number ============================================
+    //v Draw car position ============================================
+    DrawRectangle(cars[0]->getRect().x, cars[0]->getRect().y, 5, 5, SKYBLUE);
+    DrawRectangle(cars[0]->getNextPos().x, cars[0]->getNextPos().y, 3, 3, RED);
+    
+    //^ Draw car position ============================================
 }
 
 void carTrackCollision(Car& carP) {
