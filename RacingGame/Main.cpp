@@ -214,7 +214,7 @@ void update()
 
             //v Collisions ===================================================
             int tileType = getTrackTypeAtPixelCoord(car->getNextPos().x, car->getNextPos().y);
-            if (tileType == Consts::END_LEVEL) {
+            if (tileType == Consts::GOAL_LEVEL) {
                 // Finished lap
                 isPlaying = false;
                 state = 9;
