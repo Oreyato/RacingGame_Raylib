@@ -329,65 +329,65 @@ void drawUi()
 }
 
 void carTrackCollision(Car& carP) {
-    // Testing if the car collides with the tracks
-    vector<Track> tracks = track.getTracks();
-    // Translate car coordinates into tracks coordinates
-    int columnTrack = floor((carP.getRect().x + carP.getSize() / 2) / track.getTrackWidth());
-    int rowTrack = floor((carP.getRect().y + carP.getSize() / 2) / track.getTrackHeight());
+    //// Testing if the car collides with the tracks
+    //vector<Track> tracks = track.getTracks();
+    //// Translate car coordinates into tracks coordinates
+    //int columnTrack = floor((carP.getRect().x + carP.getSize() / 2) / track.getTrackWidth());
+    //int rowTrack = floor((carP.getRect().y + carP.getSize() / 2) / track.getTrackHeight());
 
-    // Check first whether the carP is within any part of the track wall
-    if (columnTrack < 0 || columnTrack >= Consts::COLUMN_TRACKS || rowTrack < 0 || rowTrack >= Consts::ROW_TRACKS) {
-        return;
-    }
+    //// Check first whether the carP is within any part of the track wall
+    //if (columnTrack < 0 || columnTrack >= Consts::COLUMN_TRACKS || rowTrack < 0 || rowTrack >= Consts::ROW_TRACKS) {
+    //    return;
+    //}
 
-    // Search for the track index
-    int index = track.trackCoordinatesToIndex(rowTrack, columnTrack);
-    // Is the carP where a track should be (non visible)? 
-    if (index >= 0 && index < track.getMaxTracks()) {
-        if (tracks[index].isVisible)
-        {
-            // Find which track side the carP is colliding with
-            // using carP's previous position
-            float prevCarX = carP.getPreviousXPos();
-            float prevCarY = carP.getPreviousYPos();
+    //// Search for the track index
+    //int index = track.trackCoordinatesToIndex(rowTrack, columnTrack);
+    //// Is the carP where a track should be (non visible)? 
+    //if (index >= 0 && index < track.getMaxTracks()) {
+    //    if (tracks[index].isVisible)
+    //    {
+    //        // Find which track side the carP is colliding with
+    //        // using carP's previous position
+    //        float prevCarX = carP.getPreviousXPos();
+    //        float prevCarY = carP.getPreviousYPos();
 
-            float carSize = carP.getSize();
-            float trackWidth = track.getTrackWidth();
+    //        float carSize = carP.getSize();
+    //        float trackWidth = track.getTrackWidth();
 
-            int prevColTrack = floor((prevCarX + carSize / 2) / trackWidth);
-            int prevRowTrack = floor((prevCarY + carSize / 2) / track.getTrackHeight());
+    //        int prevColTrack = floor((prevCarX + carSize / 2) / trackWidth);
+    //        int prevRowTrack = floor((prevCarY + carSize / 2) / track.getTrackHeight());
 
-            bool bothTestsFailed = true;
+    //        bool bothTestsFailed = true;
 
-            // Car came from the left/right
-            if (prevColTrack != columnTrack) {
-                int adjacentTrackIndex = track.trackCoordinatesToIndex(rowTrack, prevColTrack);
+    //        // Car came from the left/right
+    //        if (prevColTrack != columnTrack) {
+    //            int adjacentTrackIndex = track.trackCoordinatesToIndex(rowTrack, prevColTrack);
 
-                if (!tracks[adjacentTrackIndex].isVisible) {
-                    carP.reverseXSpeed();
+    //            if (!tracks[adjacentTrackIndex].isVisible) {
+    //                carP.reverseXSpeed();
 
-                    bothTestsFailed = false;
-                }
-            }
-            // Car came from the top/bottom
-            if (prevRowTrack != rowTrack) {
-                int adjacentTrackIndex = track.trackCoordinatesToIndex(prevRowTrack, columnTrack);
+    //                bothTestsFailed = false;
+    //            }
+    //        }
+    //        // Car came from the top/bottom
+    //        if (prevRowTrack != rowTrack) {
+    //            int adjacentTrackIndex = track.trackCoordinatesToIndex(prevRowTrack, columnTrack);
 
-                if (!tracks[adjacentTrackIndex].isVisible) {
-                    carP.reverseYSpeed();
+    //            if (!tracks[adjacentTrackIndex].isVisible) {
+    //                carP.reverseYSpeed();
 
-                    bothTestsFailed = false;
-                }
-            }
-            // Perfectly hitting the corner 
-            if (bothTestsFailed) {
-                carP.reverseXSpeed();
-                carP.reverseYSpeed();
-            }
+    //                bothTestsFailed = false;
+    //            }
+    //        }
+    //        // Perfectly hitting the corner 
+    //        if (bothTestsFailed) {
+    //            carP.reverseXSpeed();
+    //            carP.reverseYSpeed();
+    //        }
 
-            // cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
-        }
-    }
+    //        // cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
+    //    }
+    //}
 }
 
 int const getTrackTypeAtPixelCoord(float posX, float posY) {
