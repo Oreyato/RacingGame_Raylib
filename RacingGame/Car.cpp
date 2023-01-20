@@ -161,6 +161,6 @@ void Car::setStartingPos(Vector2 startingPosP) {
     rect.x = startingPos.x;
     rect.y = startingPos.y;
 
-    nextPos.x = startingPos.x;
-    nextPos.y = startingPos.y;
+    nextPos.x = rect.x;
+    nextPos.y = rect.y;
 }
