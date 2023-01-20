@@ -140,6 +140,9 @@ void load()
 
         // Transform to coordinates
         Vector2 carStartingPos = track.indexToWindowCoordinates(iter);
+        // Center the car in the tile
+        carStartingPos.x += track.getTrackWidth() / 2.0f;
+        carStartingPos.y += track.getTrackWidth() / 2.0f;
 
         // Send it to car
         car->setStartingPos(carStartingPos);
@@ -323,13 +326,13 @@ void drawUi()
 
 void drawDebug() {
     //v Draw tiles number ============================================
-    int index = 0;
+    //int index = 0;
 
-    for each (Track track in track.getTracks())
-    {
-        DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, BLACK);
-        ++index;
-    }
+    //for each (Track track in track.getTracks())
+    //{
+    //    DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, BLACK);
+    //    ++index;
+    //}
     //^ Draw tiles number ============================================
     //v Draw car position ============================================
     DrawRectangle(cars[0]->getRect().x, cars[0]->getRect().y, 5, 5, SKYBLUE);
