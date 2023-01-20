@@ -58,7 +58,7 @@ public:
 
 	inline void setCollide(bool collideP) { collide = collideP; }
 
-	inline void bounceCar() { speed *= -1.0f * 0.95f; }
+	inline void bounceCar() { speed *= -1.0f * 0.25f; }
 
 private:
 	std::string name{ "" };
