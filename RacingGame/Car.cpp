@@ -78,8 +78,8 @@ void Car::inputs() {
 void Car::setNextPos(float dtP)
 {
     // Calculate next position
-    nextPos.x += cos(MathsUtils::degToRad(angle)) * speed * dtP;
-    nextPos.y += sin(MathsUtils::degToRad(angle)) * speed * dtP;
+    nextPos.x = rect.x + cos(MathsUtils::degToRad(angle)) * std::copysignf(1.0f, speed) * size / 2.0f;
+    nextPos.y = rect.y + sin(MathsUtils::degToRad(angle)) * std::copysignf(1.0f, speed) * size / 2.0f;
 }
 
 void Car::update(float dtP)
@@ -92,8 +92,8 @@ void Car::update(float dtP)
 
     screenCollisions();
 
-    rect.x = nextPos.x;
-    rect.y = nextPos.y; 
+    rect.x += cos(MathsUtils::degToRad(angle)) * speed * dtP;
+    rect.y += sin(MathsUtils::degToRad(angle)) * speed * dtP;
 }
 void Car::screenCollisions()
 {
