@@ -23,7 +23,7 @@ const float Consts::EPSILON_CAR{ 0.01f };
 // Levels
 const int Consts::ROAD_LEVEL{ 0 };
 const int Consts::WALL_LEVEL{ 1 }; // 9 and 10 create unexpected behaviours for some reason
-const int Consts::GOAL_LEVEL{ 4 }; // <--- 9
+const int Consts::GOAL_LEVEL{ 4 }; // <--- 9 
 const int Consts::GRASS_LEVEL{ 7 };
 const int Consts::GRAVEL_LEVEL{ 6 };
 const int Consts::PLAYERA_START_LEVEL{ 8 };
