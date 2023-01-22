@@ -11,6 +11,7 @@ QD: rotate red car | ZS: move red car | spacebar: drift red car
 right & left arrows: rotate blue car | top & down arrows: move blue car | 0: drift blue car
 
 ### WIP
+- Better level creation
 - Score system
   - Files
   - When first car crosses the finish line
