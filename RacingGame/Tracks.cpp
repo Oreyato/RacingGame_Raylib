@@ -52,10 +52,6 @@ void Tracks::loadTracksGrid(const std::vector<int>& levelP)
     for (int i = 0; i < maxTracks; i++)
     {   
         tracks[i].type = levelP[i];
-
-        if (levelP[i] == Consts::ROAD_LEVEL) {
-            tracks[i].isVisible = false;
-        }
     }
 }
 
