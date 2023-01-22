@@ -311,7 +311,7 @@ void draw()
         ++offsetCounter;
     }
 
-    drawDebug();
+    // drawDebug();
 
     EndDrawing();
 }
