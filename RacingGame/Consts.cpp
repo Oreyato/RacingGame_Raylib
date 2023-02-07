@@ -37,7 +37,3 @@ const float Consts::HEIGHT_TRACK{ 40.0f };
 const int Consts::COLUMN_TRACKS{ 20 };
 const int Consts::ROW_TRACKS{ 15 };
 const float Consts::SPACING_TRACKS{ 2.0f };
-
-
-
-
