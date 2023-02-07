@@ -11,9 +11,9 @@ Tracks::Tracks()
 	trackWidth = Consts::WIDTH_TRACK;
 	trackHeight = Consts::HEIGHT_TRACK;
 
-	columnTracks = Consts::COLUMN_TRACKS;
-    rowTracks = Consts::ROW_TRACKS;
-	maxTracks = columnTracks * rowTracks;
+	columnTracks = 0;
+    rowTracks = 0;
+	maxTracks = 0;
 
 	spacing = Consts::SPACING_TRACKS;
 }
@@ -29,8 +29,11 @@ void Tracks::draw()
     }
 }
 
-void Tracks::loadTracksGrid(const std::vector<int>& levelP)
+void Tracks::loadTracksGrid(Level& levelP)
 {
+    rowTracks = levelP.rowNb;
+    columnTracks = levelP.colNb;
+
     for (int eachRow = 0; eachRow < rowTracks; eachRow++)
     {
         for (int eachColumn = 0; eachColumn < columnTracks; eachColumn++)
@@ -51,7 +54,7 @@ void Tracks::loadTracksGrid(const std::vector<int>& levelP)
 
     for (int i = 0; i < maxTracks; i++)
     {   
-        tracks[i].type = levelP[i];
+        tracks[i].type = levelP.description[i];
     }
 }
 

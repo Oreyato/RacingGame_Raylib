@@ -91,10 +91,9 @@ void load()
 
     //v Game specifics ===============================================
     // Load levels
-    levels.loadLevels();
     levels.setCurrentLevel(2);
 
-    vector<int>& currentLevel = levels.getCurrentLevel();
+    Level currentLevel = levels.getCurrentLevel();
 
     // v Textures ===========================
     // Load textures
@@ -126,12 +125,12 @@ void load()
     {
         int iter{ 0 };
 
-        for (int i = 0; i < currentLevel.size(); i++)
+        for (int i = 0; i < currentLevel.size; i++)
         {
-            if (currentLevel[i] == Consts::PLAYERA_START_LEVEL) {
+            if (currentLevel.description[i] == Consts::PLAYERA_START_LEVEL) {
                 // Remove the "2" so that it won't create problems
                 // for collisions or multiplayer
-                currentLevel[i] = 0;
+                currentLevel.description[i] = 0;
 
                 break;
             }

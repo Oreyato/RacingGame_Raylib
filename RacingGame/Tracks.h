@@ -7,6 +7,8 @@
 #include "MathsUtils.h"
 using MathsUtils::Vector2Int;
 
+struct Level;
+
 struct Track
 {
 	Rectangle rect{ 0.0f, 0.0f, 0.0f, 0.0f };
@@ -25,7 +27,7 @@ public:
 
 	void draw();
 
-	void loadTracksGrid(const std::vector<int>& levelP);
+	void loadTracksGrid(Level& levelP);
 
 	int trackCoordinatesToIndex(int rowTrackP, int columnTrackP);
 	Vector2Int indexToTrackCoordinates(int indexP);

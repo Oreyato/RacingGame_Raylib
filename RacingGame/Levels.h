@@ -3,26 +3,39 @@
 
 #include <vector>
 
+struct Level
+{
+	Level() {};
+	Level(int numP, std::vector<int> descP, int rowNbP, int colNbP) :
+		number{ numP },
+		description{ descP },
+		rowNb{ rowNbP },
+		colNb{ colNbP }
+	{
+		size = rowNb * colNb;
+	};
+
+	int number;
+	std::vector<int> description;
+	int rowNb;
+	int colNb;
+	int size;
+};
+
 class Levels
 {
 public:
 	Levels();
 
-	void loadLevels();
-
 	void setCurrentLevel(int levelNbP);
 
-	std::vector<int>& getCurrentLevel() { return currentLevel; } 
-	std::vector<int>& getLevel(int levelNbP);
+	Level& getCurrentLevel() { return currentLevel; } 
+	Level& getLevel(int levelNbP);
 
 private:
-	std::vector<std::vector<int>> levels;
+	std::vector<Level> levels;
 
-	std::vector<int> currentLevel;
-
-	std::vector<int> level_000;
-	std::vector<int> level_001;
-	std::vector<int> level_002;
+	Level currentLevel;
 };
 
 #endif // LEVELS_H
