@@ -95,6 +95,12 @@ void Car::update(float dtP)
     rect.x += cos(MathsUtils::degToRad(angle)) * speed * dtP;
     rect.y += sin(MathsUtils::degToRad(angle)) * speed * dtP;
 }
+
+/*
+* UNUSED
+* Broke when the camera was added
+* But wasn't really needed anyway
+*/
 void Car::screenCollisions()
 {
     // Testing if the car goes out of screen

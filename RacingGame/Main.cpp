@@ -29,6 +29,9 @@ int state = 0;
 
 //^ Global init ==================================================
 //v Game specific init ===========================================
+void manageCamera();
+void fillBackground();
+
 void carTrackCollision(Car& carP);
 int const getTrackTypeAtPixelCoord(float posX, float posY);
 bool AABBAlgorithm(Rectangle a, Rectangle b);
@@ -152,42 +155,55 @@ void load()
     // Load first level track
     track.loadTracksGrid(currentLevel);
     
-    // v Camera =============================
+    // Camera
+    manageCamera();
+    // Fill background
+    fillBackground();
+
+    state = 3;
+    isPlaying = true;
+    //^ Game specifics ===============================================
+}
+
+float calculateWidthRatio() {
+    float trackTotalWidth = track.getTrackTotalWidth();
+    return Consts::WIDTH_SCREEN / trackTotalWidth;
+}
+float calculateHeightRatio() {
+    float trackTotalHeight = track.getTrackTotalHeight();
+    return Consts::HEIGHT_SCREEN / trackTotalHeight;
+}
+void manageCamera() {
     // Zoom ============
-    float trackTotalWidth = track.getTrackWidth() * track.getColumnTracks();
-    float widthRatio = Consts::WIDTH_SCREEN / trackTotalWidth;
-    
-    float trackTotalHeight = track.getTrackHeight() * track.getRowTracks();
-    float heightRatio = Consts::HEIGHT_SCREEN / trackTotalHeight;
+    float widthRatio = calculateWidthRatio();
+    float heightRatio = calculateHeightRatio();
 
     bool offsetWidth = widthRatio > heightRatio ? true : false;
-    
+
     float zoomRatio = min(widthRatio, heightRatio);
 
     camera.zoom = zoomRatio;
-    
+
     // Offset ==========
     if (offsetWidth) {
-        float zoomedWidth = trackTotalWidth * heightRatio;
+        float zoomedWidth = track.getTrackTotalWidth() * heightRatio;
         float screenDiff = Consts::WIDTH_SCREEN - zoomedWidth;
 
         camera.offset = { screenDiff / 2.0f , 0.0f };
     }
     else {
-        float zoomedHeight = trackTotalHeight * widthRatio;
+        float zoomedHeight = track.getTrackTotalHeight() * widthRatio;
         float screenDiff = Consts::HEIGHT_SCREEN - zoomedHeight;
 
         camera.offset = { 0.0f , screenDiff / 2.0f };
     }
-    
+
     camera.target = { 0.0f, 0.0f };
     camera.rotation = 0.0f;
+}
 
-    // ^ Camera =============================
+void fillBackground() {
 
-    state = 3;
-    isPlaying = true;
-    //^ Game specifics ===============================================
 }
 
 // Handle inputs
