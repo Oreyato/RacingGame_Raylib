@@ -99,24 +99,28 @@ void Car::screenCollisions()
 {
     // Testing if the car goes out of screen
     // ... from the top
-    if (rect.y <= 0) {
+    if (rect.y <= 0 + size / 2.0f) {
         // Reset car position
-        rect.y = 0;
+        rect.y = size / 2.0f;
+        bounceCar();
     }
     // ... from the bottom
-    else if (rect.y >= Consts::HEIGHT_SCREEN - size) {
+    else if (rect.y >= Consts::HEIGHT_SCREEN - size / 2.0f) {
         // Reset car position 
-        rect.y -= size;
+        rect.y = Consts::HEIGHT_SCREEN - size / 2.0f;
+        bounceCar();
     }
     // ... from the left
-    if (rect.x <= 0) {
+    if (rect.x <= 0 + size / 2.0f) {
         // Reset car position 
-        rect.x = 0;
+        rect.x = size / 2.0f;
+        bounceCar();
     }
     // ... from the right
     else if (rect.x >= Consts::WIDTH_SCREEN - size/2.0f) {
         // Reset car position 
-        rect.x = Consts::WIDTH_SCREEN - size/2.0f;
+        rect.x = Consts::WIDTH_SCREEN - size / 2.0f;
+        bounceCar();
     }
 }
 
