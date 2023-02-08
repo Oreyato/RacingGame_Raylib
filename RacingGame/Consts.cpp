@@ -1,8 +1,8 @@
 #include "Consts.h"
 
 // Screen
-const int Consts::WIDTH_SCREEN{ 750 };
-const int Consts::HEIGHT_SCREEN{ 500 };
+const int Consts::WIDTH_SCREEN{ 1500 };
+const int Consts::HEIGHT_SCREEN{ 1000 };
 
 // Rules
 const int Consts::MAX_LIFE{ 3 };

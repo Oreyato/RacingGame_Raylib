@@ -106,3 +106,16 @@ Level& Levels::getLevel(int levelNbP) {
 
     return levels[levelNbP];
 }
+
+Level& Levels::getFilledLevel(int widthP, int heightP, int typeP)
+{
+    int vectorSize = widthP * heightP;
+    std::vector<int> filledVector{ vectorSize, typeP };
+
+    return Level{
+        -1,
+        filledVector,
+        widthP,
+        heightP
+    };
+}

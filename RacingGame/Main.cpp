@@ -56,6 +56,8 @@ std::string winner{ "" };
 // Tracks =============================
 Tracks track;
 
+vector<Tracks> backgroundTracks;
+
 //^ Game specific init ===========================================
 #pragma endregion
 
@@ -184,26 +186,42 @@ void manageCamera() {
 
     camera.zoom = zoomRatio;
 
+    float zoomedWidth, zoomedHeight, screenDiff;
+
     // Offset ==========
     if (offsetWidth) {
-        float zoomedWidth = track.getTrackTotalWidth() * heightRatio;
-        float screenDiff = Consts::WIDTH_SCREEN - zoomedWidth;
+        zoomedWidth = track.getTrackTotalWidth() * heightRatio;
+        screenDiff = Consts::WIDTH_SCREEN - zoomedWidth;
 
         camera.offset = { screenDiff / 2.0f , 0.0f };
     }
     else {
-        float zoomedHeight = track.getTrackTotalHeight() * widthRatio;
-        float screenDiff = Consts::HEIGHT_SCREEN - zoomedHeight;
+        zoomedHeight = track.getTrackTotalHeight() * widthRatio;
+        screenDiff = Consts::HEIGHT_SCREEN - zoomedHeight;
 
         camera.offset = { 0.0f , screenDiff / 2.0f };
     }
 
     camera.target = { 0.0f, 0.0f };
     camera.rotation = 0.0f;
+
+    //v Filled background ============================================
+    if (offsetWidth) {
+        int colNumber = (screenDiff / 2) / track.getTrackWidth();
+        float xOffset = ((int) screenDiff / 2) % (int) track.getTrackWidth();
+
+        Vector2 tracksBgDim{ colNumber, track.getColumnTracks() };
+
+        Tracks leftTrackBackground;
+        leftTrackBackground.loadTracksGrid(levels.getFilledLevel(tracksBgDim.x, tracksBgDim.y, Consts::GRASS_LEVEL));
+
+        backgroundTracks.push_back(leftTrackBackground);
+    }
+
+    //^ Filled background ============================================
 }
 
 void fillBackground() {
-
 }
 
 // Handle inputs
@@ -376,23 +394,25 @@ void drawUi()
 }
 
 void drawDebug() {
+    BeginMode2D(camera);
     //v Draw tiles number ============================================
-    //int index = 0;
+    int index = 0;
 
-    //for each (Track track in track.getTracks())
-    //{
-    //    DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, BLACK);
-    //    ++index;
-    //}
+    for each (Track track in track.getTracks())
+    {
+        DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, BLACK);
+        ++index;
+    }
     //^ Draw tiles number ============================================
     //v Draw car position ============================================
     DrawRectangle(cars[0]->getRect().x, cars[0]->getRect().y, 5, 5, SKYBLUE);
     DrawRectangle(cars[0]->getNextPos().x, cars[0]->getNextPos().y, 3, 3, RED);
     
     //^ Draw car position ============================================
+    EndMode2D();
 }
 
-// DEPRECIATED
+// UNUSED
 void carTrackCollision(Car& carP) {
     //// Testing if the car collides with the tracks
     //vector<Track> tracks = track.getTracks();

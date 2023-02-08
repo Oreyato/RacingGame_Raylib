@@ -29,15 +29,15 @@ void Tracks::draw()
     }
 }
 
-void Tracks::loadTracksGrid(Level& levelP)
+void Tracks::loadTracksGrid(Level& levelP, Vector2& offsetP)
 {
     for (int eachRow = 0; eachRow < rowTracks; eachRow++)
     {
         for (int eachColumn = 0; eachColumn < columnTracks; eachColumn++)
         {
             // Track position
-            int xPos = trackWidth * eachColumn;
-            int yPos = trackHeight * eachRow;
+            int xPos = offsetP.x + trackWidth * eachColumn;
+            int yPos = offsetP.y + trackHeight * eachRow;
 
             // Rectangle to fit in the Track struct
             Rectangle rect{ xPos, yPos, trackWidth - spacing, trackHeight - spacing };

@@ -27,7 +27,7 @@ public:
 
 	void draw();
 
-	void loadTracksGrid(Level& levelP);
+	void loadTracksGrid(Level& levelP, Vector2& offsetP = Vector2{ 0.0f, 0.0f});
 
 	int trackCoordinatesToIndex(int rowTrackP, int columnTrackP);
 	Vector2Int indexToTrackCoordinates(int indexP);
