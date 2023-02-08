@@ -91,7 +91,7 @@ void load()
 
     //v Game specifics ===============================================
     // Load levels
-    levels.setCurrentLevel(2);
+    levels.setCurrentLevel(3);
 
     Level currentLevel = levels.getCurrentLevel();
 
@@ -343,6 +343,7 @@ void drawDebug() {
     //^ Draw car position ============================================
 }
 
+// DEPRECIATED
 void carTrackCollision(Car& carP) {
     //// Testing if the car collides with the tracks
     //vector<Track> tracks = track.getTracks();
@@ -400,20 +401,20 @@ void carTrackCollision(Car& carP) {
     //            carP.reverseYSpeed();
     //        }
 
-    //        // cout << "x: " << columnTrack << " | y: " << rowTrack << endl;
+    //        // cout << "x: " << columnTrack << "r | y: " << rowTrack << endl;
     //    }
     //}
 }
 
 int const getTrackTypeAtPixelCoord(float posX, float posY) {
-    int tileCol = posX / Consts::WIDTH_TRACK;
-    int tileRow = posY / Consts::HEIGHT_TRACK;
+    int tileCol = posX / track.getTrackWidth();
+    int tileRow = posY / track.getTrackHeight();
 
     tileCol = floor(tileCol);
     tileRow = floor(tileRow);
 
     // Check first whether the car is within any part of the track wall
-    if (tileCol < 0 || tileCol >= Consts::COLUMN_TRACKS || tileRow < 0 || tileRow >= Consts::ROW_TRACKS) {
+    if (tileCol < 0 || tileCol >= track.getColumnTracks() || tileRow < 0 || tileRow >= track.getRowTracks()) {
         // To avoid invalid array access, treat out of bounds as wall
         return Consts::WALL_LEVEL;
     }

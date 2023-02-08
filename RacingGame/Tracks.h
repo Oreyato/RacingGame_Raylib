@@ -43,6 +43,9 @@ public:
 
 	inline const float getTrackWidth() const { return trackWidth; }
 	inline const float getTrackHeight() const { return trackHeight; }
+
+	inline const int getColumnTracks() const { return columnTracks; }
+	inline const int getRowTracks() const { return rowTracks; }
 	inline const int getMaxTracks() const { return maxTracks; }
 
 	inline std::vector<Track> getTracks() const { return tracks; }
