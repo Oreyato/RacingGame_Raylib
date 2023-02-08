@@ -11,9 +11,9 @@ Tracks::Tracks()
 	trackWidth = Consts::WIDTH_TRACK;
 	trackHeight = Consts::HEIGHT_TRACK;
 
-	columnTracks = 0;
-    rowTracks = 0;
-	maxTracks = 0;
+	columnTracks = 1;
+    rowTracks = 1;
+	maxTracks = 1;
 
 	spacing = Consts::SPACING_TRACKS;
 }
@@ -31,9 +31,6 @@ void Tracks::draw()
 
 void Tracks::loadTracksGrid(Level& levelP)
 {
-    rowTracks = levelP.rowNb;
-    columnTracks = levelP.colNb;
-
     for (int eachRow = 0; eachRow < rowTracks; eachRow++)
     {
         for (int eachColumn = 0; eachColumn < columnTracks; eachColumn++)
@@ -85,4 +82,12 @@ void Tracks::setTextures(Texture2D roadTextP, Texture2D goalTextP, Texture2D wal
     textures[Consts::GOAL_LEVEL] = goalTextP;
     textures[Consts::WALL_LEVEL] = wallTextP;
     textures[Consts::GRASS_LEVEL] = grassTextP;
+}
+
+void Tracks::setTrackGridDimensions(const Level& currentLevelP)
+{
+    rowTracks = currentLevelP.rowNb;
+    columnTracks = currentLevelP.colNb;
+
+    maxTracks = rowTracks * columnTracks;
 }

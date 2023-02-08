@@ -39,6 +39,8 @@ public:
 		Texture2D wallTextP,
 		Texture2D grassTextP);
 
+	void setTrackGridDimensions(const Level& currentLevelP);
+
 	inline const float getTrackWidth() const { return trackWidth; }
 	inline const float getTrackHeight() const { return trackHeight; }
 	inline const int getMaxTracks() const { return maxTracks; }
@@ -57,9 +59,9 @@ private:
 	float trackWidth{ 0.0f };
 	float trackHeight{ 0.0f };
 
-	int columnTracks{ 0 };
-	int rowTracks{ 0 };
-	int maxTracks{ 0 };
+	int columnTracks{ 1 };
+	int rowTracks{ 1 };
+	int maxTracks{ 1 };
 
 	float spacing{ 0.0f };
 

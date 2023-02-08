@@ -95,6 +95,9 @@ void load()
 
     Level currentLevel = levels.getCurrentLevel();
 
+    // Share informations to Track
+    track.setTrackGridDimensions(currentLevel);
+
     // v Textures ===========================
     // Load textures
     Texture2D carATex = LoadTexture("../Ressources/car_01.png");
