@@ -34,6 +34,8 @@ int const getTrackTypeAtPixelCoord(float posX, float posY);
 bool AABBAlgorithm(Rectangle a, Rectangle b);
 void resetGame();
 
+Camera2D camera;
+
 // Rules ==============================
 bool isPlaying = false;
 
@@ -41,10 +43,6 @@ bool isPlaying = false;
 Levels levels;
 
 // Cars ===============================
-// Initial position
-float X_POS_CAR = Consts::WIDTH_SCREEN / 2.0f - 80.0f;
-float Y_POS_CAR = Consts::HEIGHT_SCREEN - 95.0f;
-
 Car carA{ "Red Car", Consts::SIZE_CAR, Consts::SIZE_CAR};
 Car carB{ "Blue Car", Consts::SIZE_CAR, Consts::SIZE_CAR};
 
@@ -89,7 +87,7 @@ void load()
 
     //^ Sounds init ==================================================
 
-    //v Game specifics ===============================================
+    //v Game specifics ===============================================    
     // Load levels
     levels.setCurrentLevel(3);
 
@@ -153,6 +151,39 @@ void load()
 
     // Load first level track
     track.loadTracksGrid(currentLevel);
+    
+    // v Camera =============================
+    // Zoom ============
+    float trackTotalWidth = track.getTrackWidth() * track.getColumnTracks();
+    float widthRatio = Consts::WIDTH_SCREEN / trackTotalWidth;
+    
+    float trackTotalHeight = track.getTrackHeight() * track.getRowTracks();
+    float heightRatio = Consts::HEIGHT_SCREEN / trackTotalHeight;
+
+    bool offsetWidth = widthRatio > heightRatio ? true : false;
+    
+    float zoomRatio = min(widthRatio, heightRatio);
+
+    camera.zoom = zoomRatio;
+    
+    // Offset ==========
+    if (offsetWidth) {
+        float zoomedWidth = trackTotalWidth * heightRatio;
+        float screenDiff = Consts::WIDTH_SCREEN - zoomedWidth;
+
+        camera.offset = { screenDiff / 2.0f , 0.0f };
+    }
+    else {
+        float zoomedHeight = trackTotalHeight * widthRatio;
+        float screenDiff = Consts::HEIGHT_SCREEN - zoomedHeight;
+
+        camera.offset = { 0.0f , screenDiff / 2.0f };
+    }
+    
+    camera.target = { 0.0f, 0.0f };
+    camera.rotation = 0.0f;
+
+    // ^ Camera =============================
 
     state = 3;
     isPlaying = true;
@@ -257,6 +288,7 @@ void draw()
     }
     else if (state == 3)
     {
+        BeginMode2D(camera);
         // Draw all tracks
         for (Track& track : track.getTracks())
         {
@@ -272,6 +304,7 @@ void draw()
         for each (Car* car in cars) {
             car->draw();
         }
+        EndMode2D();
 
         drawUi();
     }

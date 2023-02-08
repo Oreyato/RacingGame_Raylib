@@ -38,8 +38,8 @@ public:
 	static const float WIDTH_TRACK;
 	static const float HEIGHT_TRACK;
 
-	static const int COLUMN_TRACKS;
-	static const int ROW_TRACKS;
+	static const int BASE_COLUMN_TRACKS;
+	static const int BASE_ROW_TRACKS;
 	static const float SPACING_TRACKS;
 };
 

@@ -90,7 +90,7 @@ void Car::update(float dtP)
         speed *= Consts::DECELERATION_FACTOR_CAR;
     }
 
-    screenCollisions();
+    // screenCollisions();
 
     rect.x += cos(MathsUtils::degToRad(angle)) * speed * dtP;
     rect.y += sin(MathsUtils::degToRad(angle)) * speed * dtP;

@@ -1,8 +1,8 @@
 #include "Consts.h"
 
 // Screen
-const int Consts::WIDTH_SCREEN{ 800 };
-const int Consts::HEIGHT_SCREEN{ 600 };
+const int Consts::WIDTH_SCREEN{ 750 };
+const int Consts::HEIGHT_SCREEN{ 500 };
 
 // Rules
 const int Consts::MAX_LIFE{ 3 };
@@ -34,6 +34,6 @@ const int Consts::END_LEVEL{ 4 }; // <--- 9
 const float Consts::WIDTH_TRACK{ 40.0f };
 const float Consts::HEIGHT_TRACK{ 40.0f };
 
-const int Consts::COLUMN_TRACKS{ 20 };
-const int Consts::ROW_TRACKS{ 15 };
+const int Consts::BASE_COLUMN_TRACKS{ 20 };
+const int Consts::BASE_ROW_TRACKS{ 15 };
 const float Consts::SPACING_TRACKS{ 2.0f };
