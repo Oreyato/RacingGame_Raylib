@@ -13,7 +13,7 @@ Tracks::Tracks()
 
 	columnTracks = 1;
     rowTracks = 1;
-	maxTracks = 1;
+	maxTracks = columnTracks * rowTracks;
 
 	spacing = Consts::SPACING_TRACKS;
 }
