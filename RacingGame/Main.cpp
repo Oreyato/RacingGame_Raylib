@@ -213,7 +213,14 @@ void manageCamera() {
         Vector2 tracksBgDim{ colNumber, track.getColumnTracks() };
 
         Tracks leftTrackBackground;
-        leftTrackBackground.loadTracksGrid(levels.getFilledLevel(tracksBgDim.x, tracksBgDim.y, Consts::GRASS_LEVEL));
+        
+        // verticalLevel refuses to get filled vector
+        Level verticalLevel{ levels.getFilledLevel(tracksBgDim.x, tracksBgDim.y, Consts::GRASS_LEVEL) };
+        // Ugly temporary fix 
+        verticalLevel.description = std::vector<int>(tracksBgDim.x * tracksBgDim.y, Consts::GRASS_LEVEL);
+
+        leftTrackBackground.setTrackGridDimensions(verticalLevel);
+        leftTrackBackground.loadTracksGrid(verticalLevel);
 
         backgroundTracks.push_back(leftTrackBackground);
     }
