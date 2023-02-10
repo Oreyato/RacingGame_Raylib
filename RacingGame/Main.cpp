@@ -93,7 +93,7 @@ void load()
 
     //v Game specifics ===============================================    
     // Load levels
-    levels.setCurrentLevel(0); // <---------------------------------------------------- CHANGE LEVEL HERE 
+    levels.setCurrentLevel(3); // <---------------------------------------------------- CHANGE LEVEL HERE 
 
     Level currentLevel = levels.getCurrentLevel();
 
@@ -423,7 +423,7 @@ void draw()
         ++offsetCounter;
     }
 
-    drawDebug();
+    // drawDebug();
 
     EndDrawing();
 }
