@@ -93,7 +93,7 @@ void load()
 
     //v Game specifics ===============================================    
     // Load levels
-    levels.setCurrentLevel(0);
+    levels.setCurrentLevel(0); // <---------------------------------------------------- CHANGE LEVEL HERE 
 
     Level currentLevel = levels.getCurrentLevel();
 
@@ -172,6 +172,11 @@ void load()
     mainTrack.loadTracksGrid(currentLevel);
     
     // Camera
+    camera.zoom = 1.0f;
+    camera.offset = { 0.0f, 0.0f };
+    camera.target = { 0.0f, 0.0f };
+    camera.rotation = 0.0f;
+
     manageCamera();
 
     state = 3;
@@ -200,32 +205,36 @@ void manageCamera() {
     float zoomRatio = min(widthRatio, heightRatio);
     camera.zoom = zoomRatio;
 
-    float zoomedWidth, zoomedHeight, screenDiff;
+    float zoomedWidth, zoomedHeight, screenDiff, halfScreenDiff;
 
     // Offset ==========
     if (offsetWidth) {
         float totalWidth = mainTrack.getTrackTotalWidth();
         zoomedWidth = totalWidth * heightRatio;
         screenDiff = Consts::WIDTH_SCREEN - zoomedWidth;
+        halfScreenDiff = screenDiff / 2.0f;
 
-        camera.offset = { screenDiff / 2.0f , 0.0f };
+        camera.offset = { halfScreenDiff , 0.0f };
     }
     else {
         zoomedHeight = mainTrack.getTrackTotalHeight() * widthRatio;
         screenDiff = Consts::HEIGHT_SCREEN - zoomedHeight;
+        halfScreenDiff = screenDiff / 2.0f;
 
-        camera.offset = { 0.0f , screenDiff / 2.0f };
+        camera.offset = { 0.0f , halfScreenDiff };
     }
 
     camera.target = { 0.0f, 0.0f };
     camera.rotation = 0.0f;
 
+
     //v Filled background ============================================
     if (offsetWidth) {
-        int colNumber = ceil((screenDiff * widthRatio / 2.0f) / Consts::WIDTH_TRACK) + 1;
+        float zoomedTrackWidth = Consts::WIDTH_TRACK * zoomRatio;
+        int colNumber = ceil(halfScreenDiff / zoomedTrackWidth);
         float xOffset = colNumber * Consts::WIDTH_TRACK;
 
-        Vector2 tracksBgDim{ colNumber, mainTrack.getColumnTracks() };
+        Vector2 tracksBgDim{ colNumber, mainTrack.getRowTracks() };
         
         // verticalLevel refuses to get filled vector
         Level verticalLevel{ levels.getFilledLevel(tracksBgDim.x, tracksBgDim.y, Consts::GRASS_LEVEL) };
@@ -237,6 +246,24 @@ void manageCamera() {
 
         backgroundTracks[1].setTrackGridDimensions(verticalLevel);
         backgroundTracks[1].loadTracksGrid(verticalLevel, Vector2{ mainTrack.getTrackTotalWidth(), 0.0f });
+    }
+    else {
+        float zoomedTrackHeight = Consts::HEIGHT_TRACK * zoomRatio;
+        int rowNumber = ceil(halfScreenDiff / zoomedTrackHeight);
+        float yOffset = rowNumber * Consts::HEIGHT_TRACK;
+
+        Vector2 tracksBgDim{ mainTrack.getColumnTracks(), rowNumber };
+
+        // verticalLevel refuses to get filled vector
+        Level horizontalLevel{ levels.getFilledLevel(tracksBgDim.x, tracksBgDim.y, Consts::GRASS_LEVEL) };
+        // Ugly temporary fix 
+        horizontalLevel.description = std::vector<int>(tracksBgDim.x * tracksBgDim.y, Consts::GRASS_LEVEL);
+
+        backgroundTracks[2].setTrackGridDimensions(horizontalLevel);
+        backgroundTracks[2].loadTracksGrid(horizontalLevel, Vector2{ 0.0f, -yOffset });
+
+        backgroundTracks[3].setTrackGridDimensions(horizontalLevel);
+        backgroundTracks[3].loadTracksGrid(horizontalLevel, Vector2{ 0.0f, mainTrack.getTrackTotalHeight() });
     }
 
     //^ Filled background ============================================
@@ -396,7 +423,7 @@ void draw()
         ++offsetCounter;
     }
 
-    // drawDebug();
+    drawDebug();
 
     EndDrawing();
 }
@@ -414,11 +441,23 @@ void drawDebug() {
     //v Draw tiles number ============================================
     int index = 0;
 
-    for each (Track track in mainTrack.getTracks())
-    {
-        DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, SKYBLUE);
-        ++index;
+    //for (Track& track : mainTrack.getTracks())
+    //{
+    //    DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, SKYBLUE);
+    //    ++index;
+    //}
+
+    for (Tracks& tracks : backgroundTracks) {
+        index = 0;
+
+        for (Track& track : tracks.getTracks())
+        {
+            DrawText(to_string(index).c_str(), track.rect.x + track.rect.width / 2.0f, track.rect.y + track.rect.height / 2.0f, 10, RED);
+            ++index;
+        }
     }
+
+
     //^ Draw tiles number ============================================
     //v Draw car position ============================================
     DrawRectangle(cars[0]->getRect().x, cars[0]->getRect().y, 5, 5, SKYBLUE);
