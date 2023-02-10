@@ -93,7 +93,7 @@ void load()
 
     //v Game specifics ===============================================    
     // Load levels
-    levels.setCurrentLevel(3); // <---------------------------------------------------- CHANGE LEVEL HERE 
+    levels.setCurrentLevel(2); // <---------------------------------------------------- CHANGE LEVEL HERE 
 
     Level currentLevel = levels.getCurrentLevel();
 
