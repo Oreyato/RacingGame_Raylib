@@ -24,7 +24,7 @@ Tracks::~Tracks()
 
 void Tracks::draw()
 {
-    for each (Track track in tracks) {
+    for each (Tile track in tracks) {
         DrawTexture(textures[track.type], track.rect.x, track.rect.y, WHITE);
     }
 }
@@ -35,15 +35,15 @@ void Tracks::loadTracksGrid(Level& levelP, Vector2& offsetP)
     {
         for (int eachColumn = 0; eachColumn < columnTracks; eachColumn++)
         {
-            // Track position
+            // Tile position
             int xPos = offsetP.x + trackWidth * eachColumn;
             int yPos = offsetP.y + trackHeight * eachRow;
 
-            // Rectangle to fit in the Track struct
+            // Rectangle to fit in the Tile struct
             Rectangle rect{ xPos, yPos, trackWidth - spacing, trackHeight - spacing };
 
             // Create the track
-            Track track{ rect, true };
+            Tile track{ rect, true };
             // ... and add it to the tracks vector
             tracks.push_back(track);
         }

@@ -9,12 +9,11 @@ using MathsUtils::Vector2Int;
 
 struct Level;
 
-struct Track
+struct Tile
 {
 	Rectangle rect{ 0.0f, 0.0f, 0.0f, 0.0f };
 
 	int type{ 0 };
-	// Texture2D texture;
 
 	bool isVisible{ false };
 };
@@ -51,7 +50,7 @@ public:
 	inline const float getTrackTotalWidth() const { return columnTracks * trackWidth; }
 	inline const float getTrackTotalHeight() const { return rowTracks * trackHeight; }
 
-	inline std::vector<Track> getTracks() const { return tracks; }
+	inline std::vector<Tile> getTracks() const { return tracks; }
 	inline const int getTrackType(int indexP) const { return tracks[indexP].type; }
 
 private:
@@ -71,7 +70,7 @@ private:
 
 	float spacing{ 0.0f };
 
-	std::vector<Track> tracks{ NULL };
+	std::vector<Tile> tracks{ NULL };
 };
 
 #endif // TRACKS_H

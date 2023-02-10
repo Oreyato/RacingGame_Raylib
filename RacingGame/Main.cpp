@@ -97,7 +97,7 @@ void load()
 
     Level currentLevel = levels.getCurrentLevel();
 
-    // Share informations to Track
+    // Share informations to Tile
     mainTrack.setTrackGridDimensions(currentLevel);
 
     // Init background tracks
@@ -194,14 +194,14 @@ float calculateHeightRatio() {
 }
 void manageCamera() {
     // Zoom ============
-    // Compare screen to track dimensions
+    // Compare screen to level dimensions
     float widthRatio = calculateWidthRatio(); 
     float heightRatio = calculateHeightRatio();
 
     bool offsetWidth = widthRatio > heightRatio ? true : false;
 
     // Set zoom to the smallest ratio in order
-    // for the screen to fit the track
+    // for the screen to fit the level
     float zoomRatio = min(widthRatio, heightRatio);
     camera.zoom = zoomRatio;
 
@@ -441,18 +441,18 @@ void drawDebug() {
     //v Draw tiles number ============================================
     int index = 0;
 
-    //for (Track& track : mainTrack.getTracks())
+    //for (Tile& tile : mainTrack.getTracks())
     //{
-    //    DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, SKYBLUE);
+    //    DrawText(to_string(index).c_str(), tile.rect.x, tile.rect.y, 10, SKYBLUE);
     //    ++index;
     //}
 
     for (Tracks& tracks : backgroundTracks) {
         index = 0;
 
-        for (Track& track : tracks.getTracks())
+        for (Tile& tile : tracks.getTracks())
         {
-            DrawText(to_string(index).c_str(), track.rect.x + track.rect.width / 2.0f, track.rect.y + track.rect.height / 2.0f, 10, RED);
+            DrawText(to_string(index).c_str(), tile.rect.x + tile.rect.width / 2.0f, tile.rect.y + tile.rect.height / 2.0f, 10, RED);
             ++index;
         }
     }
@@ -470,7 +470,7 @@ void drawDebug() {
 // UNUSED
 void carTrackCollision(Car& carP) {
     //// Testing if the car collides with the tracks
-    //vector<Track> tracks = track.getTracks();
+    //vector<Tile> tracks = track.getTracks();
     //// Translate car coordinates into tracks coordinates
     //int columnTrack = floor((carP.getRect().x + carP.getSize() / 2) / track.getTrackWidth());
     //int rowTrack = floor((carP.getRect().y + carP.getSize() / 2) / track.getTrackHeight());
