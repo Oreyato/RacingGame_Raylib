@@ -32,7 +32,7 @@ public:
 	Level& getCurrentLevel() { return currentLevel; } 
 	Level& getLevel(int levelNbP);
 
-	Level& getFilledLevel(int widthP, int heightP, int typeP);
+	Level getFilledLevel(int widthP, int heightP, int typeP);
 
 private:
 	std::vector<Level> levels;
