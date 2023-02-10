@@ -16,6 +16,8 @@ Tracks::Tracks()
 	maxTracks = columnTracks * rowTracks;
 
 	spacing = Consts::SPACING_TRACKS;
+
+    textures.resize(9);
 }
 
 Tracks::~Tracks()
@@ -25,7 +27,7 @@ Tracks::~Tracks()
 void Tracks::draw()
 {
     for each (Tile track in tracks) {
-        DrawTexture(textures[track.type], track.rect.x, track.rect.y, WHITE);
+        DrawTexture(textures[track.type][0], track.rect.x, track.rect.y, WHITE);
     }
 }
 
@@ -76,12 +78,15 @@ Vector2 Tracks::indexToWindowCoordinates(int indexP) {
     return trackCoordinatesToWindowCoordinates(indexToTrackCoordinates(indexP));
 }
 
-void Tracks::setTextures(Texture2D roadTextP, Texture2D goalTextP, Texture2D wallTextP, Texture2D grassTextP)
+void Tracks::setTextures(std::vector<Texture2D> roadTextsP,
+    std::vector<Texture2D> goalTextsP,
+    std::vector<Texture2D> wallTextsP,
+    std::vector<Texture2D> grassTextsP)
 {
-    textures[Consts::ROAD_LEVEL] = roadTextP;
-    textures[Consts::GOAL_LEVEL] = goalTextP;
-    textures[Consts::WALL_LEVEL] = wallTextP;
-    textures[Consts::GRASS_LEVEL] = grassTextP;
+    textures[Consts::ROAD_LEVEL] = roadTextsP;
+    textures[Consts::GOAL_LEVEL] = goalTextsP;
+    textures[Consts::WALL_LEVEL] = wallTextsP;
+    textures[Consts::GRASS_LEVEL] = grassTextsP;
 }
 
 void Tracks::setTrackGridDimensions(const Level& currentLevelP)

@@ -6,6 +6,7 @@
 
 #include "Consts.h"
 #include "Levels.h"
+#include "TexturesManager.h"
 
 #include "Tracks.h"
 #include "Car.h"
@@ -124,10 +125,10 @@ void load()
     // Set textures
     carA.setTexture(carATex);
     carB.setTexture(carBTex);
-    mainTrack.setTextures(roadTex, goalTex, wallTex, grassTex);
+    mainTrack.setTextures({ roadTex }, { goalTex }, { wallTex }, { grassTex });
 
     for (Tracks& track : backgroundTracks) {
-        track.setTextures(roadTex, goalTex, wallTex, grassTex);
+        track.setTextures({ roadTex }, { goalTex }, { wallTex }, { grassTex });
     }
 
     // v Cars ===============================

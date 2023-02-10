@@ -176,6 +176,7 @@
     <ClCompile Include="Levels.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MathsUtils.cpp" />
+    <ClCompile Include="TexturesManager.cpp" />
     <ClCompile Include="Tracks.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +190,7 @@
     <ClInclude Include="Levels.h" />
     <ClInclude Include="MathsUtils.h" />
     <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="TexturesManager.h" />
     <ClInclude Include="Tracks.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

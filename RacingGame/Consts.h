@@ -33,6 +33,7 @@ public:
 	static const int PLAYERA_START_LEVEL;
 	static const int PLAYERB_START_LEVEL;
 	static const int END_LEVEL;
+	static const int MAX_LEVEL_INDEX;
 
 	// Tracks
 	static const float WIDTH_TRACK;

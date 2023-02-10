@@ -33,10 +33,10 @@ public:
 	Vector2 trackCoordinatesToWindowCoordinates(Vector2Int trackCoordP);
 	Vector2 indexToWindowCoordinates(int indexP);
 
-	void setTextures(Texture2D roadTextP,
-		Texture2D goalTextP,
-		Texture2D wallTextP,
-		Texture2D grassTextP);
+	void setTextures(std::vector<Texture2D> roadTextsP,
+		std::vector<Texture2D> goalTextsP,
+		std::vector<Texture2D> wallTextsP,
+		std::vector<Texture2D> grassTextsP);
 
 	void setTrackGridDimensions(const Level& currentLevelP);
 
@@ -59,7 +59,7 @@ private:
 	Texture2D wallText{ NULL };
 	Texture2D grassText{ NULL };
 
-	Texture2D textures[9];
+	std::vector<std::vector<Texture2D>> textures;
 
 	float trackWidth{ 0.0f };
 	float trackHeight{ 0.0f };

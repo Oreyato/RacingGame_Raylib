@@ -29,6 +29,8 @@ const int Consts::GRAVEL_LEVEL{ 6 };
 const int Consts::PLAYERA_START_LEVEL{ 8 };
 const int Consts::PLAYERB_START_LEVEL{ 8 };
 const int Consts::END_LEVEL{ 4 }; // <--- 9
+const int Consts::MAX_LEVEL_INDEX{ 10 };
+
 
 // Tracks
 const float Consts::WIDTH_TRACK{ 40.0f };
