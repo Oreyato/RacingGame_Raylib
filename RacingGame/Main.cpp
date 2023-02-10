@@ -93,7 +93,7 @@ void load()
 
     //v Game specifics ===============================================    
     // Load levels
-    levels.setCurrentLevel(3);
+    levels.setCurrentLevel(0);
 
     Level currentLevel = levels.getCurrentLevel();
 
@@ -189,20 +189,23 @@ float calculateHeightRatio() {
 }
 void manageCamera() {
     // Zoom ============
-    float widthRatio = calculateWidthRatio();
+    // Compare screen to track dimensions
+    float widthRatio = calculateWidthRatio(); 
     float heightRatio = calculateHeightRatio();
 
     bool offsetWidth = widthRatio > heightRatio ? true : false;
 
+    // Set zoom to the smallest ratio in order
+    // for the screen to fit the track
     float zoomRatio = min(widthRatio, heightRatio);
-
     camera.zoom = zoomRatio;
 
     float zoomedWidth, zoomedHeight, screenDiff;
 
     // Offset ==========
     if (offsetWidth) {
-        zoomedWidth = mainTrack.getTrackTotalWidth() * heightRatio;
+        float totalWidth = mainTrack.getTrackTotalWidth();
+        zoomedWidth = totalWidth * heightRatio;
         screenDiff = Consts::WIDTH_SCREEN - zoomedWidth;
 
         camera.offset = { screenDiff / 2.0f , 0.0f };
@@ -219,7 +222,7 @@ void manageCamera() {
 
     //v Filled background ============================================
     if (offsetWidth) {
-        int colNumber = ceil((screenDiff / 2) / Consts::WIDTH_TRACK);
+        int colNumber = ceil((screenDiff * widthRatio / 2.0f) / Consts::WIDTH_TRACK) + 1;
         float xOffset = colNumber * Consts::WIDTH_TRACK;
 
         Vector2 tracksBgDim{ colNumber, mainTrack.getColumnTracks() };
@@ -231,6 +234,9 @@ void manageCamera() {
 
         backgroundTracks[0].setTrackGridDimensions(verticalLevel);
         backgroundTracks[0].loadTracksGrid(verticalLevel, Vector2 { -xOffset, 0.0f});
+
+        backgroundTracks[1].setTrackGridDimensions(verticalLevel);
+        backgroundTracks[1].loadTracksGrid(verticalLevel, Vector2{ mainTrack.getTrackTotalWidth(), 0.0f });
     }
 
     //^ Filled background ============================================
