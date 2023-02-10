@@ -30,7 +30,6 @@ int state = 0;
 //^ Global init ==================================================
 //v Game specific init ===========================================
 void manageCamera();
-void fillBackground();
 
 void carTrackCollision(Car& carP);
 int const getTrackTypeAtPixelCoord(float posX, float posY);
@@ -54,7 +53,7 @@ std::vector<Car*> cars;
 std::string winner{ "" };
 
 // Tracks =============================
-Tracks track;
+Tracks mainTrack;
 
 vector<Tracks> backgroundTracks;
 
@@ -99,7 +98,18 @@ void load()
     Level currentLevel = levels.getCurrentLevel();
 
     // Share informations to Track
-    track.setTrackGridDimensions(currentLevel);
+    mainTrack.setTrackGridDimensions(currentLevel);
+
+    // Init background tracks
+    Tracks leftBGTracks;
+    Tracks rightBGTracks;
+    Tracks topBGTracks;
+    Tracks botBGTracks;
+
+    backgroundTracks.push_back(leftBGTracks);
+    backgroundTracks.push_back(rightBGTracks);
+    backgroundTracks.push_back(topBGTracks);
+    backgroundTracks.push_back(botBGTracks);
 
     // v Textures ===========================
     // Load textures
@@ -114,7 +124,11 @@ void load()
     // Set textures
     carA.setTexture(carATex);
     carB.setTexture(carBTex);
-    track.setTextures(roadTex, goalTex, wallTex, grassTex);
+    mainTrack.setTextures(roadTex, goalTex, wallTex, grassTex);
+
+    for (Tracks& track : backgroundTracks) {
+        track.setTextures(roadTex, goalTex, wallTex, grassTex);
+    }
 
     // v Cars ===============================
     // Init B Player bindings
@@ -144,10 +158,10 @@ void load()
         }
 
         // Transform to coordinates
-        Vector2 carStartingPos = track.indexToWindowCoordinates(iter);
+        Vector2 carStartingPos = mainTrack.indexToWindowCoordinates(iter);
         // Center the car in the tile
-        carStartingPos.x += track.getTrackWidth() / 2.0f;
-        carStartingPos.y += track.getTrackWidth() / 2.0f;
+        carStartingPos.x += mainTrack.getTrackWidth() / 2.0f;
+        carStartingPos.y += mainTrack.getTrackWidth() / 2.0f;
 
         // Send it to car
         car->setStartingPos(carStartingPos);
@@ -155,12 +169,10 @@ void load()
     // ^ Set car init position ==============
 
     // Load first level track
-    track.loadTracksGrid(currentLevel);
+    mainTrack.loadTracksGrid(currentLevel);
     
     // Camera
     manageCamera();
-    // Fill background
-    fillBackground();
 
     state = 3;
     isPlaying = true;
@@ -168,11 +180,11 @@ void load()
 }
 
 float calculateWidthRatio() {
-    float trackTotalWidth = track.getTrackTotalWidth();
+    float trackTotalWidth = mainTrack.getTrackTotalWidth();
     return Consts::WIDTH_SCREEN / trackTotalWidth;
 }
 float calculateHeightRatio() {
-    float trackTotalHeight = track.getTrackTotalHeight();
+    float trackTotalHeight = mainTrack.getTrackTotalHeight();
     return Consts::HEIGHT_SCREEN / trackTotalHeight;
 }
 void manageCamera() {
@@ -190,13 +202,13 @@ void manageCamera() {
 
     // Offset ==========
     if (offsetWidth) {
-        zoomedWidth = track.getTrackTotalWidth() * heightRatio;
+        zoomedWidth = mainTrack.getTrackTotalWidth() * heightRatio;
         screenDiff = Consts::WIDTH_SCREEN - zoomedWidth;
 
         camera.offset = { screenDiff / 2.0f , 0.0f };
     }
     else {
-        zoomedHeight = track.getTrackTotalHeight() * widthRatio;
+        zoomedHeight = mainTrack.getTrackTotalHeight() * widthRatio;
         screenDiff = Consts::HEIGHT_SCREEN - zoomedHeight;
 
         camera.offset = { 0.0f , screenDiff / 2.0f };
@@ -207,28 +219,21 @@ void manageCamera() {
 
     //v Filled background ============================================
     if (offsetWidth) {
-        int colNumber = (screenDiff / 2) / track.getTrackWidth();
-        float xOffset = ((int) screenDiff / 2) % (int) track.getTrackWidth();
+        int colNumber = ceil((screenDiff / 2) / Consts::WIDTH_TRACK);
+        float xOffset = colNumber * Consts::WIDTH_TRACK;
 
-        Vector2 tracksBgDim{ colNumber, track.getColumnTracks() };
-
-        Tracks leftTrackBackground;
+        Vector2 tracksBgDim{ colNumber, mainTrack.getColumnTracks() };
         
         // verticalLevel refuses to get filled vector
         Level verticalLevel{ levels.getFilledLevel(tracksBgDim.x, tracksBgDim.y, Consts::GRASS_LEVEL) };
         // Ugly temporary fix 
         verticalLevel.description = std::vector<int>(tracksBgDim.x * tracksBgDim.y, Consts::GRASS_LEVEL);
 
-        leftTrackBackground.setTrackGridDimensions(verticalLevel);
-        leftTrackBackground.loadTracksGrid(verticalLevel);
-
-        backgroundTracks.push_back(leftTrackBackground);
+        backgroundTracks[0].setTrackGridDimensions(verticalLevel);
+        backgroundTracks[0].loadTracksGrid(verticalLevel, Vector2 { -xOffset, 0.0f});
     }
 
     //^ Filled background ============================================
-}
-
-void fillBackground() {
 }
 
 // Handle inputs
@@ -330,16 +335,14 @@ void draw()
     else if (state == 3)
     {
         BeginMode2D(camera);
-        // Draw all tracks
-        for (Track& track : track.getTracks())
-        {
-            if (track.isVisible) {
-                DrawRectangleRec(track.rect, GREEN);
-            }
-        }
 
         // Draw track
-        track.draw();
+        mainTrack.draw();
+
+        for (Tracks tracks : backgroundTracks)
+        {
+            tracks.draw();
+        }
 
         // Draw car
         for each (Car* car in cars) {
@@ -405,9 +408,9 @@ void drawDebug() {
     //v Draw tiles number ============================================
     int index = 0;
 
-    for each (Track track in track.getTracks())
+    for each (Track track in mainTrack.getTracks())
     {
-        DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, BLACK);
+        DrawText(to_string(index).c_str(), track.rect.x, track.rect.y, 10, SKYBLUE);
         ++index;
     }
     //^ Draw tiles number ============================================
@@ -483,24 +486,24 @@ void carTrackCollision(Car& carP) {
 }
 
 int const getTrackTypeAtPixelCoord(float posX, float posY) {
-    int tileCol = posX / track.getTrackWidth();
-    int tileRow = posY / track.getTrackHeight();
+    int tileCol = posX / mainTrack.getTrackWidth();
+    int tileRow = posY / mainTrack.getTrackHeight();
 
     tileCol = floor(tileCol);
     tileRow = floor(tileRow);
 
     // Check first whether the car is within any part of the track wall
-    if (tileCol < 0 || tileCol >= track.getColumnTracks() || tileRow < 0 || tileRow >= track.getRowTracks()) {
+    if (tileCol < 0 || tileCol >= mainTrack.getColumnTracks() || tileRow < 0 || tileRow >= mainTrack.getRowTracks()) {
         // To avoid invalid array access, treat out of bounds as wall
         return Consts::WALL_LEVEL;
     }
 
     // Search for the track index
-    int index = track.trackCoordinatesToIndex(tileRow, tileCol);
+    int index = mainTrack.trackCoordinatesToIndex(tileRow, tileCol);
 
     // std::cout << "Tile index: " << index << std::endl;
     
-    return track.getTrackType(index);
+    return mainTrack.getTrackType(index);
 }
 
 bool AABBAlgorithm(Rectangle a, Rectangle b) {

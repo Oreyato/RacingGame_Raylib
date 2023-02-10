@@ -115,8 +115,8 @@ Level& Levels::getFilledLevel(int widthP, int heightP, int typeP)
     Level level {
     -1,
     filledVector,
-    widthP,
-    heightP
+    heightP,
+    widthP
     };
 
     return level;
