@@ -11,16 +11,16 @@ QD: rotate red car | ZS: move red car | spacebar: drift red car
 right & left arrows: rotate blue car | top & down arrows: move blue car | 0: drift blue car
 
 ### WIP
-- [x] Dynamic level scale to fit window
-- Score system
+- [x] ~~Dynamic level scale to fit window~~
+- [ ] Score system
   - [ ] Files
   - [ ] When first car crosses the finish line
   - [ ] When last car crosses the finish line
-- New tiles
+- [ ] New tiles
   - [ ] Grass
   - [ ] Gravel
   - [ ] Breakable walls
-- Menu
+- [ ] Menu
   - [ ] Select level
   - [ ] Select difficulty
   - [ ] View scoreboard
