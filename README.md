@@ -16,10 +16,12 @@ right & left arrows: rotate blue car | top & down arrows: move blue car | 0: dri
   - [ ] Files
   - [ ] When first car crosses the finish line
   - [ ] When last car crosses the finish line
-- [ ] New tiles
-  - [ ] Grass
-  - [ ] Gravel
-  - [ ] Breakable walls
+- [ ] Tiles
+  - [ ] More textures, more randomness!
+  - [ ] New tiles types
+    - [ ] Grass
+    - [ ] Gravel
+    - [ ] Breakable walls
 - [ ] Menu
   - [ ] Select level
   - [ ] Select difficulty
